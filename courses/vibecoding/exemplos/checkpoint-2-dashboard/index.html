@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0b0d17;
+      color: #f0f2ff;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .header-left h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-left p {
+      font-size: 0.85rem;
+      color: #8b92b8;
+      margin-top: 0.25rem;
+    }
+
+    .header-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.4rem 0.9rem;
+      border-radius: 100px;
+      background: rgba(124, 109, 245, 0.12);
+      border: 1px solid rgba(124, 109, 245, 0.25);
+      color: #a89cf8;
+    }
+
+    /* CARDS */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: #151828;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(124, 109, 245, 0.3);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #8b92b8;
+    }
+
+    .card-icon {
+      font-size: 1.25rem;
+    }
+
+    .card-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.75rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .card-value.emails { color: #7c6df5; }
+    .card-value.reunioes { color: #c084fc; }
+    .card-value.tarefas { color: #34d399; }
+
+    .card-sub {
+      font-size: 0.78rem;
+      color: #4f5576;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 1.25rem; }
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <h1>Olá, Gabi 👋</h1>
+      <p id="data-hoje"></p>
+    </div>
+    <span class="header-badge">✦ Meu Dashboard</span>
+  </header>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-top">
+        <span class="card-label">Emails não lidos</span>
+        <span class="card-icon">📬</span>
+      </div>
+      <div class="card-value emails">24</div>
+      <div class="card-sub">Últimas 24 horas</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <span class="card-label">Reuniões hoje</span>
+        <span class="card-icon">📅</span>
+      </div>
+      <div class="card-value reunioes">3</div>
+      <div class="card-sub">Próxima às 14:00</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <span class="card-label">Tarefas pendentes</span>
+        <span class="card-icon">✅</span>
+      </div>
+      <div class="card-value tarefas">7</div>
+      <div class="card-sub">2 com prazo hoje</div>
+    </div>
+  </div>
+
+  <script>
+    const hoje = new Date();
+    const opcoes = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('data-hoje').textContent =
+      hoje.toLocaleDateString('pt-BR', opcoes);
+  </script>
+
+</body>
+</html>

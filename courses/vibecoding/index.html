@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vibecoding — Gabi Surita</title>
+  <meta name="description"
+    content="Tutorial passo a passo: construa um dashboard pessoal com Gmail e Google Calendar usando o Antigravity. Um curso do Google Antigravity em parceria com a Programaria." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- COURSE HERO -->
+  <section class="course-hero">
+    <div class="course-hero-bg"></div>
+    <div class="container course-hero-inner">
+      <div class="partnership-badges">
+        <span class="partner-badge partner-badge-prog">♀ Programaria</span>
+      </div>
+      <h1 class="course-hero-title">Vibecoding</h1>
+      <p class="course-hero-subtitle">Construa um dashboard pessoal com Gmail e Calendar — do zero ao deploy, usando IA
+        como co-piloto.</p>
+      <div class="course-meta">
+        <span class="meta-chip">🛠 Mão na massa</span>
+        <span class="meta-chip">🤖 Google Antigravity</span>
+        <span class="meta-chip">🚀 Para iniciantes</span>
+      </div>
+
+      <!-- Progresso do tutorial -->
+      <div class="toc">
+        <div class="toc-item" onclick="scrollTo('#antes-de-comecar')">
+          <span class="toc-num">0</span>
+          <span class="toc-label">Antes de Começar</span>
+        </div>
+        <div class="toc-sep">→</div>
+        <div class="toc-item" onclick="scrollTo('#parte-1')">
+          <span class="toc-num">1</span>
+          <span class="toc-label">Conhecendo o Antigravity</span>
+        </div>
+        <div class="toc-sep">→</div>
+        <div class="toc-item" onclick="scrollTo('#parte-2')">
+          <span class="toc-num">2</span>
+          <span class="toc-label">Hello World Dashboard</span>
+        </div>
+        <div class="toc-sep">→</div>
+        <div class="toc-item" onclick="scrollTo('#parte-3')">
+          <span class="toc-num">3</span>
+          <span class="toc-label">Gráficos e Listas</span>
+        </div>
+        <div class="toc-sep">→</div>
+        <div class="toc-item" onclick="scrollTo('#parte-4')">
+          <span class="toc-num">4</span>
+          <span class="toc-label">Integrando com Google</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       ANTES DE COMEÇAR
+  ============================================= -->
+  <section class="tutorial-section" id="antes-de-comecar">
+    <div class="container">
+      <div class="section-tag">Pré-requisitos</div>
+      <h2 class="tutorial-title">Antes de Começar</h2>
+      <p class="tutorial-intro">
+        Antes de escrever qualquer linha de código, vamos garantir que você tem tudo configurado.
+        São dois passos rápidos — e eles são essenciais para o restante do curso funcionar.
+      </p>
+
+      <!-- Passo 0.1: Instalar Antigravity -->
+      <div class="step-card" id="step-install">
+        <div class="step-header">
+          <div class="step-number">0.1</div>
+          <h3 class="step-title">Instale o Antigravity</h3>
+        </div>
+        <div class="step-body">
+          <p>O Antigravity é a ferramenta de IA que vamos usar durante todo o curso. Ele roda direto no seu computador e
+            funciona como um assistente de código que entende o contexto do seu projeto.</p>
+
+          <div class="callout callout-info">
+            <span class="callout-icon">ℹ️</span>
+            <div>
+              <strong>O que é o Antigravity?</strong><br>
+              É uma ferramenta do Google DeepMind que combina um editor de código com um assistente de IA integrado.
+              Você descreve o que quer construir e ele gera, revisa e corrige o código com você.
+            </div>
+          </div>
+
+          <div class="step-actions">
+            <a href="https://deepmind.google" target="_blank" rel="noopener" class="btn btn-primary"
+              id="btn-download-ag">
+              ↓ Baixar o Antigravity
+            </a>
+          </div>
+
+          <p class="step-note">Após instalar, abra o aplicativo e faça login com sua conta Google. Você vai ver uma tela
+            parecida com essa:</p>
+
+          <div class="screenshot-card">
+            <img src="../../assets/antigravity_home.png"
+              alt="Interface do Antigravity — editor de código com painel de IA" class="screenshot-img" />
+            <p class="screenshot-caption">A interface do Antigravity: editor à esquerda, assistente de IA à direita.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Passo 0.2: 2FA Google -->
+      <div class="step-card" id="step-2fa">
+        <div class="step-header">
+          <div class="step-number">0.2</div>
+          <h3 class="step-title">Ative a verificação em 2 etapas (2FA) na sua conta Google</h3>
+        </div>
+        <div class="step-body">
+          <p>Para usar as APIs do Gmail e Calendar mais adiante, sua conta Google precisa ter a verificação em 2 etapas
+            ativada. Isso é um requisito de segurança do Google para projetos que acessam dados pessoais.</p>
+
+          <div class="callout callout-warn">
+            <span class="callout-icon">⚠️</span>
+            <div>
+              <strong>Por que isso importa?</strong><br>
+              Sem o 2FA ativo, não é possível criar as credenciais OAuth necessárias para conectar seu app ao Gmail e
+              Calendar. Faça isso antes de continuar.
+            </div>
+          </div>
+
+          <div class="instruction-steps">
+            <div class="instruction-step">
+              <span class="instruction-num">1</span>
+              <div>
+                Acesse <a href="https://myaccount.google.com/security" target="_blank" rel="noopener"
+                  class="inline-link">myaccount.google.com/security</a>
+              </div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">2</span>
+              <div>Procure por <strong>"Verificação em 2 etapas"</strong> e clique em <strong>"Ativar"</strong></div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">3</span>
+              <div>Siga as instruções na tela</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">4</span>
+              <div>Pronto! Volte aqui quando estiver com o 2FA ativo ✓</div>
+            </div>
+          </div>
+
+          <div class="callout callout-success">
+            <span class="callout-icon">✅</span>
+            <div>
+              <strong>Checkpoint!</strong> Se você instalou o Antigravity e ativou o 2FA, continue para o próximo passo.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Passo 0.3: Trocar idioma -->
+      <div class="step-card" id="step-language">
+        <div class="step-header">
+          <div class="step-number">0.3</div>
+          <h3 class="step-title">Opcional: mude o idioma para português</h3>
+        </div>
+        <div class="step-body">
+          <p>Por padrão, o Antigravity pode abrir em inglês. Se preferir usar em português, você pode mudar a língua de
+            exibição nas configurações.</p>
+
+          <div class="instruction-steps">
+            <div class="instruction-step">
+              <span class="instruction-num">1</span>
+              <div>Abra o Antigravity e vá em <strong>Settings → Language</strong> (ou use <code>Cmd+,</code> /
+                <code>Ctrl+,</code>)
+              </div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">2</span>
+              <div>Selecione <strong>Português (Brasil)</strong> na lista de idiomas</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">3</span>
+              <div>Reinicie o app quando solicitado</div>
+            </div>
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-icon">📖</span>
+            <div>
+              Veja o tutorial completo em: <a href="https://antigravity.codes/pt/blog/change-language" target="_blank"
+                rel="noopener" class="inline-link">antigravity.codes/pt/blog/change-language</a>
+            </div>
+          </div>
+
+          <div class="callout callout-success">
+            <span class="callout-icon">✅</span>
+            <div>
+              <strong>Tudo pronto!</strong> Com o Antigravity instalado, o 2FA ativo e o idioma configurado, você está
+              pronta para começar. Vamos lá!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       PARTE 1 — CONHECENDO O ANTIGRAVITY
+  ============================================= -->
+  <section class="tutorial-section" id="parte-1">
+    <div class="container">
+      <div class="section-tag">Parte 1</div>
+      <h2 class="tutorial-title">Conhecendo o Antigravity</h2>
+      <p class="tutorial-intro">
+        Agora que está instalado, vamos explorar o Antigravity. A ideia é simples: você descreve o que quer, a IA sugere
+        o código, e vocês constroem juntas. Não precisa saber tudo de antemão — o erro faz parte do processo.
+      </p>
+
+      <!-- 1.1 Abrindo pela primeira vez -->
+      <div class="step-card" id="step-open">
+        <div class="step-header">
+          <div class="step-number">1.1</div>
+          <h3 class="step-title">Abrindo o Antigravity pela primeira vez</h3>
+        </div>
+        <div class="step-body">
+          <p>Ao abrir o Antigravity, você vai ver uma interface com duas áreas principais: o <strong
+              style="color:var(--text-primary)">editor de código</strong> à esquerda e o <strong
+              style="color:var(--text-primary)">painel de IA</strong> à direita.</p>
+
+          <div class="screenshot-card">
+            <img src="../../assets/antigravity_home.png" alt="Interface do Antigravity aberta com editor e painel de IA"
+              class="screenshot-img" />
+            <p class="screenshot-caption">Interface do Antigravity: explorador de arquivos + editor à esquerda, chat com
+              IA à direita.</p>
+          </div>
+
+          <p>As principais áreas que você vai usar:</p>
+          <div class="instruction-steps">
+            <div class="instruction-step">
+              <span class="instruction-num">①</span>
+              <div><strong>Explorador de arquivos</strong> — mostra todos os arquivos do seu projeto na coluna da
+                esquerda.</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">②</span>
+              <div><strong>Editor de código</strong> — onde o código aparece. Você pode editar diretamente ou deixar a
+                IA fazer isso.</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">③</span>
+              <div><strong>Painel da IA</strong> — é aqui que você conversa. Digite o que quer construir em linguagem
+                natural.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1.2 Primeiro prompt -->
+      <div class="step-card" id="step-first-prompt">
+        <div class="step-header">
+          <div class="step-number">1.2</div>
+          <h3 class="step-title">Seu primeiro prompt</h3>
+        </div>
+        <div class="step-body">
+          <p>Vamos fazer o Antigravity nos apresentar. No painel de IA, digite exatamente:</p>
+
+          <div class="prompt-box">
+            <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
+            <div class="prompt-box-body">
+              Olá! Vou criar um dashboard pessoal que vai se conectar com Gmail e Google Calendar.<br><br>
+              Por enquanto, <strong>me mostre um arquivo HTML simples com "Hello, World!"</strong> para garantir que
+              tudo está funcionando. Só isso por enquanto.
+            </div>
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-icon">🧠</span>
+            <div>
+              <strong>Por que começar simples?</strong><br>
+              Iniciar com um "Hello World" garante que seu ambiente está funcionando antes de adicionar complexidade. É
+              muito mais fácil corrigir problemas quando o código é pequeno.
+            </div>
+          </div>
+
+          <p>O Antigravity vai criar um arquivo <code>index.html</code>. Você pode abrir esse arquivo no navegador e
+            deve ver "Hello, World!" na tela. Se aparecer — ótimo, está tudo funcionando!</p>
+
+          <div class="callout callout-warn">
+            <span class="callout-icon">⚠️</span>
+            <div>
+              <strong>Deu erro?</strong> Tudo bem! Copie a mensagem de erro e cole no painel da IA do Antigravity. Diga:
+              <em>"Apareceu esse erro: [cole o erro aqui]. O que devo fazer?"</em> — ela vai te guiar.
+            </div>
+          </div>
+
+          <div class="callout callout-success" style="margin-top: 1.5rem;">
+            <span class="callout-icon">✅</span>
+            <div>
+              <strong>Checkpoint 1!</strong> Se quiser ver como o código deveria ficar nesta etapa, confira o <a
+                href="exemplos/checkpoint-1-hello-world/index.html" target="_blank" class="inline-link"
+                style="color: #34d399; font-weight: bold;">Exemplo 1: Hello World</a>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       PARTE 2 — HELLO WORLD DASHBOARD
+  ============================================= -->
+  <section class="tutorial-section" id="parte-2">
+    <div class="container">
+      <div class="section-tag">Parte 2</div>
+      <h2 class="tutorial-title">Hello World Dashboard</h2>
+      <p class="tutorial-intro">
+        Agora que temos um HTML funcionando, vamos transformá-lo em um dashboard de verdade — ainda com dados falsos,
+        mas com visual bonito. A IA vai escrever tudo; você só precisa saber pedir.
+      </p>
+
+      <!-- 2.1 Pedindo o dashboard -->
+      <div class="step-card" id="step-dashboard-prompt">
+        <div class="step-header">
+          <div class="step-number">2.1</div>
+          <h3 class="step-title">Pedindo o dashboard para a IA</h3>
+        </div>
+        <div class="step-body">
+          <p>Vamos descrever pro Antigravity como queremos o nosso dashboard. Seja específica sobre o visual — quanto
+            mais detalhe você der, melhor o resultado.</p>
+
+          <div class="prompt-box">
+            <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
+            <div class="prompt-box-body">
+              Transforma o index.html num dashboard pessoal com visual moderno e escuro.<br><br>
+              Quero ver:<br>
+              - Um <strong>cabeçalho</strong> com meu nome e a data de hoje<br>
+              - Três <strong>cards de resumo</strong>: "Emails não lidos", "Reuniões hoje" e "Tarefas pendentes" — com
+              números falsos por enquanto<br>
+              - Usa uma paleta escura, fonte bonita do Google Fonts, e deixa responsivo<br><br>
+              Não precisa de JavaScript ainda — só HTML e CSS.
+            </div>
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-icon">💡</span>
+            <div>
+              <strong>Dica de prompt:</strong> Mencionar "dados falsos por enquanto" e "não precisa de JavaScript ainda"
+              ajuda a IA a focar no que você realmente quer agora, sem adicionar complexidade desnecessária.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2.2 O que deve aparecer -->
+      <div class="step-card" id="step-dashboard-result">
+        <div class="step-header">
+          <div class="step-number">2.2</div>
+          <h3 class="step-title">O que deve aparecer</h3>
+        </div>
+        <div class="step-body">
+          <p>A IA vai gerar um HTML completo. Abra o arquivo no navegador — você deve ver algo parecido com isso:</p>
+
+          <div class="screenshot-card">
+            <img src="../../assets/dashboard_cp2.png"
+              alt="Dashboard construído com Antigravity — Tema escuro e cards de métricas" class="screenshot-img" />
+            <p class="screenshot-caption">Como seu dashboard deve ficar: tema escuro, layout responsivo e cards
+              iniciais.</p>
+          </div>
+
+          <div class="callout callout-info" style="margin: 1.5rem 0;">
+            <span class="callout-icon">🤔</span>
+            <div>
+              <strong style="font-size: 1rem; display: block; margin-bottom: 0.3rem;">Por que o meu resultado está
+                diferente?</strong>
+              Modelos de linguagem (LLMs) como o que roda no Antigravity são <strong>estocásticos</strong>. Isso
+              significa que eles têm um fator de aleatoriedade embutido: se você e eu mandarmos <em>exatamente o mesmo
+                prompt</em>, vamos receber códigos e visuais ligeiramente (ou muito) diferentes. Isso é normal e
+              esperado! O código do exemplo é só uma referência.
+            </div>
+          </div>
+
+          <p>Se o visual não ficou do seu jeito, não apague tudo — <strong>itere</strong>. Exemplos de ajustes que você
+            pode pedir:</p>
+
+          <div class="instruction-steps">
+            <div class="instruction-step">
+              <span class="instruction-num">↗</span>
+              <div><em>"Aumenta o tamanho dos números nos cards"</em></div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">↗</span>
+              <div><em>"Muda a cor de fundo para um azul marinho mais escuro"</em></div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">↗</span>
+              <div><em>"Adiciona um ícone em cada card usando emojis"</em></div>
+            </div>
+          </div>
+
+          <div class="callout callout-success">
+            <span class="callout-icon">✅</span>
+            <div>
+              <strong>Checkpoint 2!</strong> Você tem um dashboard com visual no navegador? Perfeito — agora vamos
+              adicionar gráficos e listas.<br><br>
+              <a href="exemplos/checkpoint-2-dashboard/index.html" target="_blank" class="inline-link"
+                style="color: #34d399; font-weight: bold;">→ Ver o código de exemplo desta etapa</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       INTERLÚDIO — O QUE É VIBECODING
+  ============================================= -->
+  <section class="tutorial-section vibe-interlude" id="o-que-e-vibecoding">
+    <div class="container">
+      <div class="section-tag">Conceito</div>
+      <h2 class="tutorial-title">Então, o que é Vibecoding?</h2>
+      <p class="tutorial-intro">
+        Você acabou de criar um dashboard de verdade — sem precisar saber CSS de cor, sem decorar APIs, sem configurar
+        um ambiente do zero. Isso tem um nome.
+      </p>
+
+      <div class="vibe-definition">
+        <div class="vibe-quote">
+          "Vibecoding é programar focando no <em>produto</em>, não no código.
+          Você descreve o que quer, a IA constrói — e você itera até ficar certo."
+        </div>
+      </div>
+
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 2rem;">
+        Não é sobre não saber programar. É sobre <strong style="color: var(--text-primary)">mudar onde você coloca a
+          atenção</strong>:
+        menos em sintaxe e configuração, mais em o que o produto deve fazer e como ele deve se comportar.
+        A IA vira uma camada de abstração — como um compilador, mas para intenções.
+      </p>
+
+      <div class="vibe-pillars">
+        <div class="vibe-pillar">
+          <div class="vibe-pillar-icon">🎯</div>
+          <h3>Foco no produto</h3>
+          <p>Em vez de pensar em como implementar, você pensa no que o usuário precisa. A IA cuida dos detalhes
+            técnicos.</p>
+        </div>
+        <div class="vibe-pillar">
+          <div class="vibe-pillar-icon">🔄</div>
+          <h3>Iteração rápida</h3>
+          <p>Você não precisa acertar de primeira. Vibe coding é um ciclo: pede, vê o resultado, ajusta o pedido,
+            repete.</p>
+        </div>
+        <div class="vibe-pillar">
+          <div class="vibe-pillar-icon">🚀</div>
+          <h3>Velocidade real</h3>
+          <p>Coisas que levavam dias agora levam horas. Protótipos que antes exigiam um time inteiro, agora uma pessoa
+            consegue.</p>
+        </div>
+        <div class="vibe-pillar">
+          <div class="vibe-pillar-icon">🧠</div>
+          <h3>Conhecimento ainda importa</h3>
+          <p>Saber programar te dá superpoderes no vibecoding. Você consegue guiar a IA, identificar erros e entender o
+            que está sendo gerado.</p>
+        </div>
+      </div>
+
+      <div class="vibe-potential">
+        <div class="vibe-potential-header">
+          <span>⚡</span>
+          <h3>O potencial é enorme</h3>
+        </div>
+        <p>Vibecoding está mudando quem consegue construir software. Estudantes, designers, jornalistas, pesquisadoras —
+          qualquer pessoa com uma ideia clara pode agora criar ferramentas que antes precisariam de uma equipe de
+          engenharia.</p>
+        <p>Mas — e esse <em>mas</em> é importante — essa tecnologia tem limitações sérias que precisam ser entendidas
+          antes de ser usada em contextos reais.</p>
+        <a href="#limitacoes" class="btn btn-ghost" style="margin-top: 0.5rem; align-self: flex-start;">Ver limitações
+          →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       PARTE 3 — GRÁFICOS E LISTAS
+  ============================================= -->
+  <section class="tutorial-section" id="parte-3">
+    <div class="container">
+      <div class="section-tag">Parte 3</div>
+      <h2 class="tutorial-title">Gráficos e Listas com Dados Falsos</h2>
+      <p class="tutorial-intro">
+        Agora vamos deixar o dashboard mais rico: um gráfico de atividade de emails e uma lista de próximos eventos.
+        Ainda com dados inventados — mas o visual já vai parecer real.
+      </p>
+
+      <!-- 3.1 Adicionando gráfico -->
+      <div class="step-card" id="step-chart">
+        <div class="step-header">
+          <div class="step-number">3.1</div>
+          <h3 class="step-title">Adicionando um gráfico de barras</h3>
+        </div>
+        <div class="step-body">
+          <p>Vamos pedir pra IA adicionar um gráfico que mostra quantos emails você recebeu por dia nos últimos 7 dias.
+            Vamos usar a biblioteca <strong>Chart.js</strong> — gratuita e fácil de usar.</p>
+
+          <div class="prompt-box">
+            <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
+            <div class="prompt-box-body">
+              Adiciona ao dashboard um <strong>gráfico de barras</strong> mostrando "Emails recebidos por dia" nos
+              últimos 7 dias.<br><br>
+              Usa a biblioteca <strong>Chart.js</strong> via CDN (sem instalar nada).<br>
+              Os dados podem ser inventados por enquanto — tipo [12, 5, 8, 20, 3, 15, 9].<br>
+              O gráfico deve ter o mesmo estilo escuro do restante do dashboard.
+            </div>
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-icon">📦</span>
+            <div>
+              <strong>O que é CDN?</strong><br>
+              É uma forma de usar uma biblioteca externa sem precisar instalar nada — o navegador baixa direto da
+              internet quando a página carrega. Muito útil para protótipos!
+            </div>
+          </div>
+
+          <div class="screenshot-card">
+            <img src="../../assets/dashboard_cp3.png" alt="Dashboard com gráfico de barras e lista de próximos eventos"
+              class="screenshot-img" />
+            <p class="screenshot-caption">Evolução do dashboard: agora com a seção de gráficos (à esquerda) e a lista de
+              eventos (à direita).</p>
+          </div>
+
+          <div class="callout callout-warn">
+            <span class="callout-icon">🐛</span>
+            <div>
+              <strong>O gráfico não apareceu?</strong><br>
+              É muito comum. Cole o erro no chat e pergunte: <em>"O gráfico não está aparecendo. O erro no console é:
+                [erro]. Me ajuda a corrigir?"</em><br>
+              Abrir o console do navegador: <code>F12</code> → aba <strong>Console</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.2 Lista de eventos -->
+      <div class="step-card" id="step-list">
+        <div class="step-header">
+          <div class="step-number">3.2</div>
+          <h3 class="step-title">Adicionando uma lista de próximos eventos</h3>
+        </div>
+        <div class="step-body">
+          <p>Agora uma lista de próximos eventos do calendário — ainda fake, mas já com a estrutura que vamos preencher
+            com dados reais na próxima parte.</p>
+
+          <div class="prompt-box">
+            <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
+            <div class="prompt-box-body">
+              Adiciona uma seção "Próximos eventos" com uma lista de 4 eventos falsos.<br><br>
+              Cada evento deve mostrar:<br>
+              - Horário (ex: "14:00")<br>
+              - Título do evento (ex: "Sync com equipe")<br>
+              - Duração (ex: "30 min")<br><br>
+              Estilo: lista com linhas separadas, tema escuro, ícone de calendário em cada item.
+            </div>
+          </div>
+
+          <div class="callout callout-success">
+            <span class="callout-icon">✅</span>
+            <div>
+              <strong>Checkpoint 3!</strong> Agora você tem cards, gráfico e lista de eventos — tudo com dados falsos.
+              Na
+              próxima parte, vamos trocar os dados falsos pelos reais do seu Gmail e Calendar.<br><br>
+              <a href="exemplos/checkpoint-3-graficos-e-listas/index.html" target="_blank" class="inline-link"
+                style="color: #34d399; font-weight: bold;">→ Ver o código de exemplo completo desta etapa</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       PARTE 4 — INTEGRANDO COM GOOGLE
+  ============================================= -->
+  <section class="tutorial-section" id="parte-4">
+    <div class="container">
+      <div class="section-tag">Parte 4</div>
+      <h2 class="tutorial-title">Integrando com Gmail e Google Calendar</h2>
+      <p class="tutorial-intro">
+        Esta é a parte mais poderosa — e também a mais propensa a erros. Vamos conectar o dashboard com as APIs reais do
+        Google. Se algo quebrar, ótimo: é disso que o curso se trata.
+      </p>
+
+      <!-- 4.1 Criando credenciais na Google Cloud -->
+      <div class="step-card" id="step-credentials">
+        <div class="step-header">
+          <div class="step-number">4.1</div>
+          <h3 class="step-title">Criando as credenciais no Google Cloud</h3>
+        </div>
+        <div class="step-body">
+          <p>Para acessar o Gmail e o Calendar, precisamos registrar nosso app no Google Cloud Console e obter uma chave
+            de API. Não precisa saber o que isso significa agora — só siga os passos.</p>
+
+          <div class="instruction-steps">
+            <div class="instruction-step">
+              <span class="instruction-num">1</span>
+              <div>Acesse <a href="https://console.cloud.google.com" target="_blank" rel="noopener"
+                  class="inline-link">console.cloud.google.com</a> e faça login com sua conta Google</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">2</span>
+              <div>Crie um novo projeto: clique no seletor de projetos → <strong>Novo Projeto</strong> → nome:
+                <code>meu-dashboard</code>
+              </div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">3</span>
+              <div>No menu lateral, vá em <strong>APIs e Serviços → Biblioteca</strong></div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">4</span>
+              <div>Busque e ative: <strong>Gmail API</strong> e <strong>Google Calendar API</strong></div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">5</span>
+              <div>Vá em <strong>Credenciais → Criar Credenciais → ID do cliente OAuth</strong></div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">6</span>
+              <div>Tipo de aplicativo: <strong>Aplicativo da Web</strong>. Adicione <code>http://localhost:3000</code>
+                nas origens autorizadas</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">7</span>
+              <div>Baixe o arquivo <code>credentials.json</code> — guarde bem, vamos usar em seguida</div>
+            </div>
+          </div>
+
+          <div class="callout callout-warn">
+            <span class="callout-icon">⚠️</span>
+            <div>
+              <strong>Nunca compartilhe o credentials.json!</strong><br>
+              Esse arquivo dá acesso à sua conta Google. Não suba ele pro GitHub — vamos configurar o
+              <code>.gitignore</code> para ignorá-lo.
+            </div>
+          </div>
+
+          <!-- Cuidado com credenciais -->
+          <div class="credentials-warning">
+            <div class="credentials-warning-header">
+              <span>🔐</span>
+              <h4>Cuidado com suas credenciais</h4>
+            </div>
+            <p>Antes de continuar, configure o <code>.gitignore</code> para que o arquivo de credenciais nunca seja
+              enviado ao GitHub acidentalmente:</p>
+            <div class="code-block">
+              <div class="code-block-header">
+                <span class="code-lang">.gitignore</span>
+              </div>
+              <pre># Credenciais do Google — NUNCA suba isso!
+credentials.json
+token.json
+.env
+*.key</pre>
+            </div>
+            <div class="credentials-checklist">
+              <div class="cred-check-item">
+                <span class="cred-check-icon cred-bad">✗</span>
+                <span>Não compartilhe o arquivo em grupos, e-mails ou screenshots</span>
+              </div>
+              <div class="cred-check-item">
+                <span class="cred-check-icon cred-bad">✗</span>
+                <span>Não cole o conteúdo do arquivo no chat da IA</span>
+              </div>
+              <div class="cred-check-item">
+                <span class="cred-check-icon cred-bad">✗</span>
+                <span>Não suba para repositórios públicos no GitHub</span>
+              </div>
+              <div class="cred-check-item">
+                <span class="cred-check-icon cred-good">✓</span>
+                <span>Se vazar, vá imediatamente em <a href="https://console.cloud.google.com/apis/credentials"
+                    target="_blank" rel="noopener" class="inline-link">Google Cloud Console</a> e revogue as
+                  credenciais</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4.2 Deixando a IA integrar -->
+      <div class="step-card" id="step-api-connect">
+        <div class="step-header">
+          <div class="step-number">4.2</div>
+          <h3 class="step-title">Conectando ao Google direto no navegador</h3>
+        </div>
+        <div class="step-body">
+          <p>Com as credenciais em mãos, vamos pedir ao Antigravity para criar o código de integração. Para manter o
+            exercício simples, vamos fazer as requisições <strong>inteiramente no navegador</strong> (client-side)
+            usando a biblioteca oficial do Google Identity Services, sem precisar criar um servidor backend.</p>
+
+          <div class="prompt-box">
+            <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
+            <div class="prompt-box-body">
+              Tenho um arquivo <code>credentials.json</code> do Google Cloud com o ID do Cliente OAuth.<br><br>
+              Atualiza o meu <code>index.html</code> para buscar dados reais do meu Google usando as bibliotecas
+              client-side oficiais (Google Identity Services / gapi).<br><br>
+              - O card "Emails não lidos" deve mostrar a contagem real da minha caixa de entrada do Gmail.<br>
+              - A lista de eventos deve mostrar os próximos 5 eventos do meu Calendar.<br>
+              - Adiciona um botão "Conectar com Google" para pedir autorização ao usuário na primeira vez.<br>
+              - Adiciona um estado de <strong>loading</strong> enquanto os dados carregam.<br>
+              Deixa comentários explicando como a autenticação funciona.
+            </div>
+          </div>
+
+          <div class="callout callout-error">
+            <span class="callout-icon">🔴</span>
+            <div>
+              <strong>Erro de "Origem não autorizada"?</strong> É o erro mais comum aqui. Volte no Google Cloud (passo
+              4.1) e garanta que <code>http://localhost:3000</code> ou a URL que você está usando está listada nas
+              "Origens JavaScript autorizadas".
+            </div>
+          </div>
+
+          <div class="screenshot-card">
+            <img src="../../assets/antigravity_home.png"
+              alt="Finalização do tutorial de Vibecoding" class="screenshot-img" />
+            <p class="screenshot-caption">Exemplo final do dashboard em funcionamento.</p>
+          </div>
+
+          <div class="callout callout-success">
+            <span class="callout-icon">🎉</span>
+            <div>
+              <strong>Parabéns!</strong> Se chegou até aqui, você construiu um dashboard pessoal completo do zero — com
+              IA como co-piloto, errando e corrigindo pelo caminho. Isso é vibecoding.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       LIMITAÇÕES
+  ============================================= -->
+  <section class="tutorial-section" id="limitacoes">
+    <div class="container">
+      <div class="section-tag section-tag-danger">⚠ Atenção</div>
+      <h2 class="tutorial-title">Vibecoding pode ser perigoso</h2>
+      <p class="tutorial-intro">
+        Vibecoding é uma ferramenta poderosa — e como toda ferramenta poderosa, pode causar dano quando usada sem
+        cuidado.
+        Antes de sair construindo tudo com IA, você precisa entender os riscos.
+      </p>
+
+      <div class="limitation-cards">
+
+        <div class="limitation-card" id="lim-sem-conhecimento">
+          <div class="limitation-icon">🙈</div>
+          <h3>Sem conhecimento, você não vê os problemas</h3>
+          <p>
+            A IA gera código que parece funcionar — mas que pode ter bugs sutis, lógica errada, ou comportamentos
+            inesperados em casos de borda.
+            Sem entender o mínimo do que foi gerado, você não consegue identificar quando algo está errado.
+          </p>
+          <div class="limitation-example">
+            <span class="limitation-example-label">Exemplo real</span>
+            Um sistema de login gerado por IA pode parecer funcionar perfeitamente mas deixar uma brecha onde qualquer
+            email passa como válido — e você só descobre quando alguém explora isso em produção.
+          </div>
+        </div>
+
+        <div class="limitation-card" id="lim-slop">
+          <div class="limitation-icon">🗑️</div>
+          <h3>Risco de slop: código que funciona mas é lixo</h3>
+          <p>
+            "Slop" é o nome dado ao código gerado por IA que é tecnicamente funcional, mas mal estruturado, difícil de
+            manter e impossível de evoluir.
+            Código com duplicação excessiva, sem organização, cheio de gambiarras que resolvem o sintoma mas não o
+            problema.
+          </p>
+          <div class="limitation-example">
+            <span class="limitation-example-label">Sinal de alerta</span>
+            Se você está copiando e colando código da IA sem entender nada, seu projeto vai virar um monte de remendos —
+            e na hora que precisar mudar algo, vai quebrar tudo.
+          </div>
+        </div>
+
+        <div class="limitation-card" id="lim-seguranca">
+          <div class="limitation-icon">🔓</div>
+          <h3>Falhas de segurança invisíveis</h3>
+          <p>
+            IAs treinadas em código da internet aprenderam também padrões inseguros que eram comuns antes de serem
+            descobertos.
+            Injection de SQL, exposição de tokens, armazenamento inseguro de senhas — essas falhas aparecem
+            frequentemente em código gerado.
+          </p>
+        </div>
+
+        <div class="limitation-card" id="lim-dependencia">
+          <div class="limitation-icon">🔗</div>
+          <h3>Dependência excessiva da IA</h3>
+          <p>
+            Se você nunca entende o que foi construído, fica refém da IA para qualquer mudança.
+            Vibecoding é mais poderoso quando você usa a IA como acelerador do seu próprio conhecimento — não como
+            substituto.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="limitation-conclusion">
+        <div class="limitation-conclusion-header">
+          <span>💡</span>
+          <h3>A postura certa</h3>
+        </div>
+        <p>
+          Vibecoding não é para substituir o julgamento humano — é para ampliar o que você consegue fazer.
+          Ao longo deste curso, vamos construir com IA <em>e</em> vamos questionar o que ela produz, identificar
+          problemas, e entender o suficiente para tomar boas decisões.
+        </p>
+        <p>
+          A melhor vibe codeira não é quem menos entende de código — é quem usa IA para ir mais longe com o conhecimento
+          que tem.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 Gabriela Surita · <a href="/#courses" style="color:var(--accent)">Todos os Cursos</a></p>
+  </footer>
+
+  <script src="../../assets/main.js"></script>
+  <script>
+    function scrollTo(id) {
+      document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+
+</html>

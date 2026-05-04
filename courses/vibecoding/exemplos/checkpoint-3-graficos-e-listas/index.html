@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0b0d17;
+      color: #f0f2ff;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .header-left h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-left p {
+      font-size: 0.85rem;
+      color: #8b92b8;
+      margin-top: 0.25rem;
+    }
+
+    .header-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.4rem 0.9rem;
+      border-radius: 100px;
+      background: rgba(124, 109, 245, 0.12);
+      border: 1px solid rgba(124, 109, 245, 0.25);
+      color: #a89cf8;
+    }
+
+    /* CARDS */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: #151828;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(124, 109, 245, 0.3);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #8b92b8;
+    }
+
+    .card-icon { font-size: 1.25rem; }
+
+    .card-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.75rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .card-value.emails   { color: #7c6df5; }
+    .card-value.reunioes { color: #c084fc; }
+    .card-value.tarefas  { color: #34d399; }
+
+    .card-sub { font-size: 0.78rem; color: #4f5576; }
+
+    /* BOTTOM GRID */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    /* CHART CARD */
+    .chart-card {
+      background: #151828;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      color: #f0f2ff;
+    }
+
+    .chart-wrapper {
+      position: relative;
+      height: 200px;
+    }
+
+    /* EVENTS LIST */
+    .events-card {
+      background: #151828;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+
+    .event-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .event-item {
+      display: grid;
+      grid-template-columns: 3rem 1fr auto;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .event-item:last-child { border-bottom: none; }
+
+    .event-time {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #7c6df5;
+      text-align: right;
+    }
+
+    .event-info { display: flex; flex-direction: column; gap: 0.15rem; }
+
+    .event-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #f0f2ff;
+    }
+
+    .event-icon { font-size: 1rem; opacity: 0.6; }
+
+    .event-duration {
+      font-size: 0.72rem;
+      color: #4f5576;
+    }
+
+    @media (max-width: 700px) {
+      body { padding: 1.25rem; }
+      .bottom-grid { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <h1>Olá, Gabi 👋</h1>
+      <p id="data-hoje"></p>
+    </div>
+    <span class="header-badge">✦ Meu Dashboard</span>
+  </header>
+
+  <!-- CARDS DE RESUMO -->
+  <div class="cards">
+    <div class="card">
+      <div class="card-top">
+        <span class="card-label">Emails não lidos</span>
+        <span class="card-icon">📬</span>
+      </div>
+      <div class="card-value emails">24</div>
+      <div class="card-sub">Últimas 24 horas</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <span class="card-label">Reuniões hoje</span>
+        <span class="card-icon">📅</span>
+      </div>
+      <div class="card-value reunioes">3</div>
+      <div class="card-sub">Próxima às 14:00</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <span class="card-label">Tarefas pendentes</span>
+        <span class="card-icon">✅</span>
+      </div>
+      <div class="card-value tarefas">7</div>
+      <div class="card-sub">2 com prazo hoje</div>
+    </div>
+  </div>
+
+  <!-- GRÁFICO + LISTA -->
+  <div class="bottom-grid">
+
+    <!-- GRÁFICO DE BARRAS -->
+    <div class="chart-card">
+      <h2 class="section-title">📊 Emails recebidos por dia</h2>
+      <div class="chart-wrapper">
+        <canvas id="emailChart"></canvas>
+      </div>
+    </div>
+
+    <!-- PRÓXIMOS EVENTOS -->
+    <div class="events-card">
+      <h2 class="section-title">🗓 Próximos eventos</h2>
+      <div class="event-list">
+        <div class="event-item">
+          <span class="event-time">09:30</span>
+          <div class="event-info">
+            <span class="event-title">Daily da equipe</span>
+            <span class="event-duration">15 min</span>
+          </div>
+          <span class="event-icon">📹</span>
+        </div>
+        <div class="event-item">
+          <span class="event-time">11:00</span>
+          <div class="event-info">
+            <span class="event-title">Review de código</span>
+            <span class="event-duration">1 hora</span>
+          </div>
+          <span class="event-icon">💻</span>
+        </div>
+        <div class="event-item">
+          <span class="event-time">14:00</span>
+          <div class="event-info">
+            <span class="event-title">Sync com Programaria</span>
+            <span class="event-duration">30 min</span>
+          </div>
+          <span class="event-icon">📞</span>
+        </div>
+        <div class="event-item">
+          <span class="event-time">16:30</span>
+          <div class="event-info">
+            <span class="event-title">Planning da semana</span>
+            <span class="event-duration">45 min</span>
+          </div>
+          <span class="event-icon">📋</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Data de hoje
+    const hoje = new Date();
+    const opcoes = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('data-hoje').textContent =
+      hoje.toLocaleDateString('pt-BR', opcoes);
+
+    // Últimos 7 dias
+    const dias = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      dias.push(d.toLocaleDateString('pt-BR', { weekday: 'short' }));
+    }
+
+    // Gráfico de barras — dados falsos
+    const ctx = document.getElementById('emailChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: dias,
+        datasets: [{
+          label: 'Emails recebidos',
+          data: [12, 5, 8, 20, 3, 15, 9],
+          backgroundColor: 'rgba(124, 109, 245, 0.6)',
+          borderColor: 'rgba(124, 109, 245, 1)',
+          borderWidth: 1,
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(255,255,255,0.05)' },
+            ticks: { color: '#8b92b8', font: { size: 11 } },
+          },
+          y: {
+            grid: { color: 'rgba(255,255,255,0.05)' },
+            ticks: { color: '#8b92b8', font: { size: 11 } },
+            beginAtZero: true,
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
