@@ -65,6 +65,43 @@
   </section>
 
   <!-- =============================================
+       O PROBLEMA — INTRODUÇÃO
+  ============================================= -->
+  <section class="tutorial-section vibe-interlude" id="o-problema" style="padding-bottom: 0;">
+    <div class="container">
+      <div class="section-tag">O ponto de partida</div>
+      <h2 class="tutorial-title">Imagina essa situação</h2>
+      <p class="tutorial-intro">
+        A gente gosta de começar pelo problema, antes de falar da solução.
+      </p>
+
+      <div class="vibe-definition" style="margin-bottom: 2rem;">
+        <div class="vibe-quote" style="font-size: 1rem; text-align: left; line-height: 1.8;">
+          Você trabalha na área de suporte e seu time recebe uma demanda adicional: preparar o material para uma reunião
+          daqui 2 dias. Sua gestora quer saber se você consegue assumir.<br><br>
+          Para avaliar, você precisaria saber: quantos e-mails de suporte ainda estão abertos? Quantas reuniões você já
+          tem nos próximos dias? Quais tarefas já estão sob sua responsabilidade?<br><br>
+          <strong>O ideal seria um dashboard</strong> — uma visualização rápida e clara de tudo isso. Mas fazer isso do
+          zero levaria tempo que você não tem.
+        </div>
+      </div>
+
+      <div class="vibe-definition">
+        <div class="vibe-quote">
+          "Vibecoding é programar focando no <em>produto</em>, não no código.
+          Você descreve o que quer, a IA constrói — e você itera até ficar certo."
+        </div>
+      </div>
+
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin: 2rem 0;">
+        É exatamente isso que vamos fazer aqui. Você vai construir esse dashboard — do zero, com IA como co-piloto.
+        Não precisa saber programar do zero. Precisa saber <strong style="color: var(--text-primary)">descrever o que
+          quer</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- =============================================
        ANTES DE COMEÇAR
   ============================================= -->
   <section class="tutorial-section" id="antes-de-comecar">
@@ -92,6 +129,16 @@
               <strong>O que é o Antigravity?</strong><br>
               É uma ferramenta do Google DeepMind que combina um editor de código com um assistente de IA integrado.
               Você descreve o que quer construir e ele gera, revisa e corrige o código com você.
+            </div>
+          </div>
+
+          <div class="callout callout-info" style="margin-top: 1rem;">
+            <span class="callout-icon">💻</span>
+            <div>
+              <strong>Windows, Mac ou Linux?</strong><br>
+              O Antigravity funciona nos três sistemas. Os prints deste tutorial foram feitos no Mac, então alguns
+              ícones ou menus podem aparecer em posições ligeiramente diferentes no Windows ou Linux — mas o fluxo é o
+              mesmo. Se travar em algum passo, descreva o que está vendo para a IA e ela te ajuda.
             </div>
           </div>
 
@@ -288,8 +335,35 @@
             </div>
           </div>
 
-          <p>O Antigravity vai criar um arquivo <code>index.html</code>. Você pode abrir esse arquivo no navegador e
-            deve ver "Hello, World!" na tela. Se aparecer — ótimo, está tudo funcionando!</p>
+          <p>O Antigravity vai criar um arquivo <code>index.html</code> no seu projeto. Veja onde ele aparece e como
+            abrir no navegador:</p>
+
+          <div class="instruction-steps">
+            <div class="instruction-step">
+              <span class="instruction-num">①</span>
+              <div>Olhe o <strong>Explorador de Arquivos</strong> à esquerda — o arquivo <code>index.html</code> vai
+                aparecer lá.</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">②</span>
+              <div>Clique com o botão direito no arquivo → <strong>"Mostrar no Explorador"</strong> (Windows) ou
+                <strong>"Revelar no Finder"</strong> (Mac) para ver onde ele está salvo no computador.</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">③</span>
+              <div>Dê dois cliques no arquivo <code>index.html</code> — ele vai abrir direto no seu navegador. Você deve
+                ver <strong>"Hello, World!"</strong> na tela.</div>
+            </div>
+          </div>
+
+          <div class="callout callout-info" style="margin-top: 1rem;">
+            <span class="callout-icon">🙋</span>
+            <div>
+              <strong>Preciso ter conta no GitHub?</strong><br>
+              Não! Por enquanto, o arquivo fica salvo só no seu computador. GitHub e deploy são opcionais — você
+              consegue fazer tudo localmente.
+            </div>
+          </div>
 
           <div class="callout callout-warn">
             <span class="callout-icon">⚠️</span>
@@ -352,6 +426,16 @@
             <div>
               <strong>Dica de prompt:</strong> Mencionar "dados falsos por enquanto" e "não precisa de JavaScript ainda"
               ajuda a IA a focar no que você realmente quer agora, sem adicionar complexidade desnecessária.
+            </div>
+          </div>
+
+          <div class="callout callout-info" style="margin-top: 1rem;">
+            <span class="callout-icon">🎨</span>
+            <div>
+              <strong>Por que pedir "paleta escura e fonte bonita" sem ser mais específica?</strong><br>
+              É intencional! Parte do vibecoding é dar liberdade para a IA interpretar. Resultados diferentes são
+              esperados — e na próxima etapa você vai ver exatamente isso. Se não gostar do que saiu, você
+              <em>itera</em>.
             </div>
           </div>
         </div>
@@ -522,9 +606,13 @@
           <div class="callout callout-info">
             <span class="callout-icon">📦</span>
             <div>
-              <strong>O que é CDN?</strong><br>
-              É uma forma de usar uma biblioteca externa sem precisar instalar nada — o navegador baixa direto da
-              internet quando a página carrega. Muito útil para protótipos!
+              <strong>O que é uma biblioteca?</strong><br>
+              É um conjunto de código já pronto que resolve um problema específico — no nosso caso, desenhar gráficos.
+              Em vez de escrever tudo do zero, usamos uma biblioteca que alguém já criou e testou. A
+              <strong>Chart.js</strong> é uma das mais populares para gráficos na web.<br><br>
+              <strong>E CDN?</strong><br>
+              É uma forma de usar essa biblioteca sem precisar instalar nada — o navegador baixa direto da internet
+              quando a página carrega. Muito útil para protótipos!
             </div>
           </div>
 
@@ -610,126 +698,96 @@
             <div class="instruction-step">
               <span class="instruction-num">1</span>
               <div>Acesse <a href="https://console.cloud.google.com" target="_blank" rel="noopener"
-                  class="inline-link">console.cloud.google.com</a> e faça login com sua conta Google</div>
+                  class="inline-link">console.cloud.google.com</a> e faça login com sua conta Google.</div>
             </div>
             <div class="instruction-step">
               <span class="instruction-num">2</span>
               <div>Crie um novo projeto: clique no seletor de projetos → <strong>Novo Projeto</strong> → nome:
-                <code>meu-dashboard</code>
+                <code>meu-dashboard</code>.
               </div>
             </div>
             <div class="instruction-step">
               <span class="instruction-num">3</span>
-              <div>No menu lateral, vá em <strong>APIs e Serviços → Biblioteca</strong></div>
+              <div>No menu lateral, vá em <strong>APIs e Serviços → Biblioteca</strong> e ative a <strong>Gmail
+                  API</strong> e a <strong>Google Calendar API</strong>.</div>
             </div>
             <div class="instruction-step">
               <span class="instruction-num">4</span>
-              <div>Busque e ative: <strong>Gmail API</strong> e <strong>Google Calendar API</strong></div>
+              <div>Vá em <strong>Tela de consentimento OAuth</strong>. Escolha "Externo", preencha o Nome do App e seu
+                E-mail. Na tela de "Usuários de Teste", adicione o seu próprio e-mail do Google.</div>
             </div>
             <div class="instruction-step">
               <span class="instruction-num">5</span>
-              <div>Vá em <strong>Credenciais → Criar Credenciais → ID do cliente OAuth</strong></div>
+              <div>Vá em <strong>Credenciais → Criar Credenciais → ID do cliente OAuth</strong>.</div>
             </div>
             <div class="instruction-step">
               <span class="instruction-num">6</span>
               <div>Tipo de aplicativo: <strong>Aplicativo da Web</strong>. Adicione <code>http://localhost:3000</code>
-                nas origens autorizadas</div>
+                nas <strong>Origens JavaScript autorizadas</strong>.</div>
             </div>
             <div class="instruction-step">
               <span class="instruction-num">7</span>
-              <div>Baixe o arquivo <code>credentials.json</code> — guarde bem, vamos usar em seguida</div>
+              <div>O Google vai gerar um <strong>ID do Cliente (Client ID)</strong>. Copie e guarde essa chave de texto
+                — é ela que vamos colocar no código.</div>
             </div>
           </div>
 
           <div class="callout callout-warn">
             <span class="callout-icon">⚠️</span>
             <div>
-              <strong>Nunca compartilhe o credentials.json!</strong><br>
-              Esse arquivo dá acesso à sua conta Google. Não suba ele pro GitHub — vamos configurar o
-              <code>.gitignore</code> para ignorá-lo.
-            </div>
-          </div>
-
-          <!-- Cuidado com credenciais -->
-          <div class="credentials-warning">
-            <div class="credentials-warning-header">
-              <span>🔐</span>
-              <h4>Cuidado com suas credenciais</h4>
-            </div>
-            <p>Antes de continuar, configure o <code>.gitignore</code> para que o arquivo de credenciais nunca seja
-              enviado ao GitHub acidentalmente:</p>
-            <div class="code-block">
-              <div class="code-block-header">
-                <span class="code-lang">.gitignore</span>
-              </div>
-              <pre># Credenciais do Google — NUNCA suba isso!
-credentials.json
-token.json
-.env
-*.key</pre>
-            </div>
-            <div class="credentials-checklist">
-              <div class="cred-check-item">
-                <span class="cred-check-icon cred-bad">✗</span>
-                <span>Não compartilhe o arquivo em grupos, e-mails ou screenshots</span>
-              </div>
-              <div class="cred-check-item">
-                <span class="cred-check-icon cred-bad">✗</span>
-                <span>Não cole o conteúdo do arquivo no chat da IA</span>
-              </div>
-              <div class="cred-check-item">
-                <span class="cred-check-icon cred-bad">✗</span>
-                <span>Não suba para repositórios públicos no GitHub</span>
-              </div>
-              <div class="cred-check-item">
-                <span class="cred-check-icon cred-good">✓</span>
-                <span>Se vazar, vá imediatamente em <a href="https://console.cloud.google.com/apis/credentials"
-                    target="_blank" rel="noopener" class="inline-link">Google Cloud Console</a> e revogue as
-                  credenciais</span>
-              </div>
+              <strong>Segurança do seu Client ID</strong><br>
+              Como o nosso código vai rodar inteiramente no navegador, o seu "Client ID" ficará visível no código HTML.
+              <strong>Isso não é um problema de segurança por si só</strong> (Client IDs são públicos), DESDE QUE você
+              tenha configurado a restrição de "Origens JavaScript autorizadas" (passo 6) corretamente no Google Cloud.
+              Isso garante que só o seu <code>localhost:3000</code> ou o domínio real do seu site possa usar essa chave.
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 4.2 Deixando a IA integrar -->
+      <!-- 4.2 Conectando via Service Account -->
       <div class="step-card" id="step-api-connect">
         <div class="step-header">
           <div class="step-number">4.2</div>
-          <h3 class="step-title">Conectando ao Google direto no navegador</h3>
+          <h3 class="step-title">Conectando ao Google sem botão de login</h3>
         </div>
         <div class="step-body">
-          <p>Com as credenciais em mãos, vamos pedir ao Antigravity para criar o código de integração. Para manter o
-            exercício simples, vamos fazer as requisições <strong>inteiramente no navegador</strong> (client-side)
-            usando a biblioteca oficial do Google Identity Services, sem precisar criar um servidor backend.</p>
+          <p>Com as credenciais em mãos, vamos pedir ao Antigravity para criar o código de integração. Vamos usar a
+            Service Account para que o dashboard carregue os dados <strong>automaticamente</strong> — sem precisar
+            apertar nenhum botão de login.</p>
 
           <div class="prompt-box">
             <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
             <div class="prompt-box-body">
-              Tenho um arquivo <code>credentials.json</code> do Google Cloud com o ID do Cliente OAuth.<br><br>
-              Atualiza o meu <code>index.html</code> para buscar dados reais do meu Google usando as bibliotecas
-              client-side oficiais (Google Identity Services / gapi).<br><br>
-              - O card "Emails não lidos" deve mostrar a contagem real da minha caixa de entrada do Gmail.<br>
-              - A lista de eventos deve mostrar os próximos 5 eventos do meu Calendar.<br>
-              - Adiciona um botão "Conectar com Google" para pedir autorização ao usuário na primeira vez.<br>
-              - Adiciona um estado de <strong>loading</strong> enquanto os dados carregam.<br>
-              Deixa comentários explicando como a autenticação funciona.
+              Tenho o conteúdo do meu arquivo <code>service-account.json</code>.<br><br>
+              Atualiza o meu <code>index.html</code> para buscar dados do Gmail e Calendar usando apenas JavaScript no
+              navegador:<br>
+              - Usa a biblioteca <code>jsrsasign</code> via CDN para assinar o JWT.<br>
+              - Usa o proxy <code>https://cors-anywhere.herokuapp.com/</code> para contornar o erro de CORS ao pedir o
+              token de acesso.<br>
+              - O dashboard deve carregar os dados assim que a página abrir, sem botões de login.<br>
+              - Adiciona um estado de <strong>loading</strong> enquanto os dados carregam.
             </div>
           </div>
 
-          <div class="callout callout-error">
-            <span class="callout-icon">🔴</span>
+          <div class="callout callout-info">
+            <span class="callout-icon">📅</span>
             <div>
-              <strong>Erro de "Origem não autorizada"?</strong> É o erro mais comum aqui. Volte no Google Cloud (passo
-              4.1) e garanta que <code>http://localhost:3000</code> ou a URL que você está usando está listada nas
-              "Origens JavaScript autorizadas".
+              <strong>Para ver seus eventos no Calendar:</strong><br>
+              A Service Account não acessa sua agenda pessoal automaticamente. Você precisa ir no seu Google Calendar →
+              <strong>Configurações e Compartilhamento</strong> → e adicionar o e-mail da Service Account com permissão
+              de "Ver todos os detalhes".
             </div>
           </div>
 
-          <div class="screenshot-card">
-            <img src="../../assets/antigravity_home.png"
-              alt="Finalização do tutorial de Vibecoding" class="screenshot-img" />
-            <p class="screenshot-caption">Exemplo final do dashboard em funcionamento.</p>
+          <div class="callout callout-warn">
+            <span class="callout-icon">⚠️</span>
+            <div>
+              <strong>Erro de CORS?</strong> Antes de testar, visite <a
+                href="https://cors-anywhere.herokuapp.com/corsdemo" target="_blank" rel="noopener"
+                class="inline-link">cors-anywhere.herokuapp.com/corsdemo</a> e clique no botão azul para ativar o acesso
+              temporário.
+            </div>
           </div>
 
           <div class="callout callout-success">
@@ -834,7 +892,7 @@ token.json
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>© 2026 Gabriela Surita · <a href="/#courses" style="color:var(--accent)">Todos os Cursos</a></p>
+    <p>© 2026 Gabriela Surita</p>
   </footer>
 
   <script src="../../assets/main.js"></script>
