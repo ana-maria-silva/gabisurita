@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu Dashboard Hacker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;900&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Biblioteca para assinar JWT no navegador -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.5.27/jsrsasign-all-min.js"></script>
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0b0d17;
+      color: #f0f2ff;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .header-left h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-left p {
+      font-size: 0.85rem;
+      color: #8b92b8;
+      margin-top: 0.25rem;
+    }
+
+    .header-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.4rem 0.9rem;
+      border-radius: 100px;
+      background: rgba(124, 109, 245, 0.12);
+      border: 1px solid rgba(124, 109, 245, 0.25);
+      color: #a89cf8;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: #151828;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .card-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #8b92b8;
+    }
+
+    .card-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.75rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .card-value.emails {
+      color: #7c6df5;
+    }
+
+    .card-value.reunioes {
+      color: #c084fc;
+    }
+
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .chart-card,
+    .events-card {
+      background: #151828;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+    }
+
+    .event-item {
+      display: grid;
+      grid-template-columns: 3rem 1fr auto;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .event-time {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #7c6df5;
+      text-align: right;
+    }
+
+    .event-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #f0f2ff;
+    }
+
+    @media (max-width: 700px) {
+      .bottom-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-left">
+      <h1>Dashboard Automático 🤖</h1>
+      <p id="data-hoje"></p>
+    </div>
+    <span class="header-badge">✦ Service Account Mode</span>
+  </header>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Emails (Service Account)</div>
+      <div class="card-value emails" id="unread-count">--</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Eventos Próximos</div>
+      <div class="card-value reunioes" id="meetings-count">--</div>
+    </div>
+  </div>
+
+  <div class="bottom-grid">
+    <div class="chart-card">
+      <h2 class="section-title">📊 Atividade</h2>
+      <div style="height: 200px;"><canvas id="emailChart"></canvas></div>
+    </div>
+    <div class="events-card">
+      <h2 class="section-title">🗓 Agenda da Service Account</h2>
+      <div id="events-container">
+        <p style="color: #8b92b8; text-align: center; padding: 1rem;">Carregando dados...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // CONFIGURAÇÃO DA SERVICE ACCOUNT
+    // ==========================================
+    const SA_CONFIG = {
+      "client_email": "SEU_EMAIL_DA_SERVICE_ACCOUNT",
+      "private_key": "-----BEGIN PRIVATE KEY-----\nSUA_CHAVE_AQUI\n-----END PRIVATE KEY-----\n"
+    };
+
+    // Proxy para contornar o CORS (Necessário para o navegador)
+    // DICA: Se não funcionar, visite https://cors-anywhere.herokuapp.com/corsdemo e clique no botão.
+    const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
+    const TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
+
+    async function getAccessToken() {
+      if (SA_CONFIG.client_email === "SEU_EMAIL_DA_SERVICE_ACCOUNT") {
+        throw new Error("Por favor, preencha as credenciais da Service Account no código.");
+      }
+
+      const header = { alg: "RS256", typ: "JWT" };
+      const now = Math.floor(Date.now() / 1000);
+      const payload = {
+        iss: SA_CONFIG.client_email,
+        sub: SA_CONFIG.client_email,
+        scope: "https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/calendar.readonly",
+        aud: TOKEN_ENDPOINT,
+        exp: now + 3600,
+        iat: now
+      };
+
+      const sHeader = JSON.stringify(header);
+      const sPayload = JSON.stringify(payload);
+      const sJWT = KJUR.jws.JWS.sign("RS256", sHeader, sPayload, SA_CONFIG.private_key);
+
+      const response = await fetch(CORS_PROXY + TOKEN_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${sJWT}`
+      });
+
+      const data = await response.json();
+      if (data.error) throw new Error(data.error_description || data.error);
+      return data.access_token;
+    }
+
+    async function initDashboard() {
+      try {
+        const token = await getAccessToken();
+
+        // 1. Fetch Calendar
+        const calRes = await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${new Date().toISOString()}&maxResults=5&singleEvents=true&orderBy=startTime`, {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        const calData = await calRes.json();
+        renderEvents(calData.items || []);
+
+        // 2. Fetch Gmail
+        const gmailRes = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages?q=is:unread`, {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        const gmailData = await gmailRes.json();
+        document.getElementById('unread-count').innerText = gmailData.resultSizeEstimate || 0;
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById('events-container').innerHTML = `<p style="color: #f87171; text-align: center; padding: 1rem;">Erro: ${err.message}</p>`;
+      }
+    }
+
+    function renderEvents(events) {
+      document.getElementById('meetings-count').innerText = events.length;
+      if (events.length === 0) {
+        document.getElementById('events-container').innerHTML = '<p style="color: #8b92b8; text-align: center; padding: 1rem;">Nenhum evento (lembre-se de compartilhar sua agenda com o e-mail da SA).</p>';
+        return;
+      }
+      let html = "";
+      events.forEach(e => {
+        const start = new Date(e.start.dateTime || e.start.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        html += `<div class="event-item"><span class="event-time">${start}</span><div class="event-info"><span class="event-title">${e.summary}</span></div><span>📅</span></div>`;
+      });
+      document.getElementById('events-container').innerHTML = html;
+    }
+
+    // Chart Fake
+    new Chart(document.getElementById('emailChart'), {
+      type: 'bar',
+      data: { labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'], datasets: [{ data: [12, 19, 3, 5, 2], backgroundColor: '#7c6df5' }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+    });
+
+    document.getElementById('data-hoje').innerText = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+    initDashboard();
+  </script>
+</body>
+
+</html>
