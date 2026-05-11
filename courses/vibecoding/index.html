@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vibecoding 1o1 — Gabi Surita</title>
   <meta name="description"
-    content="Tutorial passo a passo: construa um dashboard pessoal com Gmail e Google Calendar usando o Antigravity. Um curso do Google Antigravity em parceria com a Programaria." />
+    content="Tutorial passo a passo: construa um dashboard de início de dia com Gmail e Google Calendar usando o Antigravity — e pare de chegar no trabalho sem saber por onde começar. Um curso do Google Antigravity em parceria com a Programaria." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -26,8 +26,7 @@
         <span class="partner-badge partner-badge-prog">♀ Programaria</span>
       </div>
       <h1 class="course-hero-title">Vibecoding</h1>
-      <p class="course-hero-subtitle">Construa um dashboard pessoal com Gmail e Calendar — do zero ao deploy, usando IA
-        como co-piloto.</p>
+      <p class="course-hero-subtitle">Pare de chegar no trabalho sem saber por onde começar. Construa um dashboard de início de dia com Gmail e Calendar — do zero, usando IA como co-piloto.</p>
       <div class="course-meta">
         <span class="meta-chip">🛠 Mão na massa</span>
         <span class="meta-chip">🤖 Google Antigravity</span>
@@ -70,19 +69,21 @@
   <section class="tutorial-section vibe-interlude" id="o-problema" style="padding-bottom: 0;">
     <div class="container">
       <div class="section-tag">O ponto de partida</div>
-      <h2 class="tutorial-title">Imagina essa situação</h2>
+      <h2 class="tutorial-title">Você conhece essa sensação?</h2>
       <p class="tutorial-intro">
         A gente gosta de começar pelo problema, antes de falar da solução.
       </p>
 
       <div class="vibe-definition" style="margin-bottom: 2rem;">
         <div class="vibe-quote" style="font-size: 1rem; text-align: left; line-height: 1.8;">
-          Você trabalha na área de suporte e seu time recebe uma demanda adicional: preparar o material para uma reunião
-          daqui 2 dias. Sua gestora quer saber se você consegue assumir.<br><br>
-          Para avaliar, você precisaria saber: quantos e-mails de suporte ainda estão abertos? Quantas reuniões você já
-          tem nos próximos dias? Quais tarefas já estão sob sua responsabilidade?<br><br>
-          <strong>O ideal seria um dashboard</strong> — uma visualização rápida e clara de tudo isso. Mas fazer isso do
-          zero levaria tempo que você não tem.
+          Você chega no trabalho, abre o computador — e trava. Por onde começo? O que é mais urgente? Tinha alguma
+          reunião logo cedo? Quantos e-mails acumularam desde ontem?<br><br>
+          Essa paralisia é muito comum em trabalhos onde somos bombardeadas de informação vinda de todo lado: e-mails,
+          calendário, Slack, Jira, reuniões... A sensação é de que tem muita coisa, mas você não consegue ver o
+          todo.<br><br>
+          <strong>O que falta é um ponto de partida claro</strong> — uma visualização rápida do que te espera naquele
+          dia. É exatamente isso que vamos construir: um dashboard de início de dia, conectado ao seu Gmail e Calendar,
+          que te ajuda a responder "por onde começo hoje?" assim que você abre o computador.
         </div>
       </div>
 
@@ -95,7 +96,7 @@
 
       <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin: 2rem 0;">
         É exatamente isso que vamos fazer aqui. Você vai construir esse dashboard — do zero, com IA como co-piloto.
-        Não precisa saber programar do zero. Precisa saber <strong style="color: var(--text-primary)">descrever o que
+        Não precisa saber programar. Precisa saber <strong style="color: var(--text-primary)">descrever o que
           quer</strong>.
       </p>
     </div>
@@ -260,7 +261,7 @@
   <!-- =============================================
        PARTE 1 — CONHECENDO O ANTIGRAVITY
   ============================================= -->
-  <section class="tutorial-section" id="parte-1">
+<section class="tutorial-section" id="parte-1">
     <div class="container">
       <div class="section-tag">Parte 1</div>
       <h2 class="tutorial-title">Conhecendo o Antigravity</h2>
@@ -276,33 +277,80 @@
           <h3 class="step-title">Abrindo o Antigravity pela primeira vez</h3>
         </div>
         <div class="step-body">
-          <p>Ao abrir o Antigravity, você vai ver uma interface com duas áreas principais: o <strong
-              style="color:var(--text-primary)">editor de código</strong> à esquerda e o <strong
-              style="color:var(--text-primary)">painel de IA</strong> à direita.</p>
+          <p>Ao abrir o Antigravity, você vai ver essa tela de boas-vindas. Vamos entender o que é cada área antes de
+            continuar.</p>
 
           <div class="screenshot-card">
             <img src="../../assets/antigravity_home.png" alt="Interface do Antigravity aberta com editor e painel de IA"
               class="screenshot-img" />
-            <p class="screenshot-caption">Interface do Antigravity: explorador de arquivos + editor à esquerda, chat com
-              IA à direita.</p>
+            <p class="screenshot-caption">A tela inicial do Antigravity: barra lateral à esquerda, área central de
+              boas-vindas e painel de IA à direita.</p>
           </div>
 
           <p>As principais áreas que você vai usar:</p>
           <div class="instruction-steps">
+
             <div class="instruction-step">
               <span class="instruction-num">①</span>
-              <div><strong>Explorador de arquivos</strong> — mostra todos os arquivos do seu projeto na coluna da
-                esquerda.</div>
+              <div><strong>Barra lateral de ícones</strong> — a coluna fina à esquerda com ícones empilhados. Cada ícone
+                abre um painel diferente:
+                <ul style="margin-top: 0.5rem; margin-left: 1rem; line-height: 2;">
+                  <li><strong>📄 Explorador</strong> — lista todos os arquivos do seu projeto. É aqui que você vai
+                    encontrar o <code>index.html</code> depois que a IA criar.</li>
+                  <li><strong>🔍 Busca</strong> — procura por texto dentro dos arquivos do projeto.</li>
+                  <li><strong>🔀 Git</strong> — controle de versão (salva o histórico das mudanças). Não precisamos disso
+                    agora.</li>
+                  <li><strong>🔌 Extensões</strong> — adiciona funcionalidades extras ao editor. Também não precisamos
+                    agora.</li>
+                </ul>
+              </div>
             </div>
+
             <div class="instruction-step">
               <span class="instruction-num">②</span>
-              <div><strong>Editor de código</strong> — onde o código aparece. Você pode editar diretamente ou deixar a
-                IA fazer isso.</div>
+              <div><strong>Área central — tela de boas-vindas</strong> — quando nenhum projeto está aberto, você vê três
+                opções:
+                <ul style="margin-top: 0.5rem; margin-left: 1rem; line-height: 2;">
+                  <li><strong>Abrir Pasta</strong> (botão azul) — abre uma pasta do seu computador como projeto. É isso
+                    que vamos usar.</li>
+                  <li><strong>Open Agent Manager</strong> — gerencia agentes de IA rodando em paralelo. Avançado, ignore
+                    por enquanto.</li>
+                  <li><strong>Clonar Repositório</strong> — baixa um projeto do GitHub. Também não precisamos agora.</li>
+                </ul>
+                Abaixo ainda aparece a seção <strong>Workspaces</strong> — atalhos para pastas que você já abriu antes.
+              </div>
             </div>
+
             <div class="instruction-step">
               <span class="instruction-num">③</span>
-              <div><strong>Painel da IA</strong> — é aqui que você conversa. Digite o que quer construir em linguagem
-                natural.</div>
+              <div><strong>Painel de IA — Antigravity Agent</strong> — o painel à direita é onde acontece a mágica. É
+                aqui que você conversa com a IA em linguagem natural. Repare nos elementos:
+                <ul style="margin-top: 0.5rem; margin-left: 1rem; line-height: 2;">
+                  <li><strong>Campo de texto</strong> — onde você digita seus pedidos. Aceita texto livre, sem precisar
+                    de sintaxe especial.</li>
+                  <li><strong>Modelo selecionado</strong> — indica qual modelo de IA está ativo (ex: Gemini 3.1 Pro).
+                    Pode deixar o padrão.</li>
+                  <li><strong>Botão Plan</strong> — modo de planejamento, onde a IA propõe o que vai fazer antes de
+                    executar. Útil para tarefas grandes.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="instruction-step">
+              <span class="instruction-num">④</span>
+              <div><strong>Barra inferior</strong> — na base da tela aparecem ícones de status: erros, avisos e
+                notificações do editor. O <strong>X azul</strong> no canto esquerdo indica que o Antigravity está
+                conectado e funcionando normalmente.</div>
+            </div>
+
+          </div>
+
+          <div class="callout callout-info" style="margin-top: 1.5rem;">
+            <span class="callout-icon">💡</span>
+            <div>
+              <strong>Por onde começo?</strong><br>
+              Clique em <strong>Abrir Pasta</strong> e selecione (ou crie) uma pasta vazia no seu computador. O
+              Antigravity vai usar essa pasta como base para criar os arquivos do projeto.
             </div>
           </div>
         </div>
@@ -320,7 +368,7 @@
           <div class="prompt-box">
             <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
             <div class="prompt-box-body">
-              Olá! Vou criar um dashboard pessoal que vai se conectar com Gmail e Google Calendar.<br><br>
+              Olá! Vou criar um dashboard de início de dia que vai se conectar com Gmail e Google Calendar para me ajudar a não perder tempo quando chego no trabalho.<br><br>
               Por enquanto, <strong>me mostre um arquivo HTML simples com "Hello, World!"</strong> para garantir que
               tudo está funcionando. Só isso por enquanto.
             </div>
@@ -395,8 +443,9 @@
       <div class="section-tag">Parte 2</div>
       <h2 class="tutorial-title">Hello World Dashboard</h2>
       <p class="tutorial-intro">
-        Agora que temos um HTML funcionando, vamos transformá-lo em um dashboard de verdade — ainda com dados falsos,
-        mas com visual bonito. A IA vai escrever tudo; você só precisa saber pedir.
+        Agora que temos um HTML funcionando, vamos transformá-lo em um dashboard de início de dia — ainda com dados
+        falsos, mas com visual bonito. A ideia é ter um painel que, de relance, te mostre o que importa hoje.
+        A IA vai escrever tudo; você só precisa saber pedir.
       </p>
 
       <!-- 2.1 Pedindo o dashboard -->
@@ -412,9 +461,9 @@
           <div class="prompt-box">
             <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
             <div class="prompt-box-body">
-              Transforma o index.html num dashboard pessoal com visual moderno e escuro.<br><br>
+              Transforma o index.html num dashboard de início de dia com visual moderno e escuro. O objetivo é que eu abra essa página quando chego no trabalho e saiba imediatamente por onde começar.<br><br>
               Quero ver:<br>
-              - Um <strong>cabeçalho</strong> com meu nome e a data de hoje<br>
+              - Um <strong>cabeçalho</strong> com a saudação "Por onde começo hoje?" e a data de hoje<br>
               - Três <strong>cards de resumo</strong>: "Emails não lidos", "Reuniões hoje" e "Tarefas pendentes" — com
               números falsos por enquanto<br>
               - Usa uma paleta escura, fonte bonita do Google Fonts, e deixa responsivo<br><br>
@@ -425,8 +474,9 @@
           <div class="callout callout-info">
             <span class="callout-icon">💡</span>
             <div>
-              <strong>Dica de prompt:</strong> Mencionar "dados falsos por enquanto" e "não precisa de JavaScript ainda"
-              ajuda a IA a focar no que você realmente quer agora, sem adicionar complexidade desnecessária.
+              <strong>Dica de prompt:</strong> Mencionar o <em>objetivo</em> do dashboard ("saber por onde começar")
+              ajuda a IA a tomar decisões de design mais alinhadas com o que você quer. Dizer "dados falsos por enquanto"
+              e "não precisa de JavaScript ainda" evita que ela adicione complexidade desnecessária antes da hora.
             </div>
           </div>
 
@@ -476,15 +526,15 @@
           <div class="instruction-steps">
             <div class="instruction-step">
               <span class="instruction-num">↗</span>
-              <div><em>"Aumenta o tamanho dos números nos cards"</em></div>
+              <div><em>"Aumenta o tamanho dos números nos cards, quero ver de longe"</em></div>
             </div>
             <div class="instruction-step">
               <span class="instruction-num">↗</span>
-              <div><em>"Muda a cor de fundo para um azul marinho mais escuro"</em></div>
+              <div><em>"Adiciona uma mensagem de boas-vindas embaixo do título, tipo 'Vamos nessa! 💪'"</em></div>
             </div>
             <div class="instruction-step">
               <span class="instruction-num">↗</span>
-              <div><em>"Adiciona um ícone em cada card usando emojis"</em></div>
+              <div><em>"Adiciona um ícone em cada card usando emojis que façam sentido para o contexto"</em></div>
             </div>
           </div>
 
@@ -510,8 +560,8 @@
       <div class="section-tag">Conceito</div>
       <h2 class="tutorial-title">Então, o que é Vibecoding?</h2>
       <p class="tutorial-intro">
-        Você acabou de criar um dashboard de verdade — sem precisar saber CSS de cor, sem decorar APIs, sem configurar
-        um ambiente do zero. Isso tem um nome.
+        Você acabou de criar um dashboard de início de dia de verdade — sem precisar saber CSS de cor, sem decorar APIs,
+        sem configurar um ambiente do zero. Isso tem um nome.
       </p>
 
       <div class="vibe-definition">
@@ -579,8 +629,8 @@
       <div class="section-tag">Parte 3</div>
       <h2 class="tutorial-title">Gráficos e Listas com Dados Falsos</h2>
       <p class="tutorial-intro">
-        Agora vamos deixar o dashboard mais rico: um gráfico de atividade de emails e uma lista de próximos eventos.
-        Ainda com dados inventados — mas o visual já vai parecer real.
+        Agora vamos deixar o dashboard mais rico: um gráfico mostrando o volume de emails na semana e uma lista das
+        reuniões do dia. Ainda com dados inventados — mas o visual já vai parecer um painel de verdade.
       </p>
 
       <!-- 3.1 Adicionando gráfico -->
@@ -590,14 +640,15 @@
           <h3 class="step-title">Adicionando um gráfico de barras</h3>
         </div>
         <div class="step-body">
-          <p>Vamos pedir pra IA adicionar um gráfico que mostra quantos emails você recebeu por dia nos últimos 7 dias.
-            Vamos usar a biblioteca <strong>Chart.js</strong> — gratuita e fácil de usar.</p>
+          <p>Vamos pedir pra IA adicionar um gráfico que mostra o volume de emails dos últimos 7 dias — útil para
+            entender se hoje é um dia movimentado ou tranquilo. Vamos usar a biblioteca <strong>Chart.js</strong> —
+            gratuita e fácil de usar.</p>
 
           <div class="prompt-box">
             <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
             <div class="prompt-box-body">
-              Adiciona ao dashboard um <strong>gráfico de barras</strong> mostrando "Emails recebidos por dia" nos
-              últimos 7 dias.<br><br>
+              Adiciona ao dashboard um <strong>gráfico de barras</strong> mostrando "Volume de emails na semana" nos
+              últimos 7 dias — para eu ter contexto se hoje é um dia cheio ou tranquilo.<br><br>
               Usa a biblioteca <strong>Chart.js</strong> via CDN (sem instalar nada).<br>
               Os dados podem ser inventados por enquanto — tipo [12, 5, 8, 20, 3, 15, 9].<br>
               O gráfico deve ter o mesmo estilo escuro do restante do dashboard.
@@ -643,17 +694,17 @@
           <h3 class="step-title">Adicionando uma lista de próximos eventos</h3>
         </div>
         <div class="step-body">
-          <p>Agora uma lista de próximos eventos do calendário — ainda fake, mas já com a estrutura que vamos preencher
-            com dados reais na próxima parte.</p>
+          <p>Agora uma lista das reuniões do dia — ainda fake, mas já com a estrutura que vamos preencher
+            com dados reais na próxima parte. Ver a agenda logo cedo é essencial para saber quanto tempo livre você tem.</p>
 
           <div class="prompt-box">
             <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
             <div class="prompt-box-body">
-              Adiciona uma seção "Próximos eventos" com uma lista de 4 eventos falsos.<br><br>
+              Adiciona uma seção "Agenda de hoje" com uma lista de 4 eventos falsos, simulando um dia de trabalho típico.<br><br>
               Cada evento deve mostrar:<br>
-              - Horário (ex: "14:00")<br>
-              - Título do evento (ex: "Sync com equipe")<br>
-              - Duração (ex: "30 min")<br><br>
+              - Horário (ex: "09:30")<br>
+              - Título do evento (ex: "Daily da equipe")<br>
+              - Duração (ex: "15 min")<br><br>
               Estilo: lista com linhas separadas, tema escuro, ícone de calendário em cada item.
             </div>
           </div>
@@ -661,9 +712,9 @@
           <div class="callout callout-success">
             <span class="callout-icon">✅</span>
             <div>
-              <strong>Checkpoint 3!</strong> Agora você tem cards, gráfico e lista de eventos — tudo com dados falsos.
-              Na
-              próxima parte, vamos trocar os dados falsos pelos reais do seu Gmail e Calendar.<br><br>
+              <strong>Checkpoint 3!</strong> Agora você tem cards, gráfico de volume de emails e agenda do dia — tudo
+              com dados falsos, mas o dashboard já começa a parecer útil. Na próxima parte, vamos trocar os dados falsos
+              pelos reais do seu Gmail e Calendar.<br><br>
               <a href="exemplos/checkpoint-3-graficos-e-listas/index.html" target="_blank" class="inline-link"
                 style="color: #34d399; font-weight: bold;">→ Ver o código de exemplo completo desta etapa</a>
             </div>
@@ -682,7 +733,8 @@
       <h2 class="tutorial-title">Integrando com Gmail e Google Calendar</h2>
       <p class="tutorial-intro">
         Esta é a parte mais poderosa — e também a mais propensa a erros. Vamos conectar o dashboard com as APIs reais do
-        Google. Se algo quebrar, ótimo: é disso que o curso se trata.
+        Google para que os dados sejam os seus, de verdade. Quando terminar, você vai abrir essa página de manhã e ver
+        seus emails e reuniões reais do dia. Se algo quebrar pelo caminho, ótimo: é disso que o curso se trata.
       </p>
 
       <!-- 4.1 Criando credenciais na Google Cloud -->
@@ -755,14 +807,14 @@
         <div class="step-body">
           <p>Com as credenciais em mãos, vamos pedir ao Antigravity para criar o código de integração. Vamos usar a
             Service Account para que o dashboard carregue os dados <strong>automaticamente</strong> — sem precisar
-            apertar nenhum botão de login.</p>
+            apertar nenhum botão de login. Afinal, a ideia é abrir a página de manhã e já ver tudo pronto.</p>
 
           <div class="prompt-box">
             <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
             <div class="prompt-box-body">
               Tenho o conteúdo do meu arquivo <code>service-account.json</code>.<br><br>
-              Atualiza o meu <code>index.html</code> para buscar dados do Gmail e Calendar usando apenas JavaScript no
-              navegador:<br>
+              Atualiza o meu <code>index.html</code> para buscar dados reais do Gmail e Calendar usando apenas JavaScript
+              no navegador, de forma que quando eu abrir a página de manhã, já veja os meus dados do dia:<br>
               - Usa a biblioteca <code>jsrsasign</code> via CDN para assinar o JWT.<br>
               - Usa o proxy <code>https://cors-anywhere.herokuapp.com/</code> para contornar o erro de CORS ao pedir o
               token de acesso.<br>
@@ -794,8 +846,10 @@
           <div class="callout callout-success">
             <span class="callout-icon">🎉</span>
             <div>
-              <strong>Parabéns!</strong> Se chegou até aqui, você construiu um dashboard pessoal completo do zero — com
-              IA como co-piloto, errando e corrigindo pelo caminho. Isso é vibecoding.
+              <strong>Parabéns!</strong> Se chegou até aqui, você construiu do zero um dashboard que resolve um problema
+              real do seu dia a dia — e fez isso com IA como co-piloto, errando e corrigindo pelo caminho.
+              Na próxima vez que chegar no trabalho e sentir aquela paralisia de "por onde começo?", você já tem a
+              resposta. Isso é vibecoding.
             </div>
           </div>
         </div>

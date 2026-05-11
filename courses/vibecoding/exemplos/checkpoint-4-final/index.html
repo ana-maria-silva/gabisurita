@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meu Dashboard Hacker</title>
+  <title>Por Onde Começo? — Dashboard de Início de Dia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;900&display=swap"
@@ -161,32 +161,32 @@
 
   <header>
     <div class="header-left">
-      <h1>Dashboard Automático 🤖</h1>
+      <h1>Por onde começo hoje? 🌅</h1>
       <p id="data-hoje"></p>
     </div>
-    <span class="header-badge">✦ Service Account Mode</span>
+    <span class="header-badge">✦ Dashboard de Foco</span>
   </header>
 
   <div class="cards">
     <div class="card">
-      <div class="card-label">Emails (Service Account)</div>
+      <div class="card-label">Emails não lidos</div>
       <div class="card-value emails" id="unread-count">--</div>
     </div>
     <div class="card">
-      <div class="card-label">Eventos Próximos</div>
+      <div class="card-label">Reuniões hoje</div>
       <div class="card-value reunioes" id="meetings-count">--</div>
     </div>
   </div>
 
   <div class="bottom-grid">
     <div class="chart-card">
-      <h2 class="section-title">📊 Atividade</h2>
+      <h2 class="section-title">📊 Volume de emails na semana</h2>
       <div style="height: 200px;"><canvas id="emailChart"></canvas></div>
     </div>
     <div class="events-card">
-      <h2 class="section-title">🗓 Agenda da Service Account</h2>
+      <h2 class="section-title">🗓 Agenda de hoje</h2>
       <div id="events-container">
-        <p style="color: #8b92b8; text-align: center; padding: 1rem;">Carregando dados...</p>
+        <p style="color: #8b92b8; text-align: center; padding: 1rem;">Buscando sua agenda...</p>
       </div>
     </div>
   </div>
@@ -263,7 +263,7 @@
     function renderEvents(events) {
       document.getElementById('meetings-count').innerText = events.length;
       if (events.length === 0) {
-        document.getElementById('events-container').innerHTML = '<p style="color: #8b92b8; text-align: center; padding: 1rem;">Nenhum evento (lembre-se de compartilhar sua agenda com o e-mail da SA).</p>';
+        document.getElementById('events-container').innerHTML = '<p style="color: #8b92b8; text-align: center; padding: 1rem;">Nenhum evento por hoje. Aproveite para focar! 🎯</p>';
         return;
       }
       let html = "";
@@ -281,7 +281,8 @@
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
     });
 
-    document.getElementById('data-hoje').innerText = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+    const dataHoje = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+    document.getElementById('data-hoje').innerText = `Hoje é ${dataHoje}. Vamos nessa! 💪`;
     initDashboard();
   </script>
 </body>
