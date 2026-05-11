@@ -18,6 +18,10 @@
 
 <body>
 
+  <!-- Theme toggle fixed -->
+  <button class="theme-toggle" id="theme-toggle" aria-label="Mudar para modo claro"
+    style="position:fixed;top:1.25rem;right:1.5rem;z-index:200;">☀️</button>
+
   <!-- COURSE HERO -->
   <section class="course-hero">
     <div class="course-hero-bg"></div>
@@ -26,8 +30,7 @@
         <span class="partner-badge partner-badge-prog">Programaria</span>
       </div>
       <h1 class="course-hero-title">Vibecoding</h1>
-      <p class="course-hero-subtitle">Pare de chegar no trabalho sem saber por onde começar. Construa um dashboard de
-        início de dia com Gmail e Calendar — do zero, usando IA como co-piloto.</p>
+      <p class="course-hero-subtitle">Vamos construir algo do zero, usando IA como co-piloto.</p>
       <div class="course-meta">
         <span class="meta-chip">🛠 Mão na massa</span>
         <span class="meta-chip">🤖 Google Antigravity</span>
@@ -36,27 +39,28 @@
 
       <!-- Progresso do tutorial -->
       <div class="toc">
-        <div class="toc-item" onclick="scrollTo('#antes-de-comecar')">
+        <div class="toc-item"
+          onclick="document.querySelector('#antes-de-comecar')?.scrollIntoView({behavior:'smooth'})">
           <span class="toc-num">0</span>
           <span class="toc-label">Antes de Começar</span>
         </div>
         <div class="toc-sep">→</div>
-        <div class="toc-item" onclick="scrollTo('#parte-1')">
+        <div class="toc-item" onclick="document.querySelector('#parte-1')?.scrollIntoView({behavior:'smooth'})">
           <span class="toc-num">1</span>
           <span class="toc-label">Conhecendo o Antigravity</span>
         </div>
         <div class="toc-sep">→</div>
-        <div class="toc-item" onclick="scrollTo('#parte-2')">
+        <div class="toc-item" onclick="document.querySelector('#parte-2')?.scrollIntoView({behavior:'smooth'})">
           <span class="toc-num">2</span>
           <span class="toc-label">Hello World Dashboard</span>
         </div>
         <div class="toc-sep">→</div>
-        <div class="toc-item" onclick="scrollTo('#parte-3')">
+        <div class="toc-item" onclick="document.querySelector('#parte-3')?.scrollIntoView({behavior:'smooth'})">
           <span class="toc-num">3</span>
           <span class="toc-label">Gráficos e Listas</span>
         </div>
         <div class="toc-sep">→</div>
-        <div class="toc-item" onclick="scrollTo('#parte-4')">
+        <div class="toc-item" onclick="document.querySelector('#parte-4')?.scrollIntoView({behavior:'smooth'})">
           <span class="toc-num">4</span>
           <span class="toc-label">Integrando com Google</span>
         </div>
@@ -357,15 +361,6 @@
                 conectado e funcionando normalmente.</div>
             </div>
 
-          </div>
-
-          <div class="callout callout-info" style="margin-top: 1.5rem;">
-            <span class="callout-icon">💡</span>
-            <div>
-              <strong>Por onde começo?</strong><br>
-              Clique em <strong>Abrir Pasta</strong> e selecione (ou crie) uma pasta vazia no seu computador. O
-              Antigravity vai usar essa pasta como base para criar os arquivos do projeto.
-            </div>
           </div>
         </div>
       </div>

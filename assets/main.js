@@ -51,3 +51,36 @@ document.addEventListener('DOMContentLoaded', () => {});
 const style = document.createElement('style');
 style.textContent = `.revealed { opacity: 1 !important; transform: translateY(0) !important; }`;
 document.head.appendChild(style);
+
+/* =============================================
+   THEME TOGGLE (dark ↔ light)
+   ============================================= */
+(function () {
+  const html   = document.documentElement;
+  const btn    = document.getElementById('theme-toggle');
+  const saved  = localStorage.getItem('theme');
+
+  // Apply saved or default (dark)
+  if (saved === 'light') html.setAttribute('data-theme', 'light');
+
+  function updateIcon() {
+    if (!btn) return;
+    btn.textContent = html.getAttribute('data-theme') === 'light' ? '🌙' : '☀️';
+    btn.setAttribute('aria-label', html.getAttribute('data-theme') === 'light' ? 'Mudar para modo escuro' : 'Mudar para modo claro');
+  }
+
+  updateIcon();
+
+  btn?.addEventListener('click', () => {
+    const isLight = html.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      html.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      html.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    }
+    updateIcon();
+  });
+})();
+

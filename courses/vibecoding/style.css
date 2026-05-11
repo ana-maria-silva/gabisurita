@@ -722,3 +722,40 @@ code {
   .step-title { font-size: 1.1rem; }
   .two-col { grid-template-columns: 1fr; }
 }
+/* =============================================
+   LIGHT MODE OVERRIDES — COURSE
+   ============================================= */
+html[data-theme="light"] .callout-warn {
+  color: #92600a;
+}
+html[data-theme="light"] .callout-warn strong { color: #b45309; }
+
+html[data-theme="light"] .callout-success {
+  color: #065f46;
+}
+html[data-theme="light"] .callout-success strong { color: #059669; }
+html[data-theme="light"] .callout-success a { color: #059669; }
+
+html[data-theme="light"] .callout-error {
+  color: #991b1b;
+}
+html[data-theme="light"] .callout-error strong { color: #dc2626; }
+
+html[data-theme="light"] .code-block,
+html[data-theme="light"] .prompt-box {
+  background: #eef0fb;
+}
+html[data-theme="light"] .code-block pre { color: #1e2040; }
+html[data-theme="light"] .code-block-header { background: rgba(0,0,0,0.03); }
+
+html[data-theme="light"] .vibe-quote {
+  background: rgba(124,109,245,0.06);
+}
+
+/* Title gradient fix — white start is invisible on light bg */
+html[data-theme="light"] .course-hero-title {
+  background: linear-gradient(135deg, #1e1040 30%, var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
