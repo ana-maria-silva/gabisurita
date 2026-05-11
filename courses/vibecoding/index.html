@@ -23,7 +23,7 @@
     <div class="course-hero-bg"></div>
     <div class="container course-hero-inner">
       <div class="partnership-badges">
-        <span class="partner-badge partner-badge-prog">♀ Programaria</span>
+        <span class="partner-badge partner-badge-prog">Programaria</span>
       </div>
       <h1 class="course-hero-title">Vibecoding</h1>
       <p class="course-hero-subtitle">Pare de chegar no trabalho sem saber por onde começar. Construa um dashboard de
@@ -446,7 +446,8 @@
             </div>
           </div>
 
-          <div class="callout" style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
+          <div class="callout"
+            style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
             <span class="callout-icon">🚀</span>
             <div>
               <strong>Para ir além</strong><br>
@@ -575,13 +576,16 @@
             </div>
           </div>
 
-          <div class="callout" style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
+          <div class="callout"
+            style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
             <span class="callout-icon">🚀</span>
             <div>
               <strong>Para ir além</strong><br>
               Escolha um dos dois desafios:<br>
-              <strong>A)</strong> Peça um <strong>botão para alternar entre modo claro e escuro</strong> — ótimo para praticar JavaScript.<br>
-              <strong>B)</strong> Adicione uma <strong>lista de emails mais recentes</strong> com remetente e assunto (ainda com dados falsos).
+              <strong>A)</strong> Peça um <strong>botão para alternar entre modo claro e escuro</strong> — ótimo para
+              praticar JavaScript.<br>
+              <strong>B)</strong> Adicione uma <strong>lista de emails mais recentes</strong> com remetente e assunto
+              (ainda com dados falsos).
             </div>
           </div>
         </div>
@@ -759,13 +763,16 @@
             </div>
           </div>
 
-          <div class="callout" style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
+          <div class="callout"
+            style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
             <span class="callout-icon">🚀</span>
             <div>
               <strong>Para ir além</strong><br>
               Escolha um dos dois desafios:<br>
-              <strong>A)</strong> Adicione um <strong>contador de horas em reunião</strong> — some a duração de todos os eventos do dia e mostre o total (ex: “2h30 em reuniões”).<br>
-              <strong>B)</strong> Calcule uma <strong>estimativa de tempo para ler os emails</strong> — considere ~1 minuto por email e exiba o resultado no dashboard.
+              <strong>A)</strong> Adicione um <strong>contador de horas em reunião</strong> — some a duração de todos os
+              eventos do dia e mostre o total (ex: “2h30 em reuniões”).<br>
+              <strong>B)</strong> Calcule uma <strong>estimativa de tempo para ler os emails</strong> — considere ~1
+              minuto por email e exiba o resultado no dashboard.
             </div>
           </div>
         </div>
@@ -898,72 +905,26 @@
               podem usar esse Client ID para pedir permissão.
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- 4.2 Conectando via OAuth -->
-      <div class="step-card" id="step-api-connect">
-        <div class="step-header">
-          <div class="step-number">4.2</div>
-          <h3 class="step-title">Conectando ao Gmail e Calendar com login do Google</h3>
-        </div>
-        <div class="step-body">
-          <p>Com o Client ID em mãos, vamos pedir ao Antigravity para integrar o dashboard com as APIs reais. A
-            abordagem é simples: ao abrir a página, um botão de login aparece. Após entrar com o Google, os dados
-            carregam automaticamente — sem precisar de servidor ou configurações complexas.</p>
-
-          <div class="callout callout-info">
-            <span class="callout-icon">🖥️</span>
-            <div>
-              <strong>Abra via Live Server, não pelo arquivo!</strong><br>
-              Clique com o botão direito no <code>index.html</code> → <strong>"Open with Live Server"</strong>.
-              Se você ainda não instalou o Live Server, volte ao passo 4.0.
-            </div>
-          </div>
-
-          <div class="prompt-box">
-            <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
-            <div class="prompt-box-body">
-              Tenho um Client ID OAuth do Google:<br>
-              <code>SEU_CLIENT_ID_AQUI.apps.googleusercontent.com</code><br><br>
-              Atualiza o <code>index.html</code> para buscar dados reais do Gmail e Calendar usando a biblioteca
-              <strong>Google Identity Services</strong> via CDN
-              (<code>https://accounts.google.com/gsi/client</code>):<br>
-              - Ao carregar a página, mostra uma tela simples com um botão <strong>"Entrar com Google"</strong>.<br>
-              - Ao clicar, abre o popup de autenticação OAuth pedindo permissão para
-              <code>gmail.readonly</code> e <code>calendar.readonly</code>.<br>
-              - Após o login, esconde a tela de login e carrega o dashboard com os dados reais da conta.<br>
-              - Busca os emails não lidos do Gmail e os eventos de hoje do Calendar.<br>
-              - Adiciona um estado de <strong>loading</strong> enquanto os dados carregam.
-            </div>
-          </div>
-
-          <div class="callout callout-info">
-            <span class="callout-icon">🧠</span>
-            <div>
-              <strong>Por que usar Google Identity Services?</strong><br>
-              É a biblioteca oficial do Google para autenticação OAuth em apps de browser. Ela cuida de todo o
-              fluxo de login — você só precisa do Client ID.
-            </div>
-          </div>
-
-          <div class="callout callout-success">
+          <div class="callout callout-success" style="margin-top: 1rem;">
             <span class="callout-icon">🎉</span>
             <div>
               <strong>Parabéns!</strong> Se chegou até aqui, você construiu do zero um dashboard que resolve um problema
-              real do seu dia a dia — e fez isso com IA como co-piloto, errando e corrigindo pelo caminho.
-              Na próxima vez que chegar no trabalho e sentir aquela paralisia de "por onde começo?", você já tem a
-              resposta. Isso é vibecoding.
+              real do seu dia a dia — e fez isso com IA como co-piloto, sem escrever codigo diretamente, mas sim
+              descrevendo o que você queria, errando e
+              corrigindo pelo caminho.
             </div>
           </div>
 
-          <div class="callout" style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
+          <div class="callout"
+            style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
             <span class="callout-icon">🚀</span>
             <div>
               <strong>Para ir além — Publique no GitHub Pages</strong><br>
               Seu dashboard só funciona no seu computador. E se qualquer pessoa pudesse acessar? Peça ao
               Antigravity:<br><br>
-              <em>"Me ajuda a publicar este projeto no GitHub Pages para que eu possa acessar de qualquer lugar."</em><br><br>
+              <em>"Me ajuda a publicar este projeto no GitHub Pages para que eu possa acessar de qualquer
+                lugar."</em><br><br>
               Se você não tem familiaridade com GitHub: crie uma conta gratuita em <a href="https://github.com"
                 target="_blank" rel="noopener" class="inline-link">github.com</a> e deixe a IA guiar cada passo —
               criar o repositório, subir o arquivo e ativar o GitHub Pages. Ao final, você terá uma URL pública
@@ -974,6 +935,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
