@@ -445,6 +445,16 @@
                 style="color: #34d399; font-weight: bold;">Exemplo 1: Hello World</a>.
             </div>
           </div>
+
+          <div class="callout" style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
+            <span class="callout-icon">🚀</span>
+            <div>
+              <strong>Para ir além</strong><br>
+              Personalize a página: peça ao Antigravity para mostrar a <strong>data de hoje</strong> e uma
+              <strong>saudação com o seu nome</strong> (ex: "Bom dia, Gabi!"). Experimente mudar as cores ou a
+              fonte também.
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -562,6 +572,16 @@
               adicionar gráficos e listas.<br><br>
               <a href="exemplos/checkpoint-2-dashboard/index.html" target="_blank" class="inline-link"
                 style="color: #34d399; font-weight: bold;">→ Ver o código de exemplo desta etapa</a>
+            </div>
+          </div>
+
+          <div class="callout" style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
+            <span class="callout-icon">🚀</span>
+            <div>
+              <strong>Para ir além</strong><br>
+              Escolha um dos dois desafios:<br>
+              <strong>A)</strong> Peça um <strong>botão para alternar entre modo claro e escuro</strong> — ótimo para praticar JavaScript.<br>
+              <strong>B)</strong> Adicione uma <strong>lista de emails mais recentes</strong> com remetente e assunto (ainda com dados falsos).
             </div>
           </div>
         </div>
@@ -738,6 +758,16 @@
                 style="color: #34d399; font-weight: bold;">→ Ver o código de exemplo completo desta etapa</a>
             </div>
           </div>
+
+          <div class="callout" style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
+            <span class="callout-icon">🚀</span>
+            <div>
+              <strong>Para ir além</strong><br>
+              Escolha um dos dois desafios:<br>
+              <strong>A)</strong> Adicione um <strong>contador de horas em reunião</strong> — some a duração de todos os eventos do dia e mostre o total (ex: “2h30 em reuniões”).<br>
+              <strong>B)</strong> Calcule uma <strong>estimativa de tempo para ler os emails</strong> — considere ~1 minuto por email e exiba o resultado no dashboard.
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -751,10 +781,54 @@
       <div class="section-tag">Parte 4</div>
       <h2 class="tutorial-title">Integrando com Gmail e Google Calendar</h2>
       <p class="tutorial-intro">
-        Esta é a parte mais poderosa — e também a mais propensa a erros. Vamos conectar o dashboard com as APIs reais do
-        Google para que os dados sejam os seus, de verdade. Quando terminar, você vai abrir essa página de manhã e ver
-        seus emails e reuniões reais do dia. Se algo quebrar pelo caminho, ótimo: é disso que o curso se trata.
+        Esta é a parte mais poderosa do curso. Vamos conectar o dashboard com as APIs reais do Google — e a partir
+        daqui, quando você abrir essa página de manhã, verá seus próprios dados. Tem três etapas: preparar o ambiente
+        (1 minuto), criar as credenciais no Google Cloud, e pedir pra IA integrar tudo.
       </p>
+
+      <!-- 4.0 Live Server -->
+      <div class="step-card" id="step-live-server">
+        <div class="step-header">
+          <div class="step-number">4.0</div>
+          <h3 class="step-title">Antes de tudo: instale o Live Server</h3>
+        </div>
+        <div class="step-body">
+          <p>Para que o login do Google funcione, o arquivo precisa ser aberto via um servidor local — e não diretamente
+            pelo explorador de arquivos. O <strong>Live Server</strong> faz exatamente isso com um clique. É uma
+            extensão gratuita já compatível com o Antigravity.</p>
+
+          <div class="instruction-steps">
+            <div class="instruction-step">
+              <span class="instruction-num">1</span>
+              <div>No Antigravity, abra o painel de <strong>Extensões</strong> (<code>Cmd+Shift+X</code> /
+                <code>Ctrl+Shift+X</code>) e busque por <strong>Live Server</strong>.
+              </div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">2</span>
+              <div>Instale a extensão publicada por <strong>Ritwick Dey</strong> (a mais popular, com mais de 50 milhões
+                de downloads).</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">3</span>
+              <div>Pronto! A partir de agora, para abrir o dashboard: clique com o botão direito no
+                <code>index.html</code> → <strong>"Open with Live Server"</strong>. Ele vai abrir em
+                <code>http://localhost:5500</code> automaticamente.
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-info">
+            <span class="callout-icon">💡</span>
+            <div>
+              <strong>Por que precisa disso?</strong><br>
+              O Google bloqueia o login (OAuth) quando a página é aberta direto pelo sistema de arquivos
+              (<code>file://...</code>). O Live Server cria um endereço real (<code>http://localhost:5500</code>) que o
+              Google aceita. É a solução mais simples e rápida para isso.
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- 4.1 Criando credenciais na Google Cloud -->
       <div class="step-card" id="step-credentials">
@@ -763,8 +837,9 @@
           <h3 class="step-title">Criando as credenciais no Google Cloud</h3>
         </div>
         <div class="step-body">
-          <p>Para acessar o Gmail e o Calendar, precisamos registrar nosso app no Google Cloud Console e obter uma chave
-            de API. Não precisa saber o que isso significa agora — só siga os passos.</p>
+          <p>Para acessar o Gmail e o Calendar com a conta do próprio usuário, vamos criar um <strong>ID de cliente
+              OAuth</strong> no Google Cloud Console. É o que permite que o dashboard peça permissão à conta Google
+            da pessoa que acessar. Não precisa saber o que isso significa agora — só siga os passos.</p>
 
           <div class="instruction-steps">
             <div class="instruction-step">
@@ -794,13 +869,23 @@
             </div>
             <div class="instruction-step">
               <span class="instruction-num">6</span>
-              <div>Tipo de aplicativo: <strong>Aplicativo da Web</strong>. Adicione <code>http://localhost:3000</code>
-                nas <strong>Origens JavaScript autorizadas</strong>.</div>
+              <div>Tipo de aplicativo: <strong>Aplicativo da Web</strong>. Adicione as seguintes origens em
+                <strong>Origens JavaScript autorizadas</strong>:
+                <ul style="margin-top: 0.4rem; margin-left: 1rem; line-height: 2;">
+                  <li><code>http://localhost:5500</code></li>
+                  <li><code>http://127.0.0.1:5500</code></li>
+                </ul>
+                (Esses são os endereços do servidor local que o Antigravity usa para abrir o arquivo no navegador.)
+              </div>
             </div>
             <div class="instruction-step">
               <span class="instruction-num">7</span>
-              <div>O Google vai gerar um <strong>ID do Cliente (Client ID)</strong>. Copie e guarde essa chave de texto
-                — é ela que vamos colocar no código.</div>
+              <div>O Google vai gerar um <strong>ID do Cliente (Client ID)</strong> — uma string longa terminada em
+                <code>.apps.googleusercontent.com</code>. Copie e guarde essa chave — é ela que vamos colocar no
+                código.<br><br>
+                <strong>O Client Secret não vai para o código.</strong> Ele só é usado em backends (servidores). Para
+                apps de browser, o Client ID é suficiente.
+              </div>
             </div>
           </div>
 
@@ -808,58 +893,57 @@
             <span class="callout-icon">⚠️</span>
             <div>
               <strong>Segurança do seu Client ID</strong><br>
-              Como o nosso código vai rodar inteiramente no navegador, o seu "Client ID" ficará visível no código HTML.
-              <strong>Isso não é um problema de segurança por si só</strong> (Client IDs são públicos), DESDE QUE você
-              tenha configurado a restrição de "Origens JavaScript autorizadas" (passo 6) corretamente no Google Cloud.
-              Isso garante que só o seu <code>localhost:3000</code> ou o domínio real do seu site possa usar essa chave.
+              O Client ID vai aparecer no seu código HTML — e tudo bem, ele é público por design. O que protege sua
+              conta é a restrição de <strong>Origens autorizadas</strong> (passo 6): só os domínios que você listou
+              podem usar esse Client ID para pedir permissão.
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 4.2 Conectando via Service Account -->
+      <!-- 4.2 Conectando via OAuth -->
       <div class="step-card" id="step-api-connect">
         <div class="step-header">
           <div class="step-number">4.2</div>
-          <h3 class="step-title">Conectando ao Google sem botão de login</h3>
+          <h3 class="step-title">Conectando ao Gmail e Calendar com login do Google</h3>
         </div>
         <div class="step-body">
-          <p>Com as credenciais em mãos, vamos pedir ao Antigravity para criar o código de integração. Vamos usar a
-            Service Account para que o dashboard carregue os dados <strong>automaticamente</strong> — sem precisar
-            apertar nenhum botão de login. Afinal, a ideia é abrir a página de manhã e já ver tudo pronto.</p>
+          <p>Com o Client ID em mãos, vamos pedir ao Antigravity para integrar o dashboard com as APIs reais. A
+            abordagem é simples: ao abrir a página, um botão de login aparece. Após entrar com o Google, os dados
+            carregam automaticamente — sem precisar de servidor ou configurações complexas.</p>
+
+          <div class="callout callout-info">
+            <span class="callout-icon">🖥️</span>
+            <div>
+              <strong>Abra via Live Server, não pelo arquivo!</strong><br>
+              Clique com o botão direito no <code>index.html</code> → <strong>"Open with Live Server"</strong>.
+              Se você ainda não instalou o Live Server, volte ao passo 4.0.
+            </div>
+          </div>
 
           <div class="prompt-box">
             <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
             <div class="prompt-box-body">
-              Tenho o conteúdo do meu arquivo <code>service-account.json</code>.<br><br>
-              Atualiza o meu <code>index.html</code> para buscar dados reais do Gmail e Calendar usando apenas
-              JavaScript
-              no navegador, de forma que quando eu abrir a página de manhã, já veja os meus dados do dia:<br>
-              - Usa a biblioteca <code>jsrsasign</code> via CDN para assinar o JWT.<br>
-              - Usa o proxy <code>https://cors-anywhere.herokuapp.com/</code> para contornar o erro de CORS ao pedir o
-              token de acesso.<br>
-              - O dashboard deve carregar os dados assim que a página abrir, sem botões de login.<br>
+              Tenho um Client ID OAuth do Google:<br>
+              <code>SEU_CLIENT_ID_AQUI.apps.googleusercontent.com</code><br><br>
+              Atualiza o <code>index.html</code> para buscar dados reais do Gmail e Calendar usando a biblioteca
+              <strong>Google Identity Services</strong> via CDN
+              (<code>https://accounts.google.com/gsi/client</code>):<br>
+              - Ao carregar a página, mostra uma tela simples com um botão <strong>"Entrar com Google"</strong>.<br>
+              - Ao clicar, abre o popup de autenticação OAuth pedindo permissão para
+              <code>gmail.readonly</code> e <code>calendar.readonly</code>.<br>
+              - Após o login, esconde a tela de login e carrega o dashboard com os dados reais da conta.<br>
+              - Busca os emails não lidos do Gmail e os eventos de hoje do Calendar.<br>
               - Adiciona um estado de <strong>loading</strong> enquanto os dados carregam.
             </div>
           </div>
 
           <div class="callout callout-info">
-            <span class="callout-icon">📅</span>
+            <span class="callout-icon">🧠</span>
             <div>
-              <strong>Para ver seus eventos no Calendar:</strong><br>
-              A Service Account não acessa sua agenda pessoal automaticamente. Você precisa ir no seu Google Calendar →
-              <strong>Configurações e Compartilhamento</strong> → e adicionar o e-mail da Service Account com permissão
-              de "Ver todos os detalhes".
-            </div>
-          </div>
-
-          <div class="callout callout-warn">
-            <span class="callout-icon">⚠️</span>
-            <div>
-              <strong>Erro de CORS?</strong> Antes de testar, visite <a
-                href="https://cors-anywhere.herokuapp.com/corsdemo" target="_blank" rel="noopener"
-                class="inline-link">cors-anywhere.herokuapp.com/corsdemo</a> e clique no botão azul para ativar o acesso
-              temporário.
+              <strong>Por que usar Google Identity Services?</strong><br>
+              É a biblioteca oficial do Google para autenticação OAuth em apps de browser. Ela cuida de todo o
+              fluxo de login — você só precisa do Client ID.
             </div>
           </div>
 
@@ -870,6 +954,22 @@
               real do seu dia a dia — e fez isso com IA como co-piloto, errando e corrigindo pelo caminho.
               Na próxima vez que chegar no trabalho e sentir aquela paralisia de "por onde começo?", você já tem a
               resposta. Isso é vibecoding.
+            </div>
+          </div>
+
+          <div class="callout" style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
+            <span class="callout-icon">🚀</span>
+            <div>
+              <strong>Para ir além — Publique no GitHub Pages</strong><br>
+              Seu dashboard só funciona no seu computador. E se qualquer pessoa pudesse acessar? Peça ao
+              Antigravity:<br><br>
+              <em>"Me ajuda a publicar este projeto no GitHub Pages para que eu possa acessar de qualquer lugar."</em><br><br>
+              Se você não tem familiaridade com GitHub: crie uma conta gratuita em <a href="https://github.com"
+                target="_blank" rel="noopener" class="inline-link">github.com</a> e deixe a IA guiar cada passo —
+              criar o repositório, subir o arquivo e ativar o GitHub Pages. Ao final, você terá uma URL pública
+              real (ex: <code>seuusuario.github.io/meu-dashboard</code>) que funciona direto no navegador, sem
+              precisar rodar o servidor local. Lembre-se de atualizar as <strong>Origens autorizadas</strong> no Google
+              Cloud Console com o novo domínio!
             </div>
           </div>
         </div>

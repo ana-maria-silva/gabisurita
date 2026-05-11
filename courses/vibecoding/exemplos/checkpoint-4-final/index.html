@@ -11,17 +11,11 @@
     rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
-  <!-- Biblioteca para assinar JWT no navegador -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.5.27/jsrsasign-all-min.js"></script>
+  <!-- Google Identity Services (OAuth) -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -30,6 +24,54 @@
       min-height: 100vh;
       padding: 2rem;
     }
+
+    /* LOGIN SCREEN */
+    #login-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      gap: 1.5rem;
+      text-align: center;
+    }
+
+    #login-screen h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    #login-screen p {
+      color: #8b92b8;
+      font-size: 0.9rem;
+      max-width: 320px;
+    }
+
+    .btn-login {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1.75rem;
+      background: #7c6df5;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-login:hover { background: #6a5ce0; transform: translateY(-2px); }
+
+    /* DASHBOARD */
+    #dashboard { display: none; }
 
     header {
       display: flex;
@@ -50,11 +92,9 @@
       background-clip: text;
     }
 
-    .header-left p {
-      font-size: 0.85rem;
-      color: #8b92b8;
-      margin-top: 0.25rem;
-    }
+    .header-left p { font-size: 0.85rem; color: #8b92b8; margin-top: 0.25rem; }
+
+    .header-right { display: flex; align-items: center; gap: 0.75rem; }
 
     .header-badge {
       font-size: 0.75rem;
@@ -64,6 +104,16 @@
       background: rgba(124, 109, 245, 0.12);
       border: 1px solid rgba(124, 109, 245, 0.25);
       color: #a89cf8;
+    }
+
+    .btn-logout {
+      font-size: 0.75rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 100px;
+      background: rgba(248, 113, 113, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.2);
+      color: #f87171;
+      cursor: pointer;
     }
 
     .cards {
@@ -83,12 +133,7 @@
       gap: 0.75rem;
     }
 
-    .card-label {
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: #8b92b8;
-    }
+    .card-label { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; color: #8b92b8; }
 
     .card-value {
       font-family: 'Outfit', sans-serif;
@@ -97,13 +142,8 @@
       line-height: 1;
     }
 
-    .card-value.emails {
-      color: #7c6df5;
-    }
-
-    .card-value.reunioes {
-      color: #c084fc;
-    }
+    .card-value.emails   { color: #7c6df5; }
+    .card-value.reunioes { color: #c084fc; }
 
     .bottom-grid {
       display: grid;
@@ -111,8 +151,7 @@
       gap: 1.5rem;
     }
 
-    .chart-card,
-    .events-card {
+    .chart-card, .events-card {
       background: #151828;
       border: 1px solid rgba(255, 255, 255, 0.07);
       border-radius: 16px;
@@ -143,148 +182,269 @@
       text-align: right;
     }
 
-    .event-title {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: #f0f2ff;
+    .event-title { font-size: 0.875rem; font-weight: 600; color: #f0f2ff; }
+
+    .loading { color: #8b92b8; text-align: center; padding: 1rem; }
+
+    .email-card {
+      background: #151828;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
     }
 
+    .email-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: start;
+      gap: 0.75rem;
+      padding: 0.875rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .email-item:last-child { border-bottom: none; }
+
+    .email-avatar {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7c6df5, #c084fc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .email-from   { font-size: 0.8rem; font-weight: 600; color: #f0f2ff; }
+    .email-subject { font-size: 0.8rem; color: #8b92b8; margin-top: 0.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .email-time   { font-size: 0.7rem; color: #8b92b8; white-space: nowrap; flex-shrink: 0; }
+
     @media (max-width: 700px) {
-      .bottom-grid {
-        grid-template-columns: 1fr;
-      }
+      .bottom-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <div class="header-left">
-      <h1>Por onde começo hoje? 🌅</h1>
-      <p id="data-hoje"></p>
-    </div>
-    <span class="header-badge">✦ Dashboard de Foco</span>
-  </header>
-
-  <div class="cards">
-    <div class="card">
-      <div class="card-label">Emails não lidos</div>
-      <div class="card-value emails" id="unread-count">--</div>
-    </div>
-    <div class="card">
-      <div class="card-label">Reuniões hoje</div>
-      <div class="card-value reunioes" id="meetings-count">--</div>
-    </div>
+  <!-- ===== TELA DE LOGIN ===== -->
+  <div id="login-screen">
+    <h2>Por onde começo hoje? 🌅</h2>
+    <p>Entre com sua conta Google para carregar seus emails e agenda do dia.</p>
+    <button class="btn-login" onclick="login()">
+      🔑 Entrar com Google
+    </button>
   </div>
 
-  <div class="bottom-grid">
-    <div class="chart-card">
-      <h2 class="section-title">📊 Volume de emails na semana</h2>
-      <div style="height: 200px;"><canvas id="emailChart"></canvas></div>
-    </div>
-    <div class="events-card">
-      <h2 class="section-title">🗓 Agenda de hoje</h2>
-      <div id="events-container">
-        <p style="color: #8b92b8; text-align: center; padding: 1rem;">Buscando sua agenda...</p>
+  <!-- ===== DASHBOARD ===== -->
+  <div id="dashboard">
+    <header>
+      <div class="header-left">
+        <h1>Por onde começo hoje? 🌅</h1>
+        <p id="data-hoje"></p>
+      </div>
+      <div class="header-right">
+        <span class="header-badge">✦ Dashboard de Foco</span>
+        <button class="btn-logout" onclick="logout()">Sair</button>
+      </div>
+    </header>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-label">Emails não lidos</div>
+        <div class="card-value emails" id="unread-count">--</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Reuniões hoje</div>
+        <div class="card-value reunioes" id="meetings-count">--</div>
       </div>
     </div>
+
+    <div class="bottom-grid">
+      <div class="chart-card">
+        <h2 class="section-title">📊 Volume de emails na semana</h2>
+        <div style="height: 200px;"><canvas id="emailChart"></canvas></div>
+      </div>
+      <div class="events-card">
+        <h2 class="section-title">🗓 Agenda de hoje</h2>
+        <div id="events-container">
+          <p class="loading">Buscando sua agenda...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="email-card" id="emails-section" style="display:none">
+      <h2 class="section-title">📬 Emails principais</h2>
+      <div id="emails-container">
+        <p class="loading">Buscando seus emails...</p>
+      </div>
+    </div>
+
   </div>
 
   <script>
     // ==========================================
-    // CONFIGURAÇÃO DA SERVICE ACCOUNT
+    // CONFIGURAÇÃO — coloque seu Client ID aqui
     // ==========================================
-    const SA_CONFIG = {
-      "client_email": "SEU_EMAIL_DA_SERVICE_ACCOUNT",
-      "private_key": "-----BEGIN PRIVATE KEY-----\nSUA_CHAVE_AQUI\n-----END PRIVATE KEY-----\n"
+    const CLIENT_ID = '213666511130-85sk2esoo1di12ps7p0ipdi73rr9oo92.apps.googleusercontent.com';
+
+    const SCOPES = [
+      'https://www.googleapis.com/auth/gmail.readonly',
+      'https://www.googleapis.com/auth/calendar.readonly'
+    ].join(' ');
+
+    let tokenClient;
+    let accessToken = null;
+
+    // Inicializa o client OAuth quando a lib do Google carregar
+    window.onload = () => {
+      tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES,
+        callback: async (response) => {
+          if (response.error) {
+            alert('Erro ao autenticar: ' + response.error);
+            return;
+          }
+          accessToken = response.access_token;
+          showDashboard();
+          await loadData();
+        },
+      });
     };
 
-    // Proxy para contornar o CORS (Necessário para o navegador)
-    // DICA: Se não funcionar, visite https://cors-anywhere.herokuapp.com/corsdemo e clique no botão.
-    const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
-    const TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
-
-    async function getAccessToken() {
-      if (SA_CONFIG.client_email === "SEU_EMAIL_DA_SERVICE_ACCOUNT") {
-        throw new Error("Por favor, preencha as credenciais da Service Account no código.");
-      }
-
-      const header = { alg: "RS256", typ: "JWT" };
-      const now = Math.floor(Date.now() / 1000);
-      const payload = {
-        iss: SA_CONFIG.client_email,
-        sub: SA_CONFIG.client_email,
-        scope: "https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/calendar.readonly",
-        aud: TOKEN_ENDPOINT,
-        exp: now + 3600,
-        iat: now
-      };
-
-      const sHeader = JSON.stringify(header);
-      const sPayload = JSON.stringify(payload);
-      const sJWT = KJUR.jws.JWS.sign("RS256", sHeader, sPayload, SA_CONFIG.private_key);
-
-      const response = await fetch(CORS_PROXY + TOKEN_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${sJWT}`
-      });
-
-      const data = await response.json();
-      if (data.error) throw new Error(data.error_description || data.error);
-      return data.access_token;
+    function login() {
+      tokenClient.requestAccessToken();
     }
 
-    async function initDashboard() {
-      try {
-        const token = await getAccessToken();
+    function logout() {
+      google.accounts.oauth2.revoke(accessToken, () => {
+        accessToken = null;
+        document.getElementById('dashboard').style.display = 'none';
+        document.getElementById('login-screen').style.display = 'flex';
+      });
+    }
 
-        // 1. Fetch Calendar
-        const calRes = await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${new Date().toISOString()}&maxResults=5&singleEvents=true&orderBy=startTime`, {
-          headers: { "Authorization": `Bearer ${token}` }
-        });
+    function showDashboard() {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      const dataHoje = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+      document.getElementById('data-hoje').innerText = `Hoje é ${dataHoje}. Vamos nessa! 💪`;
+    }
+
+    async function loadData() {
+      try {
+        const headers = { Authorization: 'Bearer ' + accessToken };
+
+        // Gmail — lista dos 5 mais recentes não lidos
+        const gmailRes = await fetch(
+          'https://gmail.googleapis.com/gmail/v1/users/me/messages?q=is:unread&maxResults=5',
+          { headers }
+        );
+        const gmailData = await gmailRes.json();
+        const messages = gmailData.messages || [];
+        document.getElementById('unread-count').innerText = gmailData.resultSizeEstimate ?? 0;
+
+        // Busca detalhes de cada email (remetente, assunto, data)
+        if (messages.length > 0) {
+          document.getElementById('emails-section').style.display = 'block';
+          const details = await Promise.all(
+            messages.map(m =>
+              fetch(
+                `https://gmail.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date`,
+                { headers }
+              ).then(r => r.json())
+            )
+          );
+          renderEmails(details);
+        }
+
+        // Calendar — eventos de hoje
+        const hoje = new Date();
+        const fimDia = new Date(hoje);
+        fimDia.setHours(23, 59, 59);
+        const calRes = await fetch(
+          `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${hoje.toISOString()}&timeMax=${fimDia.toISOString()}&singleEvents=true&orderBy=startTime`,
+          { headers }
+        );
         const calData = await calRes.json();
         renderEvents(calData.items || []);
 
-        // 2. Fetch Gmail
-        const gmailRes = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages?q=is:unread`, {
-          headers: { "Authorization": `Bearer ${token}` }
-        });
-        const gmailData = await gmailRes.json();
-        document.getElementById('unread-count').innerText = gmailData.resultSizeEstimate || 0;
-
       } catch (err) {
         console.error(err);
-        document.getElementById('events-container').innerHTML = `<p style="color: #f87171; text-align: center; padding: 1rem;">Erro: ${err.message}</p>`;
+        document.getElementById('events-container').innerHTML =
+          `<p style="color:#f87171;text-align:center;padding:1rem">Erro ao carregar dados: ${err.message}</p>`;
       }
     }
 
     function renderEvents(events) {
       document.getElementById('meetings-count').innerText = events.length;
       if (events.length === 0) {
-        document.getElementById('events-container').innerHTML = '<p style="color: #8b92b8; text-align: center; padding: 1rem;">Nenhum evento por hoje. Aproveite para focar! 🎯</p>';
+        document.getElementById('events-container').innerHTML =
+          '<p class="loading">Nenhum evento por hoje. Aproveite para focar! 🎯</p>';
         return;
       }
-      let html = "";
+      let html = '';
       events.forEach(e => {
-        const start = new Date(e.start.dateTime || e.start.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        html += `<div class="event-item"><span class="event-time">${start}</span><div class="event-info"><span class="event-title">${e.summary}</span></div><span>📅</span></div>`;
+        const start = e.start.dateTime
+          ? new Date(e.start.dateTime).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+          : 'dia todo';
+        html += `<div class="event-item">
+          <span class="event-time">${start}</span>
+          <div><span class="event-title">${e.summary || '(sem título)'}</span></div>
+          <span>📅</span>
+        </div>`;
       });
       document.getElementById('events-container').innerHTML = html;
     }
 
-    // Chart Fake
+    function renderEmails(messages) {
+      if (!messages.length) {
+        document.getElementById('emails-container').innerHTML =
+          '<p class="loading">Nenhum email não lido. Inbox zero! 🎉</p>';
+        return;
+      }
+      let html = '';
+      messages.forEach(msg => {
+        const headers = msg.payload?.headers || [];
+        const get = name => headers.find(h => h.name === name)?.value || '';
+        const from    = get('From').replace(/<.*>/, '').trim() || 'Desconhecido';
+        const subject = get('Subject') || '(sem assunto)';
+        const dateRaw = get('Date');
+        const time    = dateRaw
+          ? new Date(dateRaw).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+          : '';
+        const initials = from.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
+        html += `<div class="email-item">
+          <div class="email-avatar">${initials}</div>
+          <div style="min-width:0">
+            <div class="email-from">${from}</div>
+            <div class="email-subject">${subject}</div>
+          </div>
+          <div class="email-time">${time}</div>
+        </div>`;
+      });
+      document.getElementById('emails-container').innerHTML = html;
+    }
+
+    // Gráfico fake de volume de emails
     new Chart(document.getElementById('emailChart'), {
       type: 'bar',
-      data: { labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'], datasets: [{ data: [12, 19, 3, 5, 2], backgroundColor: '#7c6df5' }] },
-      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+      data: {
+        labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'],
+        datasets: [{ data: [12, 19, 3, 5, 2], backgroundColor: '#7c6df5' }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } }
+      }
     });
-
-    const dataHoje = new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
-    document.getElementById('data-hoje').innerText = `Hoje é ${dataHoje}. Vamos nessa! 💪`;
-    initDashboard();
   </script>
-</body>
 
+</body>
 </html>
