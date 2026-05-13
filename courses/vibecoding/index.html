@@ -52,16 +52,11 @@
         <div class="toc-sep">→</div>
         <div class="toc-item" onclick="document.querySelector('#parte-2')?.scrollIntoView({behavior:'smooth'})">
           <span class="toc-num">2</span>
-          <span class="toc-label">Hello World Dashboard</span>
+          <span class="toc-label">Dashboard</span>
         </div>
         <div class="toc-sep">→</div>
         <div class="toc-item" onclick="document.querySelector('#parte-3')?.scrollIntoView({behavior:'smooth'})">
           <span class="toc-num">3</span>
-          <span class="toc-label">Gráficos e Listas</span>
-        </div>
-        <div class="toc-sep">→</div>
-        <div class="toc-item" onclick="document.querySelector('#parte-4')?.scrollIntoView({behavior:'smooth'})">
-          <span class="toc-num">4</span>
           <span class="toc-label">Integrando com Google</span>
         </div>
         <div class="toc-sep">→</div>
@@ -462,15 +457,84 @@
   </section>
 
   <!-- =============================================
-       PARTE 2 — HELLO WORLD DASHBOARD
+       INTERLÚDIO — O QUE É VIBECODING
+  ============================================= -->
+  <section class="tutorial-section vibe-interlude" id="o-que-e-vibecoding">
+    <div class="container">
+      <div class="section-tag">Conceito</div>
+      <h2 class="tutorial-title">Então, o que é Vibecoding?</h2>
+      <p class="tutorial-intro">
+        Você já tem um arquivo HTML funcionando e sabe como o Antigravity trabalha. Antes de construir o dashboard,
+        vamos nomear o que estamos fazendo — porque isso vai mudar como você pensa sobre o processo.
+      </p>
+
+      <div class="vibe-definition">
+        <div class="vibe-quote">
+          "Vibecoding é programar focando no <em>produto</em>, não no código.
+          Você descreve o que quer, a IA constrói — e você itera até ficar certo."
+        </div>
+      </div>
+
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 2rem;">
+        Não é sobre não saber programar. É sobre <strong style="color: var(--text-primary)">mudar onde você coloca a
+          atenção</strong>:
+        menos em sintaxe e configuração, mais em o que o produto deve fazer e como ele deve se comportar.
+        A IA vira uma camada de abstração — como um compilador, mas para intenções.
+      </p>
+
+      <div class="vibe-pillars">
+        <div class="vibe-pillar">
+          <div class="vibe-pillar-icon">🎯</div>
+          <h3>Foco no produto</h3>
+          <p>Em vez de pensar em como implementar, você pensa no que o usuário precisa. A IA cuida dos detalhes
+            técnicos.</p>
+        </div>
+        <div class="vibe-pillar">
+          <div class="vibe-pillar-icon">🔄</div>
+          <h3>Iteração rápida</h3>
+          <p>Você não precisa acertar de primeira. Vibe coding é um ciclo: pede, vê o resultado, ajusta o pedido,
+            repete.</p>
+        </div>
+        <div class="vibe-pillar">
+          <div class="vibe-pillar-icon">🚀</div>
+          <h3>Velocidade real</h3>
+          <p>Coisas que levavam dias agora levam horas. Protótipos que antes exigiam um time inteiro, agora uma pessoa
+            consegue.</p>
+        </div>
+        <div class="vibe-pillar">
+          <div class="vibe-pillar-icon">🧠</div>
+          <h3>Conhecimento ainda importa</h3>
+          <p>Saber programar te dá superpoderes no vibecoding. Você consegue guiar a IA, identificar erros e entender o
+            que está sendo gerado.</p>
+        </div>
+      </div>
+
+      <div class="vibe-potential">
+        <div class="vibe-potential-header">
+          <span>⚡</span>
+          <h3>O potencial é enorme</h3>
+        </div>
+        <p>Vibecoding está mudando quem consegue construir software. Estudantes, designers, jornalistas, pesquisadoras —
+          qualquer pessoa com uma ideia clara pode agora criar ferramentas que antes precisariam de uma equipe de
+          engenharia.</p>
+        <p>Mas — e esse <em>mas</em> é importante — essa tecnologia tem limitações sérias que precisam ser entendidas
+          antes de ser usada em contextos reais.</p>
+        <a href="#limitacoes" class="btn btn-ghost" style="margin-top: 0.5rem; align-self: flex-start;">Ver limitações
+          →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       PARTE 2 — DASHBOARD COM DADOS FALSOS
   ============================================= -->
   <section class="tutorial-section" id="parte-2">
     <div class="container">
       <div class="section-tag">Parte 2</div>
-      <h2 class="tutorial-title">Hello World Dashboard</h2>
+      <h2 class="tutorial-title">Dashboard com Dados Falsos</h2>
       <p class="tutorial-intro">
-        Agora que temos um HTML funcionando, vamos transformá-lo em um dashboard de início de dia — ainda com dados
-        falsos, mas com visual bonito. A ideia é ter um painel que, de relance, te mostre o que importa hoje.
+        Agora vamos construir o dashboard do zero — do layout inicial aos gráficos e agenda do dia.
+        Tudo ainda com dados inventados, mas ao final vai parecer um painel de verdade.
         A IA vai escrever tudo; você só precisa saber pedir.
       </p>
 
@@ -576,108 +640,25 @@
             </div>
           </div>
 
-          <div class="callout"
-            style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
-            <span class="callout-icon">🚀</span>
-            <div>
-              <strong>Para ir além</strong><br>
-              Escolha um dos dois desafios:<br>
-              <strong>A)</strong> Peça um <strong>botão para alternar entre modo claro e escuro</strong> — ótimo para
-              praticar JavaScript.<br>
-              <strong>B)</strong> Adicione uma <strong>lista de emails mais recentes</strong> com remetente e assunto
-              (ainda com dados falsos).
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- =============================================
-       INTERLÚDIO — O QUE É VIBECODING
-  ============================================= -->
-  <section class="tutorial-section vibe-interlude" id="o-que-e-vibecoding">
-    <div class="container">
-      <div class="section-tag">Conceito</div>
-      <h2 class="tutorial-title">Então, o que é Vibecoding?</h2>
-      <p class="tutorial-intro">
-        Você acabou de criar um dashboard de início de dia de verdade — sem precisar saber CSS de cor, sem decorar APIs,
-        sem configurar um ambiente do zero. Isso tem um nome.
-      </p>
-
-      <div class="vibe-definition">
-        <div class="vibe-quote">
-          "Vibecoding é programar focando no <em>produto</em>, não no código.
-          Você descreve o que quer, a IA constrói — e você itera até ficar certo."
         </div>
       </div>
 
-      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 2rem;">
-        Não é sobre não saber programar. É sobre <strong style="color: var(--text-primary)">mudar onde você coloca a
-          atenção</strong>:
-        menos em sintaxe e configuração, mais em o que o produto deve fazer e como ele deve se comportar.
-        A IA vira uma camada de abstração — como um compilador, mas para intenções.
-      </p>
-
-      <div class="vibe-pillars">
-        <div class="vibe-pillar">
-          <div class="vibe-pillar-icon">🎯</div>
-          <h3>Foco no produto</h3>
-          <p>Em vez de pensar em como implementar, você pensa no que o usuário precisa. A IA cuida dos detalhes
-            técnicos.</p>
-        </div>
-        <div class="vibe-pillar">
-          <div class="vibe-pillar-icon">🔄</div>
-          <h3>Iteração rápida</h3>
-          <p>Você não precisa acertar de primeira. Vibe coding é um ciclo: pede, vê o resultado, ajusta o pedido,
-            repete.</p>
-        </div>
-        <div class="vibe-pillar">
-          <div class="vibe-pillar-icon">🚀</div>
-          <h3>Velocidade real</h3>
-          <p>Coisas que levavam dias agora levam horas. Protótipos que antes exigiam um time inteiro, agora uma pessoa
-            consegue.</p>
-        </div>
-        <div class="vibe-pillar">
-          <div class="vibe-pillar-icon">🧠</div>
-          <h3>Conhecimento ainda importa</h3>
-          <p>Saber programar te dá superpoderes no vibecoding. Você consegue guiar a IA, identificar erros e entender o
-            que está sendo gerado.</p>
+      <div class="callout callout-info" style="margin: 0 0 2rem;">
+        <span class="callout-icon">🔧</span>
+        <div>
+          <strong>Por que especificar Chart.js no prompt?</strong><br>
+          O agente seria capaz de adicionar um gráfico sozinho — mas provavelmente escolheria uma solução
+          mais simples ou uma biblioteca diferente. Quando <em>você</em> conhece as ferramentas disponíveis,
+          seus prompts ficam mais precisos e os resultados, melhores. Vibecoding não é sobre abrir mão do
+          conhecimento técnico — é sobre usá-lo de forma diferente: para guiar a IA, não para escrever
+          cada linha você mesma.
         </div>
       </div>
 
-      <div class="vibe-potential">
-        <div class="vibe-potential-header">
-          <span>⚡</span>
-          <h3>O potencial é enorme</h3>
-        </div>
-        <p>Vibecoding está mudando quem consegue construir software. Estudantes, designers, jornalistas, pesquisadoras —
-          qualquer pessoa com uma ideia clara pode agora criar ferramentas que antes precisariam de uma equipe de
-          engenharia.</p>
-        <p>Mas — e esse <em>mas</em> é importante — essa tecnologia tem limitações sérias que precisam ser entendidas
-          antes de ser usada em contextos reais.</p>
-        <a href="#limitacoes" class="btn btn-ghost" style="margin-top: 0.5rem; align-self: flex-start;">Ver limitações
-          →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- =============================================
-       PARTE 3 — GRÁFICOS E LISTAS
-  ============================================= -->
-  <section class="tutorial-section" id="parte-3">
-    <div class="container">
-      <div class="section-tag">Parte 3</div>
-      <h2 class="tutorial-title">Gráficos e Listas com Dados Falsos</h2>
-      <p class="tutorial-intro">
-        Agora vamos deixar o dashboard mais rico: um gráfico mostrando o volume de emails na semana e uma lista das
-        reuniões do dia. Ainda com dados inventados — mas o visual já vai parecer um painel de verdade.
-      </p>
-
-      <!-- 3.1 Adicionando gráfico -->
+      <!-- 2.3 Adicionando gráfico -->
       <div class="step-card" id="step-chart">
         <div class="step-header">
-          <div class="step-number">3.1</div>
+          <div class="step-number">2.3</div>
           <h3 class="step-title">Adicionando um gráfico de barras</h3>
         </div>
         <div class="step-body">
@@ -728,10 +709,10 @@
         </div>
       </div>
 
-      <!-- 3.2 Lista de eventos -->
+      <!-- 2.4 Lista de eventos -->
       <div class="step-card" id="step-list">
         <div class="step-header">
-          <div class="step-number">3.2</div>
+          <div class="step-number">2.4</div>
           <h3 class="step-title">Adicionando uma lista de próximos eventos</h3>
         </div>
         <div class="step-body">
@@ -755,9 +736,9 @@
           <div class="callout callout-success">
             <span class="callout-icon">✅</span>
             <div>
-              <strong>Checkpoint 3!</strong> Agora você tem cards, gráfico de volume de emails e agenda do dia — tudo
-              com dados falsos, mas o dashboard já começa a parecer útil. Na próxima parte, vamos trocar os dados falsos
-              pelos reais do seu Gmail e Calendar.<br><br>
+              <strong>Checkpoint 2!</strong> Agora você tem cards, gráfico e agenda do dia — tudo com dados
+              falsos, mas o dashboard já começa a parecer útil. Na próxima parte, vamos conectar com os dados
+              reais do seu Gmail e Calendar.<br><br>
               <a href="exemplos/checkpoint-3-graficos-e-listas/index.html" target="_blank" class="inline-link"
                 style="color: #34d399; font-weight: bold;">→ Ver o código de exemplo completo desta etapa</a>
             </div>
@@ -781,11 +762,11 @@
   </section>
 
   <!-- =============================================
-       PARTE 4 — INTEGRANDO COM GOOGLE
+       PARTE 3 — INTEGRANDO COM GOOGLE
   ============================================= -->
-  <section class="tutorial-section" id="parte-4">
+  <section class="tutorial-section" id="parte-3">
     <div class="container">
-      <div class="section-tag">Parte 4</div>
+      <div class="section-tag">Parte 3</div>
       <h2 class="tutorial-title">Integrando com Gmail e Google Calendar</h2>
       <p class="tutorial-intro">
         Esta é a parte mais poderosa do curso. Vamos conectar o dashboard com as APIs reais do Google — e a partir
@@ -793,10 +774,10 @@
         (1 minuto), criar as credenciais no Google Cloud, e pedir pra IA integrar tudo.
       </p>
 
-      <!-- 4.0 Live Server -->
+      <!-- 3.0 Live Server -->
       <div class="step-card" id="step-live-server">
         <div class="step-header">
-          <div class="step-number">4.0</div>
+          <div class="step-number">3.0</div>
           <h3 class="step-title">Antes de tudo: instale o Live Server</h3>
         </div>
         <div class="step-body">
@@ -837,10 +818,10 @@
         </div>
       </div>
 
-      <!-- 4.1 Criando credenciais na Google Cloud -->
+      <!-- 3.1 Criando credenciais na Google Cloud -->
       <div class="step-card" id="step-credentials">
         <div class="step-header">
-          <div class="step-number">4.1</div>
+          <div class="step-number">3.1</div>
           <h3 class="step-title">Criando as credenciais no Google Cloud</h3>
         </div>
         <div class="step-body">
@@ -1205,7 +1186,7 @@
             <p>
               Para este curso, não precisamos publicar nada — o dashboard funciona perfeitamente rodando só
               no seu computador. Mas se quiser dar um passo a mais e compartilhar com alguém, veja o
-              <strong>"Para ir além"</strong> no final do Passo 4, onde sugerimos usar o GitHub Pages para isso.
+              <strong>"Para ir além"</strong> no final da parte 3, onde sugerimos usar o GitHub Pages para isso.
             </p>
           </div>
         </div>
