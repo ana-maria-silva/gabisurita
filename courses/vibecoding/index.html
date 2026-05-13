@@ -64,6 +64,11 @@
           <span class="toc-num">4</span>
           <span class="toc-label">Integrando com Google</span>
         </div>
+        <div class="toc-sep">→</div>
+        <div class="toc-item" onclick="document.querySelector('#duvidas')?.scrollIntoView({behavior:'smooth'})">
+          <span class="toc-num">?</span>
+          <span class="toc-label">Dúvidas Frequentes</span>
+        </div>
       </div>
     </div>
   </section>
@@ -915,17 +920,18 @@
             style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
             <span class="callout-icon">🚀</span>
             <div>
-              <strong>Para ir além — Publique no GitHub Pages</strong><br>
-              Seu dashboard só funciona no seu computador. E se qualquer pessoa pudesse acessar? Peça ao
-              Antigravity:<br><br>
+              <strong>Para ir além (opcional) — Publique no GitHub Pages</strong><br>
+              Por enquanto, seu dashboard mora só no seu computador e só você consegue ver. Isso é suficiente para o
+              curso! Mas se você já tem alguma familiaridade com desenvolvimento e quer dar um passo a mais, pode
+              publicar o projeto online e compartilhar com alguém. Peça ao Antigravity:<br><br>
               <em>"Me ajuda a publicar este projeto no GitHub Pages para que eu possa acessar de qualquer
-                lugar."</em><br><br>
-              Se você não tem familiaridade com GitHub: crie uma conta gratuita em <a href="https://github.com"
-                target="_blank" rel="noopener" class="inline-link">github.com</a> e deixe a IA guiar cada passo —
+                lugar e compartilhar com outras pessoas."</em><br><br>
+              Você vai precisar de uma conta gratuita em <a href="https://github.com" target="_blank" rel="noopener"
+                class="inline-link">github.com</a>. A IA vai guiar cada passo —
               criar o repositório, subir o arquivo e ativar o GitHub Pages. Ao final, você terá uma URL pública
-              real (ex: <code>seuusuario.github.io/meu-dashboard</code>) que funciona direto no navegador, sem
-              precisar rodar o servidor local. Lembre-se de atualizar as <strong>Origens autorizadas</strong> no Google
-              Cloud Console com o novo domínio!
+              real (ex: <code>seuusuario.github.io/meu-dashboard</code>) que qualquer pessoa pode abrir no
+              navegador. Lembre-se de atualizar as <strong>Origens autorizadas</strong> no Google Cloud Console
+              com o novo domínio!
             </div>
           </div>
         </div>
@@ -1018,6 +1024,192 @@
           A melhor vibe codeira não é quem menos entende de código — é quem usa IA para ir mais longe com o conhecimento
           que tem.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       DÚVIDAS FREQUENTES
+  ============================================= -->
+  <section class="tutorial-section" id="duvidas">
+    <div class="container">
+      <div class="section-tag">FAQ</div>
+      <h2 class="tutorial-title">Dúvidas Frequentes</h2>
+      <p class="tutorial-intro">
+        Perguntas que surgiram durante o curso — e as respostas.
+      </p>
+
+      <div class="faq-list">
+
+        <div class="faq-item" id="faq-nao-abriu">
+          <div class="faq-question">
+            <h3>Meu agente escreveu o código, mas não abriu a página. O que faço?</h3>
+          </div>
+          <div class="faq-answer">
+            <p style="margin-bottom: 1rem;">
+              O agente tem o poder de abrir abas no seu navegador — mas ele nem sempre faz isso automaticamente.
+              É só pedir! Exemplos de como pedir:
+            </p>
+            <div class="instruction-steps" style="margin-bottom: 1rem;">
+              <div class="instruction-step">
+                <span class="instruction-num">→</span>
+                <div><em>"Abre a página para mim."</em></div>
+              </div>
+              <div class="instruction-step">
+                <span class="instruction-num">→</span>
+                <div><em>"Pode abrir a página no navegador?"</em></div>
+              </div>
+            </div>
+            <p>
+              Se quiser abrir manualmente, clique com o botão direito no arquivo
+              <code>index.html</code> no Explorador de Arquivos → <strong>"Abrir com"</strong> → escolha seu
+              navegador. Ou você pode usar o endereço direto: <code>file://</code> seguido do caminho da pasta
+              do projeto até o arquivo (ex: <code>file:///C:/Users/voce/Documentos/meu-dashboard/index.html</code>).
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq-versao-online">
+          <div class="faq-question">
+            <h3>Meu computador não suporta o Antigravity, ou não tenho permissão de instalar software. Tem uma versão
+              online?</h3>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Infelizmente até onde eu sei não. Por mais que navegadores sejam poderosos, eles ainda não conseguem fazer
+              tudo. Portanto as ferramentas mais poderosas (Antigravity, Cursor, Claude Code, Windsurf etc.) costumam
+              ser desenhadas para operar em um computador completo.
+            </p>
+            <p>
+              Mas alguns dos passos podem ser testados em
+              <a href="https://aistudio.google.com/apps" target="_blank" rel="noopener"
+                class="inline-link">aistudio.google.com/apps</a>.
+              Claro que varias partes desse curso podem ser reproduzidas usando outras ferramentas, como o Replit, mas
+              não consigo garantir que funcione da mesma forma.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq-ctrl-w">
+          <div class="faq-question">
+            <h3>A Gabi fechou uma aba com atalho de teclado — o que aconteceu?</h3>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Foi um acidente: o atalho <code>Ctrl+W</code> fecha a aba ativa no Antigravity.
+              Também é possível fechá-la clicando no <strong>×</strong> ao lado do nome da aba.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq-criar-pasta-windows">
+          <div class="faq-question">
+            <h3>Uso Windows — como crio uma pasta nova na hora de abrir o projeto?</h3>
+          </div>
+          <div class="faq-answer">
+            <p style="margin-bottom: 1rem;">
+              A pasta do projeto não tem nada de especial — é só um lugar no seu computador onde o Antigravity vai
+              salvar os arquivos. Escolha qualquer lugar onde você possa modificar arquivos à vontade, como uma
+              subpasta dentro de <strong>Documentos</strong>.
+            </p>
+            <p style="margin-bottom: 1rem;">
+              Quando o Antigravity mostrar a janela <strong>"Abrir a Pasta"</strong>, você tem duas formas de criar
+              uma pasta nova:
+            </p>
+            <div class="instruction-steps" style="margin-bottom: 1.25rem;">
+              <div class="instruction-step">
+                <span class="instruction-num">A</span>
+                <div>
+                  Clique no botão <strong>"Nova pasta"</strong> no topo da janela — ele aparece na barra de
+                  ferramentas, ao lado de "Organizar".
+                  Uma pasta com o nome "Nova pasta" vai aparecer na lista — renomeie para o que quiser
+                  (ex: <code>meu-dashboard</code>) e pressione <strong>Enter</strong>.
+                </div>
+              </div>
+            </div>
+            <div class="screenshot-card" style="margin-bottom: 1.5rem;">
+              <img src="../../assets/windows_nova_pasta_btn.jpg"
+                alt="Janela 'Abrir a Pasta' do Windows com o botão 'Nova pasta' e o botão 'Select folder' em destaque"
+                class="screenshot-img" />
+              <p class="screenshot-caption">Opção A: botão "Nova pasta" no topo + "Select folder" para confirmar.</p>
+            </div>
+            <div class="instruction-steps" style="margin-bottom: 1.25rem;">
+              <div class="instruction-step">
+                <span class="instruction-num">B</span>
+                <div>
+                  Clique com o <strong>botão direito</strong> em um espaço vazio dentro da janela →
+                  <strong>Novo</strong> → <strong>Pasta</strong>. Dê um nome e pressione <strong>Enter</strong>.
+                </div>
+              </div>
+            </div>
+            <div class="screenshot-card" style="margin-bottom: 1.25rem;">
+              <img src="../../assets/windows_nova_pasta_menu.jpg"
+                alt="Menu de contexto do Windows mostrando Novo → Pasta com a opção Pasta destacada"
+                class="screenshot-img" />
+              <p class="screenshot-caption">Opção B: clique direito → Novo → Pasta.</p>
+            </div>
+            <p>
+              Após criar e nomear a pasta, clique nela uma vez para selecioná-la (ela vai ficar destacada em azul)
+              e então clique em <strong>"Select folder"</strong> para confirmar.
+            </p>
+          </div>
+        </div>
+        <div class="faq-item" id="faq-sdd">
+          <div class="faq-question">
+            <h3>O que é Spec-Driven Development? É diferente de vibecoding?</h3>
+          </div>
+          <div class="faq-answer">
+            <p style="margin-bottom: 1rem;">
+              Nenhum dos dois termos tem uma definição formal — mas a distinção é útil.
+            </p>
+            <p style="margin-bottom: 1rem;">
+              <strong>Vibecoding</strong> é uma abordagem exploratória: você conversa com a IA, vê o resultado,
+              itera. O foco está na <em>velocidade</em> e na <em>experimentação</em>. É ótimo para protótipos,
+              projetos pessoais e descoberta — como o que fizemos neste curso.
+            </p>
+            <p style="margin-bottom: 1rem;">
+              <strong>Spec-Driven Development (SDD)</strong> é mais estruturado: antes de escrever qualquer código,
+              você redige uma <em>especificação</em> detalhada — o que o sistema deve fazer, como deve se comportar
+              em cada caso, quais são as restrições. Só então você (ou a IA) implementa. O foco está em
+              <em>corretude</em>, <em>manutenibilidade</em> e software pronto para produção.
+            </p>
+            <p>
+              Na prática, as duas abordagens se complementam: vibecoding para explorar e prototipar,
+              SDD para consolidar e escalar. À medida que um projeto cresce e precisa ser mantido por mais pessoas
+              por mais tempo, a especificação vira uma forma de garantir que a IA (e os humanos) construam a coisa
+              certa — não só uma coisa que funciona.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq-local-vs-publicado">
+          <div class="faq-question">
+            <h3>Qual a diferença entre fazer e publicar um site?</h3>
+          </div>
+          <div class="faq-answer">
+            <p style="margin-bottom: 1rem;">
+              Quando você cria uma página web neste curso, ela fica salva como um arquivo no seu computador —
+              assim como um documento do Word ou uma planilha. Você consegue abrir no navegador e ver normalmente,
+              mas <strong>só você</strong> consegue ver. Ninguém de fora consegue acessar, porque o arquivo não
+              está em lugar nenhum da internet, está só na sua máquina.
+            </p>
+            <p style="margin-bottom: 1rem;">
+              <strong>Publicar</strong> significa colocar esse arquivo em um servidor — um computador que fica
+              ligado o tempo todo e conectado à internet — para que qualquer pessoa no mundo possa acessar
+              pelo navegador, usando um endereço como <code>seusite.com</code>.
+            </p>
+            <p style="margin-bottom: 1rem;">
+              Uma analogia: fazer o site é como escrever uma carta. Publicar é como colocar ela nos jornais
+              para que outras pessoas possam receber e ler.
+            </p>
+            <p>
+              Para este curso, não precisamos publicar nada — o dashboard funciona perfeitamente rodando só
+              no seu computador. Mas se quiser dar um passo a mais e compartilhar com alguém, veja o
+              <strong>"Para ir além"</strong> no final do Passo 4, onde sugerimos usar o GitHub Pages para isso.
+            </p>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
