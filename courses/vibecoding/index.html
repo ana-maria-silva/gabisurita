@@ -774,10 +774,40 @@
         (1 minuto), criar as credenciais no Google Cloud, e pedir pra IA integrar tudo.
       </p>
 
-      <!-- 3.1 Criando credenciais na Google Cloud -->
-      <div class="step-card" id="step-credentials">
+      <!-- 3.1 Servindo o projeto localmente -->
+      <div class="step-card" id="step-serve">
         <div class="step-header">
           <div class="step-number">3.1</div>
+          <h3 class="step-title">Servindo o projeto localmente</h3>
+        </div>
+        <div class="step-body">
+          <p>Até agora, você estava abrindo o arquivo HTML direto do seu computador. Mas para a integração com o Google
+            funcionar, precisamos que o site esteja rodando em um servidor local. Como estamos fazendo vibecoding, vamos
+            pedir para o Antigravity fazer isso por nós.</p>
+
+          <div class="prompt-box">
+            <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
+            <div class="prompt-box-body">
+              Sirva este projeto usando um servidor na porta 8000.
+            </div>
+          </div>
+
+          <div class="callout callout-info" style="margin-top: 1rem;">
+            <span class="callout-icon">💻</span>
+            <div>
+              <strong>Como isso funciona?</strong><br>
+              O Antigravity vai abrir um terminal e rodar um comando (como <code>python -m http.server 8000</code>).
+              Depois que ele confirmar que o servidor está rodando, você pode acessar seu projeto abrindo o navegador em
+              <strong>http://localhost:8000</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.2 Criando credenciais na Google Cloud -->
+      <div class="step-card" id="step-credentials">
+        <div class="step-header">
+          <div class="step-number">3.2</div>
           <h3 class="step-title">Criando as credenciais no Google Cloud</h3>
         </div>
         <div class="step-body">
@@ -816,10 +846,10 @@
               <div>Tipo de aplicativo: <strong>Aplicativo da Web</strong>. Adicione as seguintes origens em
                 <strong>Origens JavaScript autorizadas</strong>:
                 <ul style="margin-top: 0.4rem; margin-left: 1rem; line-height: 2;">
-                  <li><code>http://localhost:5500</code></li>
-                  <li><code>http://127.0.0.1:5500</code></li>
+                  <li><code>http://localhost:8000</code></li>
+                  <li><code>http://127.0.0.1:8000</code></li>
                 </ul>
-                (Esses são os endereços do servidor local que o Antigravity usa para abrir o arquivo no navegador.)
+                (Esses são os endereços do servidor local que acabamos de iniciar.)
               </div>
             </div>
             <div class="instruction-step">
@@ -845,10 +875,10 @@
         </div>
       </div>
 
-      <!-- 3.2 Integrando os dados com a IA -->
+      <!-- 3.3 Integrando os dados com a IA -->
       <div class="step-card" id="step-integrando-dados">
         <div class="step-header">
-          <div class="step-number">3.2</div>
+          <div class="step-number">3.3</div>
           <h3 class="step-title">Integrando os dados reais</h3>
         </div>
         <div class="step-body">
@@ -865,7 +895,6 @@
               - Após o login, substitua os dados falsos do dashboard (número de emails, reuniões) pelas informações
               reais da minha conta do Gmail e do Google Calendar para o dia de hoje.<br>
               - Use as bibliotecas oficiais do Google para a web (GSI e GAPI).
-              - Tambem vamos precisar servir a pagina em localhost, ao inves de abrir pelo explorador de arquivos.
             </div>
           </div>
 
