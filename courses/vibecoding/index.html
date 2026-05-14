@@ -774,50 +774,6 @@
         (1 minuto), criar as credenciais no Google Cloud, e pedir pra IA integrar tudo.
       </p>
 
-      <!-- 3.0 Live Server -->
-      <div class="step-card" id="step-live-server">
-        <div class="step-header">
-          <div class="step-number">3.0</div>
-          <h3 class="step-title">Antes de tudo: instale o Live Server</h3>
-        </div>
-        <div class="step-body">
-          <p>Para que o login do Google funcione, o arquivo precisa ser aberto via um servidor local — e não diretamente
-            pelo explorador de arquivos. O <strong>Live Server</strong> faz exatamente isso com um clique. É uma
-            extensão gratuita já compatível com o Antigravity.</p>
-
-          <div class="instruction-steps">
-            <div class="instruction-step">
-              <span class="instruction-num">1</span>
-              <div>No Antigravity, abra o painel de <strong>Extensões</strong> (<code>Cmd+Shift+X</code> /
-                <code>Ctrl+Shift+X</code>) e busque por <strong>Live Server</strong>.
-              </div>
-            </div>
-            <div class="instruction-step">
-              <span class="instruction-num">2</span>
-              <div>Instale a extensão publicada por <strong>Ritwick Dey</strong> (a mais popular, com mais de 50 milhões
-                de downloads).</div>
-            </div>
-            <div class="instruction-step">
-              <span class="instruction-num">3</span>
-              <div>Pronto! A partir de agora, para abrir o dashboard: clique com o botão direito no
-                <code>index.html</code> → <strong>"Open with Live Server"</strong>. Ele vai abrir em
-                <code>http://localhost:5500</code> automaticamente.
-              </div>
-            </div>
-          </div>
-
-          <div class="callout callout-info">
-            <span class="callout-icon">💡</span>
-            <div>
-              <strong>Por que precisa disso?</strong><br>
-              O Google bloqueia o login (OAuth) quando a página é aberta direto pelo sistema de arquivos
-              (<code>file://...</code>). O Live Server cria um endereço real (<code>http://localhost:5500</code>) que o
-              Google aceita. É a solução mais simples e rápida para isso.
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- 3.1 Criando credenciais na Google Cloud -->
       <div class="step-card" id="step-credentials">
         <div class="step-header">
