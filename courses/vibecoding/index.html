@@ -842,12 +842,48 @@
               podem usar esse Client ID para pedir permissão.
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="callout callout-success" style="margin-top: 1rem;">
+      <!-- 3.2 Integrando os dados com a IA -->
+      <div class="step-card" id="step-integrando-dados">
+        <div class="step-header">
+          <div class="step-number">3.2</div>
+          <h3 class="step-title">Integrando os dados reais</h3>
+        </div>
+        <div class="step-body">
+          <p>Agora que você tem o Client ID, é hora de pedir para o Antigravity fazer o trabalho pesado de conectar as
+            APIs do Google ao seu código.</p>
+
+          <div class="prompt-box">
+            <div class="prompt-box-header">✦ Prompt para o Antigravity</div>
+            <div class="prompt-box-body">
+              Agora vamos integrar o Google Sign-In no dashboard para buscar dados reais.<br><br>
+              Usa este Client ID: <strong>[COLE SEU CLIENT ID AQUI]</strong><br><br>
+              Quero que você:<br>
+              - Adicione um botão "Entrar com Google" ao iniciar o dashboard.<br>
+              - Após o login, substitua os dados falsos do dashboard (número de emails, reuniões) pelas informações
+              reais da minha conta do Gmail e do Google Calendar para o dia de hoje.<br>
+              - Use as bibliotecas oficiais do Google para a web (GSI e GAPI).
+              - Tambem vamos precisar servir a pagina em localhost, ao inves de abrir pelo explorador de arquivos.
+            </div>
+          </div>
+
+          <div class="callout callout-warn">
+            <span class="callout-icon">🐛</span>
+            <div>
+              <strong>Erros são quase garantidos aqui!</strong><br>
+              Integração de APIs raramente funciona de primeira. Se o login falhar, o botão não aparecer ou a tela ficar
+              em branco, abra o Console do navegador (<code>F12</code> ou Inspecionar → aba Console), copie qualquer
+              erro vermelho e mande para a IA: <em>"Apareceu esse erro no console: [erro]. Como consertar?"</em>
+            </div>
+          </div>
+
+          <div class="callout callout-success" style="margin-top: 1.5rem;">
             <span class="callout-icon">🎉</span>
             <div>
               <strong>Parabéns!</strong> Se chegou até aqui, você construiu do zero um dashboard que resolve um problema
-              real do seu dia a dia — e fez isso com IA como co-piloto, sem escrever codigo diretamente, mas sim
+              real do seu dia a dia — e fez isso com IA como co-piloto, sem escrever código diretamente, mas sim
               descrevendo o que você queria, errando e
               corrigindo pelo caminho.
             </div>
