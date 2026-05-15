@@ -60,6 +60,11 @@
           <span class="toc-label">Integrando com Google</span>
         </div>
         <div class="toc-sep">→</div>
+        <div class="toc-item" onclick="document.querySelector('#parte-4')?.scrollIntoView({behavior:'smooth'})">
+          <span class="toc-num">4</span>
+          <span class="toc-label">Publicando no GitHub</span>
+        </div>
+        <div class="toc-sep">→</div>
         <div class="toc-item" onclick="document.querySelector('#duvidas')?.scrollIntoView({behavior:'smooth'})">
           <span class="toc-num">?</span>
           <span class="toc-label">Dúvidas Frequentes</span>
@@ -834,15 +839,21 @@
             </div>
             <div class="instruction-step">
               <span class="instruction-num">4</span>
-              <div>Vá em <strong>Tela de consentimento OAuth</strong>. Escolha "Externo", preencha o Nome do App e seu
-                E-mail. Na tela de "Usuários de Teste", adicione o seu próprio e-mail do Google.</div>
+              <div>Vá em <strong>Tela de consentimento OAuth</strong>. Escolha "Externo" e clique em Criar. Preencha o
+                Nome do App e os campos de e-mail de suporte.</div>
             </div>
             <div class="instruction-step">
               <span class="instruction-num">5</span>
-              <div>Vá em <strong>Credenciais → Criar Credenciais → ID do cliente OAuth</strong>.</div>
+              <div>Na etapa de <strong>"Usuários de Teste"</strong>, clique em "Add Users" e digite o seu próprio e-mail
+                do Google (aquele que você vai usar para fazer login). Se você não fizer isso, o Google não vai deixar
+                você logar no seu próprio dashboard!</div>
             </div>
             <div class="instruction-step">
               <span class="instruction-num">6</span>
+              <div>Vá em <strong>Credenciais → Criar Credenciais → ID do cliente OAuth</strong>.</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">7</span>
               <div>Tipo de aplicativo: <strong>Aplicativo da Web</strong>. Adicione as seguintes origens em
                 <strong>Origens JavaScript autorizadas</strong>:
                 <ul style="margin-top: 0.4rem; margin-left: 1rem; line-height: 2;">
@@ -853,7 +864,7 @@
               </div>
             </div>
             <div class="instruction-step">
-              <span class="instruction-num">7</span>
+              <span class="instruction-num">8</span>
               <div>O Google vai gerar um <strong>ID do Cliente (Client ID)</strong> — uma chave longa terminada em
                 <code>.apps.googleusercontent.com</code>. Copie e guarde essa chave — é ela que vamos colocar no
                 código.<br><br>
@@ -868,7 +879,7 @@
             <div>
               <strong>Segurança do seu Client ID</strong><br>
               O Client ID vai aparecer no seu código HTML — e tudo bem, ele é público por design. O que protege sua
-              conta é a restrição de <strong>Origens autorizadas</strong> (passo 6): só os domínios que você listou
+              conta é a restrição de <strong>Origens autorizadas</strong> (passo 7): só os domínios que você listou
               podem usar esse Client ID para pedir permissão.
             </div>
           </div>
@@ -918,22 +929,183 @@
             </div>
           </div>
 
-          <div class="callout"
-            style="margin-top: 1rem; background: rgba(250,204,21,0.06); border: 1px solid rgba(250,204,21,0.2);">
-            <span class="callout-icon">🚀</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =============================================
+       PARTE 4 — PUBLICANDO NO GITHUB
+  ============================================= -->
+  <section class="tutorial-section" id="parte-4">
+    <div class="container">
+      <div class="section-tag">Parte 4 (Opcional)</div>
+      <h2 class="tutorial-title">Publicando seu Dashboard no GitHub</h2>
+      <p class="tutorial-intro">
+        Por enquanto, seu dashboard mora só no seu computador. Se você quiser poder acessar de qualquer lugar — pelo
+        celular ou de outro computador — vamos publicá-lo gratuitamente na internet usando o GitHub Pages.
+      </p>
+
+      <!-- 4.1 Criando a conta e repositório -->
+      <div class="step-card" id="step-github-account">
+        <div class="step-header">
+          <div class="step-number">4.1</div>
+          <h3 class="step-title">Criando conta e Repositório</h3>
+        </div>
+        <div class="step-body">
+          <div class="instruction-steps">
+            <div class="instruction-step">
+              <span class="instruction-num">1</span>
+              <div>Acesse <a href="https://github.com" target="_blank" rel="noopener" class="inline-link">github.com</a>
+                e crie uma conta gratuita, se ainda não tiver uma.</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">2</span>
+              <div>No canto superior direito, clique no <strong>+</strong> e depois em <strong>New repository</strong>.
+              </div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">3</span>
+              <div>Escolha um nome para o repositório (ex: <code>meu-dashboard</code>).</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">4</span>
+              <div>Deixe a visibilidade como <strong>Public</strong> (necessário para o Pages funcionar na versão
+                gratuita).</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">5</span>
+              <div><strong>Nota sobre Licença:</strong> (<a href="https://choosealicense.com/" target="_blank"
+                  rel="noopener" class="inline-link">O que é isso?</a>) Recomendamos marcar a opção <em>"Choose a
+                  license"</em> e escolher a <strong>MIT License</strong>. Isso diz para as outras pessoas que elas têm
+                permissão para usar e aprender com o seu código livremente!</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">6</span>
+              <div>Clique em <strong>Create repository</strong>.</div>
+            </div>
+          </div>
+
+          <div class="screenshot-card">
+            <img src="../../assets/github_create_repo.png" alt="Tela de criação de um novo repositório no GitHub"
+              class="screenshot-img" />
+            <p class="screenshot-caption">Preencha o nome do repositório, deixe como público e adicione a licença.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4.2 Subindo os arquivos -->
+      <div class="step-card" id="step-upload-files">
+        <div class="step-header">
+          <div class="step-number">4.2</div>
+          <h3 class="step-title">Subindo os arquivos</h3>
+        </div>
+        <div class="step-body">
+          <p>A forma mais fácil de colocar seus arquivos no GitHub é usando o painel de <strong>Controle de
+              Código-Fonte</strong> do próprio Antigravity:</p>
+
+          <div class="instruction-steps">
+            <div class="instruction-step">
+              <span class="instruction-num">1</span>
+              <div>Na barra lateral esquerda do Antigravity, clique no terceiro ícone (o ícone com nós de rede, chamado
+                <strong>Controle do Código-Fonte</strong>).
+              </div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">2</span>
+              <div>Clique no botão azul <strong>Publicar no GitHub</strong>.</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">3</span>
+              <div>Se o Antigravity pedir permissão para fazer login no GitHub, clique em <strong>Permitir</strong> e
+                autorize o acesso no seu navegador.</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">4</span>
+              <div>Uma barra de pesquisa vai aparecer no topo da tela. Escolha a opção <strong>Publish to GitHub public
+                  repository</strong> (Publicar em repositório público) — é importante ser público para o Pages
+                funcionar depois!</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">5</span>
+              <div>Selecione os arquivos do seu projeto e confirme. O Antigravity vai fazer o upload de tudo sozinho!
+              </div>
+            </div>
+          </div>
+
+          <div class="screenshot-card">
+            <img src="../../assets/github_source_control.png" alt="Painel de Controle de Código-Fonte do Antigravity"
+              class="screenshot-img" />
+            <p class="screenshot-caption">Use o painel lateral do Antigravity para publicar seu código diretamente no
+              GitHub.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4.3 Configurando o Pages -->
+      <div class="step-card" id="step-config-pages">
+        <div class="step-header">
+          <div class="step-number">4.3</div>
+          <h3 class="step-title">Configurando o GitHub Pages</h3>
+        </div>
+        <div class="step-body">
+          <p>Agora vamos transformar esse repositório em um site público.</p>
+          <div class="instruction-steps">
+            <div class="instruction-step">
+              <span class="instruction-num">1</span>
+              <div>Vá na aba <strong>Settings</strong> do seu repositório.</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">2</span>
+              <div>No menu lateral esquerdo, clique em <strong>Pages</strong>.</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">3</span>
+              <div>Em "Build and deployment", na opção "Source", deixe "Deploy from a branch".</div>
+            </div>
+            <div class="instruction-step">
+              <span class="instruction-num">4</span>
+              <div>Abaixo, em "Branch", troque "None" por <strong>main</strong> e clique em <strong>Save</strong>.</div>
+            </div>
+          </div>
+
+          <div class="screenshot-card">
+            <img src="../../assets/github_pages_setup.png" alt="Tela de configuração do GitHub Pages"
+              class="screenshot-img" />
+            <p class="screenshot-caption">No painel Pages, selecione 'Deploy from a branch' e escolha a branch 'main'.
+            </p>
+          </div>
+
+          <div class="callout callout-success" style="margin-top: 1.5rem;">
+            <span class="callout-icon">🌐</span>
             <div>
-              <strong>Para ir além (opcional) — Publique no GitHub Pages</strong><br>
-              Por enquanto, seu dashboard mora só no seu computador e só você consegue ver. Isso é suficiente para o
-              curso! Mas se você já tem alguma familiaridade com desenvolvimento e quer dar um passo a mais, pode
-              publicar o projeto online e compartilhar com alguém. Peça ao Antigravity:<br><br>
-              <em>"Me ajuda a publicar este projeto no GitHub Pages para que eu possa acessar de qualquer
-                lugar e compartilhar com outras pessoas."</em><br><br>
-              Você vai precisar de uma conta gratuita em <a href="https://github.com" target="_blank" rel="noopener"
-                class="inline-link">github.com</a>. A IA vai guiar cada passo —
-              criar o repositório, subir o arquivo e ativar o GitHub Pages. Ao final, você terá uma URL pública
-              real (ex: <code>seuusuario.github.io/meu-dashboard</code>) que qualquer pessoa pode abrir no
-              navegador. Lembre-se de atualizar as <strong>Origens autorizadas</strong> no Google Cloud Console
-              com o novo domínio!
+              <strong>Seu site está no ar!</strong><br>
+              Aguarde 1 ou 2 minutos e atualize a página de configurações. O GitHub vai mostrar uma mensagem no topo com
+              o link do seu site (ex: <code>https://seu-usuario.github.io/meu-dashboard/</code>).
+            </div>
+          </div>
+
+          <div class="callout callout-warn" style="margin-top: 1rem;">
+            <span class="callout-icon">⚠️</span>
+            <div>
+              <strong>Último detalhe importante!</strong><br>
+              Para que o login do Google funcione no seu site publicado, você precisa voltar no Google Cloud Console e
+              adicionar a URL nova nas <strong>Origens JavaScript autorizadas</strong> (mesmo lugar do Passo 3.2).
+            </div>
+          </div>
+
+          <div class="callout callout-info" style="margin-top: 1rem;">
+            <span class="callout-icon">👥</span>
+            <div>
+              <strong>Quer compartilhar com os amigos?</strong><br>
+              Como o seu app está em modo de "Teste" no Google Cloud, outras pessoas não vão conseguir fazer login por
+              padrão. Para que elas possam usar o seu dashboard, você tem duas opções: voltar na <strong>Tela de
+                consentimento OAuth</strong> e adicionar os e-mails delas em "Usuários de Teste", ou clicar no botão
+              <strong>Publicar aplicativo</strong> para liberar o acesso a qualquer conta Google.<br><br>
+              <strong>💡 A nossa recomendação</strong> é deixar o aplicativo em modo Teste e adicionar manualmente quem
+              for usar. Isso garante o controle de quem está acessando sua ferramenta e evita que o consumo estoure os
+              limites das quotas gratuitas de API do Google Cloud!
             </div>
           </div>
         </div>
