@@ -518,8 +518,23 @@ html[data-theme="light"] .nav.scrolled {
   background: rgba(248,249,255,0.92);
 }
 
-html[data-theme="light"] .nav-links {
-  background: rgba(248,249,255,0.98);
+@media (max-width: 720px) {
+  html[data-theme="light"] .nav-links {
+    background: rgba(248,249,255,0.98);
+  }
+}
+
+html[data-theme="light"] .hero-bg::after {
+  background: radial-gradient(ellipse at center bottom, rgba(248,249,255,0.7) 0%, rgba(248,249,255,0.95) 75%);
+}
+
+html[data-theme="light"] .btn-ghost:hover,
+html[data-theme="light"] .contact-link:hover {
+  border-color: rgba(0,0,0,0.15);
+}
+
+html[data-theme="light"] a.course-card:hover {
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1), 0 0 0 1px rgba(124,109,245,0.15);
 }
 
 /* Theme Toggle Button */
