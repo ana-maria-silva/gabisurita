@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How I once build a real-time location system — Gabi Surita</title>
+  <meta name="description" content="and how I'd do it again" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/style.css" />
+  <link rel="stylesheet" href="../vibecoding/style.css" />
+</head>
+
+<body>
+
+  <!-- Theme toggle fixed -->
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"
+    style="position:fixed;top:1.25rem;right:1.5rem;z-index:200;">☀️</button>
+
+  <!-- COURSE HERO -->
+  <section class="course-hero" style="min-height: 40vh; padding: 6rem 0 3rem;">
+    <div class="course-hero-bg"></div>
+    <div class="container course-hero-inner">
+      <div class="partnership-badges">
+        <span class="partner-badge partner-badge-ag">Logistics Tales: Part 1</span>
+      </div>
+      <h1 class="course-hero-title" style="font-size: clamp(2rem, 5vw, 4.5rem);">How I once build a real-time location
+        system</h1>
+      <p class="course-hero-subtitle" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem);">... and how I'd do it again.</p>
+      <div class="course-meta">
+        <span class="meta-chip">⚙️ Engineering</span>
+        <span class="meta-chip">🏗 Systems Design</span>
+        <span class="meta-chip">🚚 Logistics</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="tutorial-section vibe-interlude" id="intro" style="padding-bottom: 0;">
+    <div class="container">
+      <div class="section-tag">Intro</div>
+      <h2 class="tutorial-title">Why I'm writing this?</h2>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        This is one of the systems I'm most proud of, and honestly one of the most elegant engineering solutions I've
+        wrote. It came from a real constraint, evolved through several failed attempts, and landed somewhere
+        genuinely clever. I've been using it as an interview question ever since, and I think it deserves to be written
+        down properly.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 2rem;">
+        A small note before we dive in: the system described here is hypothetical. It's inspired by something I built
+        over six years ago, but the details have been changed enough that it carries very little resemblance to what was
+        actually deployed, and that's intentional. Think of it as a hypothetical reconstruction, not a leak.
+      </p>
+    </div>
+  </section>
+
+  <!-- THE PROBLEM -->
+  <section class="tutorial-section" id="the-problem">
+    <div class="container">
+      <div class="section-tag">Section 1</div>
+      <h2 class="tutorial-title">The Problem</h2>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        A long time ago in a logistics company far, far away, I had the challenge to build a real-time system to track a
+        large fleet of drivers and orders.
+      </p>
+
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        Matching happened in real-time (think of it as Uber Eats), and the drivers could opt-in or out of each request.
+      </p>
+
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 2rem;">
+        Matching <em>per se</em> won't be the main topic of this tutorial, and I hope to discuss it in another one. But
+        it does impose some additional requirements on our system: we need to frequently poll "all drivers that are
+        available near this order" or, alternatively, solve for the best match between all unassigned drivers and
+        orders.
+      </p>
+
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 2rem;">
+        In terms of requirements, you can imagine every driver has a smartphone, and they send their accurate location
+        on average <strong>15 times per minute</strong>. We had to design the system for a fleet of <strong>100k
+          drivers</strong>, totaling <strong>25k position "writes" per second</strong>. During peak hours, we had to
+        solve for <strong>3k orders in parallel</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- THE NAIVE APPROACH -->
+  <section class="tutorial-section section-alt" id="the-naive-approach">
+    <div class="container">
+      <div class="section-tag">Section 2</div>
+      <h2 class="tutorial-title">The Naive Approach</h2>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        When I first joined, the company had a very standard, intuitive solution in place: a relational database (think
+        PostgreSQL with PostGIS extensions) doing all the heavy lifting.
+      </p>
+
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        The architecture essentially relied on two main tables:
+      </p>
+
+      <div class="prompt-box" style="margin-bottom: 2rem;">
+        <div class="prompt-box-header">SQL Schema</div>
+        <div class="prompt-box-body"
+          style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6;">
+          <span style="color: #c678dd;">CREATE TABLE</span> driver_position (<br>
+          &nbsp;&nbsp;driver_id <span style="color: #e5c07b;">UUID</span> <span style="color: #c678dd;">PRIMARY
+            KEY</span>,<br>
+          &nbsp;&nbsp;location <span style="color: #e5c07b;">GEOMETRY(Point, 4326)</span>,<br>
+          &nbsp;&nbsp;last_updated <span style="color: #e5c07b;">TIMESTAMP</span>,<br>
+          &nbsp;&nbsp;status <span style="color: #e5c07b;">VARCHAR</span><br>
+          );<br><br>
+          <span style="color: #c678dd;">CREATE TABLE</span> new_order (<br>
+          &nbsp;&nbsp;order_id <span style="color: #e5c07b;">UUID</span> <span style="color: #c678dd;">PRIMARY
+            KEY</span>,<br>
+          &nbsp;&nbsp;pickup_location <span style="color: #e5c07b;">GEOMETRY(Point, 4326)</span>,<br>
+          &nbsp;&nbsp;status <span style="color: #e5c07b;">VARCHAR</span><br>
+          );
+        </div>
+      </div>
+
+      <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">How it worked
+        (in theory)</h3>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        Every time a driver's app pinged the server (15 times a minute), the backend would run an <code>UPDATE</code> on
+        the <code>driver_position</code> table. Then, when a new order came in, the matching engine would run a spatial
+        query—something like <code>ST_DWithin()</code>—to find all available drivers within a certain radius of the
+        <code>pickup_location</code>.
+      </p>
+
+      <div class="prompt-box" style="margin-bottom: 2rem;">
+        <div class="prompt-box-header">SQL Query</div>
+        <div class="prompt-box-body"
+          style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6;">
+          <span style="color: #5c6370; font-style: italic;">-- Find available drivers within 2km of an order's pickup
+            point</span><br>
+          <span style="color: #c678dd;">SELECT</span><br>
+          &nbsp;&nbsp;dp.driver_id,<br>
+          &nbsp;&nbsp;<span style="color: #56b6c2;">ST_Distance</span>(dp.location, o.pickup_location) <span
+            style="color: #c678dd;">AS</span> distance_m<br>
+          <span style="color: #c678dd;">FROM</span> driver_position dp<br>
+          <span style="color: #c678dd;">JOIN</span> new_order o <span style="color: #c678dd;">ON</span> o.order_id =
+          <span style="color: #98c379;">:order_id</span><br>
+          <span style="color: #c678dd;">WHERE</span><br>
+          &nbsp;&nbsp;dp.status = <span style="color: #98c379;">'AVAILABLE'</span><br>
+          &nbsp;&nbsp;<span style="color: #c678dd;">AND</span> <span style="color: #56b6c2;">ST_DWithin</span>(<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;dp.location,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;o.pickup_location,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #d19a66;">2000</span> <span
+            style="color: #5c6370; font-style: italic;">-- meters</span><br>
+          &nbsp;&nbsp;)<br>
+          <span style="color: #c678dd;">ORDER BY</span> distance_m <span style="color: #c678dd;">ASC</span><br>
+          <span style="color: #c678dd;">LIMIT</span> <span style="color: #d19a66;">1</span>;
+        </div>
+      </div>
+
+      <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Why it didn't
+        work</h3>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        On paper, GIS extensions are built exactly for this. In reality, it was a disaster waiting to happen at our
+        scale. Here's why:
+      </p>
+
+      <div class="instruction-steps" style="margin-bottom: 2rem;">
+        <div class="instruction-step">
+          <span class="instruction-num">1</span>
+          <div><strong>Write Contention:</strong> A standard relational database is not designed to handle 25,000
+            <code>UPDATE</code>s per second on a single table. Because the table had a spatial index (like an R-tree or
+            GiST index) to make queries fast, every location update meant the database had to constantly rebalance and
+            rewrite the index tree. This caused massive locking and I/O bottlenecks.
+          </div>
+        </div>
+        <div class="instruction-step">
+          <span class="instruction-num">2</span>
+          <div><strong>Expensive Reads:</strong> During peak hours, we had 3,000 orders in parallel constantly polling
+            the database for nearby drivers. Doing thousands of complex spatial radius queries per second over a table
+            that is simultaneously mutating 25k times per second brings the DB to its knees.</div>
+        </div>
+        <div class="instruction-step">
+          <span class="instruction-num">3</span>
+          <div><strong>The Death Spiral:</strong> When the database gets slightly behind on writes, queries get slower.
+            When queries get slower, connections pile up. Eventually, the database locks up entirely, requests timeout,
+            and drivers appear "frozen" on the map.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">💡</span>
+        <div>
+          <strong>The Takeaway</strong><br>
+          Relational databases with GIS extensions are fantastic for spatial data that changes occasionally (like zip
+          codes or restaurant locations). They are the wrong tool for high-frequency telemetry.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALTERNATIVE 1: REDIS -->
+  <section class="tutorial-section" id="alternative-1-redis">
+    <div class="container">
+      <div class="section-tag">Section 3</div>
+      <h2 class="tutorial-title">Alternative 1: Redis Geo Features</h2>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        With the database crashing, the natural next thought is: let's move it to memory! Redis has built-in geospatial
+        commands like <code>GEOADD</code> and <code>GEORADIUS</code>, making it seem like the perfect candidate.
+      </p>
+
+      <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Why it seemed
+        like a good idea</h3>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        Redis uses Geohashes stored in Sorted Sets under the hood. It's incredibly fast. Handling 25,000 writes per
+        second is a walk in the park for Redis. We could simply use <code>GEOADD</code> to update driver locations and
+        use <code>GEORADIUS</code> to fetch nearby drivers for new orders.
+      </p>
+
+      <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Why it didn't
+        work</h3>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        While Redis solved the write contention issue, it introduced a new set of problems entirely related to how it
+        processes commands:
+      </p>
+
+      <div class="instruction-steps" style="margin-bottom: 2rem;">
+        <div class="instruction-step">
+          <span class="instruction-num">1</span>
+          <div><strong>The Single-Threaded Bottleneck:</strong> Redis executes commands sequentially on a single thread.
+            While simple writes are sub-millisecond, a complex <code>GEORADIUS</code> query over a dense city center
+            might take a few milliseconds. If you multiply those few milliseconds by 3,000 parallel queries, you
+            completely exhaust the single thread, blocking all the incoming 25k writes.</div>
+        </div>
+        <div class="instruction-step">
+          <span class="instruction-num">2</span>
+          <div><strong>O(N) Complexity in Dense Areas:</strong> Redis Geo queries search within Geohash boxes and then
+            compute exact distances for all points inside those boxes. If it's raining in a dense metropolitan area and
+            thousands of drivers are clustered together, the CPU overhead spikes massively.</div>
+        </div>
+        <div class="instruction-step">
+          <span class="instruction-num">3</span>
+          <div><strong>Clustering is Hard:</strong> To solve the single-thread issue, you'd want to use Redis Cluster to
+            shard the load. But how do you shard geographical data? If you shard by driver ID, a spatial query must be
+            broadcast to <em>every</em> node in the cluster. If you shard by geographic region, what happens when a
+            query radius overlaps two regions?</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- THE WINNING ARCHITECTURE -->
+  <section class="tutorial-section section-alt" id="the-winning-architecture">
+    <div class="container">
+      <div class="section-tag">Section 4</div>
+      <h2 class="tutorial-title">The Solution: Redis + Hierarchical H3</h2>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        The breakthrough came when we decided to stop treating the database as a spatial engine. Instead, we shifted the
+        spatial math into the application layer using Uber's <strong>H3</strong> (a hierarchical hexagonal spatial
+        index) and treated Redis as a dumb, hyper-fast key-value store.
+      </p>
+
+      <div class="callout callout-info" style="margin-bottom: 2rem;">
+        <span class="callout-icon">⬡</span>
+        <div>
+          <strong>What is H3?</strong><br>
+          H3 partitions the world into a grid of hexagons at various resolutions. Given a latitude and longitude, the H3
+          library can instantly give you the ID string of the hexagon that contains it.
+        </div>
+      </div>
+
+      <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">The Write Path:
+        O(k)</h3>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        When a driver pings their location, the backend computes the H3 index for that coordinate across several
+        different resolutions (for example, resolutions 5 through 14). In practice, this means <code>k ≈ 10</code>.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 2rem;">
+        We then simply add the driver's ID to a Redis Set keyed by the H3 index (e.g.,
+        <code>SADD h3:892a1072b5bffff driver_123</code>). It's exactly 10 extremely fast, non-blocking string writes to
+        Redis.
+      </p>
+
+      <div class="prompt-box" style="margin-bottom: 2rem;">
+        <div class="prompt-box-header">python</div>
+        <div class="prompt-box-body"
+          style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6;">
+          <span style="color: #c678dd;">import</span> h3<br>
+          <span style="color: #c678dd;">import</span> redis<br><br>
+          r = redis.Redis(host=<span style="color: #98c379;">'localhost'</span>, port=<span
+            style="color: #d19a66;">6379</span>, db=<span style="color: #d19a66;">0</span>)<br><br>
+          <span style="color: #c678dd;">def</span> <span
+            style="color: #61afef;">update_driver_location</span>(driver_id, lat, lng):<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># We update across 10 different
+            resolutions (k ≈ 10)</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;resolutions = <span style="color: #56b6c2;">range</span>(<span
+            style="color: #d19a66;">5</span>, <span style="color: #d19a66;">15</span>)<br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;pipeline = r.pipeline()<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">for</span> res <span style="color: #c678dd;">in</span>
+          resolutions:<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># 1. Get the
+            H3 hexagon ID for this lat/lng</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h3_index = h3.latlng_to_cell(lat, lng, res)<br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># 2. Add
+            driver to the Redis Set for this hexagon</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = <span style="color: #98c379;">f"h3:</span><span
+            style="color: #e5c07b;">{</span>res<span style="color: #e5c07b;">}</span><span
+            style="color: #98c379;">:</span><span style="color: #e5c07b;">{</span>h3_index<span
+            style="color: #e5c07b;">}</span><span style="color: #98c379;">"</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pipeline.sadd(key, driver_id)<br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Execute all writes in a single
+            fast network roundtrip</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;pipeline.execute()
+        </div>
+      </div>
+
+      <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">The Read Path:
+        O(k' * d)</h3>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        When an order comes in and we need drivers within a certain radius, we don't ask the database to do a radial
+        search. Instead, we:
+      </p>
+
+      <div class="instruction-steps" style="margin-bottom: 2rem;">
+        <div class="instruction-step">
+          <span class="instruction-num">1</span>
+          <div>Calculate the appropriate H3 resolution where a hexagon roughly matches our search radius.</div>
+        </div>
+        <div class="instruction-step">
+          <span class="instruction-num">2</span>
+          <div>Find the target hexagon and a few necessary adjacent neighbors. Let's call the number of hexagons we
+            query <code>k'</code> (in practice, <code>k' ≈ 3</code>).</div>
+        </div>
+        <div class="instruction-step">
+          <span class="instruction-num">3</span>
+          <div>Fetch the drivers from those 3 Redis keys using <code>SMEMBERS</code>. Let's call the number of drivers
+            in a hexagon <code>d</code>. Because we picked the right resolution, <code>d &lt;&lt; 100</code>.</div>
+        </div>
+        <div class="instruction-step">
+          <span class="instruction-num">4</span>
+          <div>Return the consolidated list of <code>driver_ids</code> that are roughly within the search radius.</div>
+        </div>
+      </div>
+
+      <div class="prompt-box" style="margin-bottom: 2rem;">
+        <div class="prompt-box-header">python</div>
+        <div class="prompt-box-body"
+          style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6;">
+          <span style="color: #c678dd;">import</span> h3<br>
+          <span style="color: #c678dd;">from</span> typing <span style="color: #c678dd;">import</span> Set<br><br>
+          <span style="color: #c678dd;">def</span> <span style="color: #61afef;">find_nearby_drivers</span>(order_lat:
+          <span style="color: #56b6c2;">float</span>, order_lng: <span style="color: #56b6c2;">float</span>, res: <span
+            style="color: #56b6c2;">int</span> = <span style="color: #d19a66;">8</span>) -&gt; Set[<span
+            style="color: #56b6c2;">str</span>]:<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #98c379;">"""Return a set of driver IDs roughly within the hexagon
+            ring at the given resolution.</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #98c379;">Runs O(k' * d): k' hexagons queried, d drivers per
+            hexagon.</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #98c379;">"""</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Find target hexagon and a 1-ring
+            of neighbors (k' ≈ 7)</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;center_h3 = h3.latlng_to_cell(order_lat, order_lng, res)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;hexagons = h3.grid_disk(center_h3, <span style="color: #d19a66;">1</span>)<br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;potential_drivers: Set[<span style="color: #56b6c2;">str</span>] = <span
+            style="color: #56b6c2;">set</span>()<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">for</span> h3_index <span
+            style="color: #c678dd;">in</span> hexagons:<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = <span style="color: #98c379;">f"h3:</span><span
+            style="color: #e5c07b;">{</span>res<span style="color: #e5c07b;">}</span><span
+            style="color: #98c379;">:</span><span style="color: #e5c07b;">{</span>h3_index<span
+            style="color: #e5c07b;">}</span><span style="color: #98c379;">"</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;potential_drivers.update(r.smembers(key))<br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">return</span> potential_drivers
+        </div>
+      </div>
+
+      <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">The Magic of
+        the Hierarchy</h3>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        There is a hidden superpower in this approach: we don't actually have to guess the perfect search radius or
+        number of queries. Because H3 is <strong>hierarchical</strong>, larger parent hexagons perfectly contain smaller
+        child hexagons.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 2rem;">
+        If our matching engine wants to evaluate at least 50 nearby drivers to find the perfect match, we can start our
+        search at a very high resolution (a tiny hexagon). If that cell only yields 5 drivers, we simply drop a
+        resolution level (zoom out to the parent hexagon) and query again. We keep moving up the hierarchy until our
+        bucket hits our target driver count. Since these are just blazing-fast string lookups in our key-value store,
+        doing 3 or 4 sequential "zoom-out" queries adds practically zero latency.
+      </p>
+
+      <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Storing Exact
+        Locations and Metadata</h3>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        Notice that so far, we've only used Redis Sets to store a list of <code>driver_ids</code> mapped to an H3 index.
+        But how do we know their <em>exact</em> location or their timestamp? We need this for the final precise distance
+        calculation.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        The solution is simple: during the write path, we make <strong>one additional write</strong> to a separate Redis
+        key where we serialize the driver's metadata (using a python <code>dataclass</code> for instance) to a JSON
+        value.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 2rem;">
+        During the search, once you've retrieved the set of nearby <code>driver_ids</code> from the H3 index queries,
+        you run one single batch query (like <code>MGET</code>) to fetch all their exact locations. You then calculate
+        the precise point-to-point distances entirely in application memory.
+      </p>
+
+      <div class="prompt-box" style="margin-bottom: 2rem;">
+        <div class="prompt-box-header">python</div>
+        <div class="prompt-box-body"
+          style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6;">
+          <span style="color: #c678dd;">import</span> json<br>
+          <span style="color: #c678dd;">from</span> dataclasses <span style="color: #c678dd;">import</span> dataclass,
+          asdict<br>
+          <span style="color: #c678dd;">from</span> typing <span style="color: #c678dd;">import</span> Optional<br>
+          <span style="color: #c678dd;">from</span> geopy.distance <span style="color: #c678dd;">import</span>
+          geodesic<br><br>
+          <span style="color: #c678dd;">@dataclass</span><br>
+          <span style="color: #c678dd;">class</span> <span style="color: #e5c07b;">DriverMeta</span>:<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #98c379;">"""Serialisable snapshot of a driver's state at a point
+            in time."""</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;lat: <span style="color: #56b6c2;">float</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;lng: <span style="color: #56b6c2;">float</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;timestamp: <span style="color: #56b6c2;">int</span>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="color: #5c6370; font-style: italic;"># Unix epoch seconds</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;status: <span
+            style="color: #56b6c2;">str</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="color: #5c6370; font-style: italic;"># e.g. 'AVAILABLE', 'BUSY', 'OFFLINE'</span><br><br>
+          <span style="color: #c678dd;">def</span> <span style="color: #61afef;">write_driver_metadata</span>(driver_id:
+          <span style="color: #56b6c2;">str</span>, lat: <span style="color: #56b6c2;">float</span>, lng: <span
+            style="color: #56b6c2;">float</span>, timestamp: <span style="color: #56b6c2;">int</span>, status: <span
+            style="color: #56b6c2;">str</span>) -&gt; <span style="color: #d19a66;">None</span>:<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #98c379;">"""Serialize a driver's full metadata to a single Redis
+            string key."""</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;meta = DriverMeta(lat=lat, lng=lng, timestamp=timestamp, status=status)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;r.set(<span style="color: #98c379;">f"driver:meta:</span><span
+            style="color: #e5c07b;">{</span>driver_id<span style="color: #e5c07b;">}</span><span
+            style="color: #98c379;">"</span>, json.dumps(asdict(meta)))<br><br>
+          <span style="color: #c678dd;">def</span> <span style="color: #61afef;">filter_and_find_best_match</span>(<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;order_lat: <span style="color: #56b6c2;">float</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;order_lng: <span style="color: #56b6c2;">float</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;potential_driver_ids: Set[<span style="color: #56b6c2;">str</span>],<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;max_radius_km: <span style="color: #56b6c2;">float</span> = <span
+            style="color: #d19a66;">2.0</span>,<br>
+          ) -&gt; Optional[<span style="color: #56b6c2;">str</span>]:<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #98c379;">"""Fetch metadata for candidate drivers in a single MGET
+            batch, then</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #98c379;">filter by status and distance entirely in application
+            memory.</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #98c379;">Returns the driver_id of the closest available driver,
+            or None.</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #98c379;">"""</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Batch-fetch all metadata in one
+            round-trip</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;keys = [<span style="color: #98c379;">f"driver:meta:</span><span
+            style="color: #e5c07b;">{</span>d_id<span style="color: #e5c07b;">}</span><span
+            style="color: #98c379;">"</span> <span style="color: #c678dd;">for</span> d_id <span
+            style="color: #c678dd;">in</span> potential_driver_ids]<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;meta_results = r.mget(keys)<br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;best_driver: Optional[<span style="color: #56b6c2;">str</span>] = <span
+            style="color: #d19a66;">None</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;min_distance: <span style="color: #56b6c2;">float</span> = <span
+            style="color: #56b6c2;">float</span>(<span style="color: #98c379;">'inf'</span>)<br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Filter by status and exact
+            distance in memory</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">for</span> d_id, meta_json <span
+            style="color: #c678dd;">in</span> <span style="color: #56b6c2;">zip</span>(potential_driver_ids,
+          meta_results):<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">if</span> <span
+            style="color: #c678dd;">not</span> meta_json: <span style="color: #c678dd;">continue</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meta = json.loads(meta_json)<br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">if</span> meta[<span
+            style="color: #98c379;">'status'</span>] != <span style="color: #98c379;">'AVAILABLE'</span>: <span
+            style="color: #c678dd;">continue</span><br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dist: <span style="color: #56b6c2;">float</span> =
+          geodesic((order_lat, order_lng), (meta[<span style="color: #98c379;">'lat'</span>], meta[<span
+            style="color: #98c379;">'lng'</span>])).km<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">if</span> dist &lt;=
+          max_radius_km <span style="color: #c678dd;">and</span> dist &lt; min_distance:<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min_distance = dist<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;best_driver = d_id<br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">return</span> best_driver
+        </div>
+      </div>
+
+      <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Pre-filtering
+        for High Performance</h3>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        Filtering by <code>status</code> in memory is usually perfectly fine since we only ever fetch a few dozen
+        drivers from the database. However, if your business logic requires strict, high-performance filtering (e.g.,
+        you <em>only</em> ever want to search for <code>AVAILABLE</code> drivers and ignore the rest), fetching metadata
+        for offline drivers is a waste of network I/O.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        In this case, you can push the index directly into the Redis key during the write phase. Instead of writing to
+        <code>h3:{res}:{index}</code>, you write to <code>h3:{res}:{index}:{status}</code>.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 2rem;">
+        This adds a slight write overhead if drivers switch statuses frequently, but it guarantees your read path only
+        ever fetches exactly what it needs. This ensures your read stays a true $O(k' \times d)$ where $d$ is
+        <em>strictly</em> the number of available drivers.
+      </p>
+
+
+      <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">How do we
+        expire stale positions?</h3>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        If you look closely at the write path above, you might notice a missing piece: how do we prevent the Redis Sets
+        from growing indefinitely as drivers go offline? Redis doesn't allow expiring individual elements inside a Set
+        natively.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        The elegant solution is <strong>time-dependent rolling keys</strong>. Instead of just using the H3 index as the
+        key, we append a time bucket to it (e.g., the current minute). When writing, we write to the current minute's
+        bucket and set an expiry on the <em>entire key</em>. When reading, we simply query a fixed number of recent
+        buckets depending on our freshness requirements.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 2rem;">
+        You can choose the time window size to trade off the cost of reads vs. writes. If you need stricter freshness
+        guarantees, you can simply filter the exact timestamps in-memory since you're already calculating precise
+        distances for a very small number of drivers anyway.
+      </p>
+
+      <div class="prompt-box" style="margin-bottom: 2rem;">
+        <div class="prompt-box-header">python</div>
+        <div class="prompt-box-body"
+          style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6;">
+          <span style="color: #c678dd;">import</span> time<br><br>
+          <span style="color: #c678dd;">def</span> <span style="color: #61afef;">get_time_bucket</span>():<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Bucket by the current
+            minute</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">return</span> <span
+            style="color: #56b6c2;">int</span>(time.time() // <span style="color: #d19a66;">60</span>)<br><br>
+          <span style="color: #c678dd;">def</span> <span
+            style="color: #61afef;">update_driver_location_with_expiry</span>(driver_id, lat, lng):<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;bucket = get_time_bucket()<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;pipeline = r.pipeline()<br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">for</span> res <span style="color: #c678dd;">in</span>
+          <span style="color: #56b6c2;">range</span>(<span style="color: #d19a66;">5</span>, <span
+            style="color: #d19a66;">15</span>):<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h3_index = h3.latlng_to_cell(lat, lng, res)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Append the
+            time bucket to the key</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = <span style="color: #98c379;">f"h3:</span><span
+            style="color: #e5c07b;">{</span>res<span style="color: #e5c07b;">}</span><span
+            style="color: #98c379;">:</span><span style="color: #e5c07b;">{</span>h3_index<span
+            style="color: #e5c07b;">}</span><span style="color: #98c379;">:</span><span
+            style="color: #e5c07b;">{</span>bucket<span style="color: #e5c07b;">}</span><span
+            style="color: #98c379;">"</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pipeline.sadd(key, driver_id)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Expire the
+            whole bucket after 3 minutes (e.g. current + 2 previous)</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pipeline.expire(key, <span
+            style="color: #d19a66;">180</span>)<br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;pipeline.execute()<br><br>
+          <span style="color: #c678dd;">def</span> <span
+            style="color: #61afef;">find_recent_drivers_in_hex</span>(h3_index, res, num_buckets_to_check=<span
+            style="color: #d19a66;">2</span>):<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;current_bucket = get_time_bucket()<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;potential_drivers = <span style="color: #56b6c2;">set</span>()<br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Query current minute and the
+            previous minute(s)</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">for</span> i <span style="color: #c678dd;">in</span>
+          <span style="color: #56b6c2;">range</span>(num_buckets_to_check):<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bucket_to_check = current_bucket - i<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = <span style="color: #98c379;">f"h3:</span><span
+            style="color: #e5c07b;">{</span>res<span style="color: #e5c07b;">}</span><span
+            style="color: #98c379;">:</span><span style="color: #e5c07b;">{</span>h3_index<span
+            style="color: #e5c07b;">}</span><span style="color: #98c379;">:</span><span
+            style="color: #e5c07b;">{</span>bucket_to_check<span style="color: #e5c07b;">}</span><span
+            style="color: #98c379;">"</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drivers_in_bucket = r.smembers(key)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;potential_drivers.update(drivers_in_bucket)<br><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">return</span> potential_drivers
+        </div>
+      </div>
+
+      <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Why this scales
+        infinitely</h3>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        By converting a complex 2D spatial problem into simple 1D string lookups, we removed all CPU bottlenecks from
+        the database. Furthermore, because data is accessed strictly by string keys, <strong>sharding becomes
+          trivial</strong>. You can distribute the keys across a massive cluster without any "cross-boundary" spatial
+        query nightmares.
+      </p>
+
+      <div class="callout callout-info" style="margin-top: 2rem;">
+        <span class="callout-icon">💡</span>
+        <div>
+          <strong>Storage Agnostic</strong><br>
+          It's worth noting that in this architecture, <strong>Redis is just an implementation detail</strong>. Because
+          we're only doing simple string-based set lookups, the design is completely agnostic to the storage layer. You
+          could swap Redis for Memcached, DynamoDB, Cassandra, or any other fast key-value store, and the core logic
+          would remain exactly the same.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="../../assets/main.js"></script>
+</body>
+
+</html>
