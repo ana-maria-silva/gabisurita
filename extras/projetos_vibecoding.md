@@ -10,3 +10,4 @@ Adicione o seu projeto na tabela abaixo usando um Pull Request e compartilhe o q
 | :--- | :--- | :--- | :--- |
 | [@Ana40](https://github.com/Ana40) | [meu-dashboard](https://github.com/Ana40/meu-dashboard) | [Link do Site](https://ana40.github.io/meu-dashboard/) | Dashboard pessoal com IA Gemini integrada. HTML, CSS e JS puro. |
 | [KarenGomes](https://github.com/KarenGomes) | [google-workspace-dashboard](https://github.com/KarenGomes/google-workspace-dashboard) | [Link do Site](https://karengomes.github.io/google-workspace-dashboard/) | Dashboard em React + Vite com integração Gmail API, Google Calendar API, autenticação Google e deploy no GitHub Pages.|
+| [l4ur4oliveira](https://github.com/l4ur4oliveira) | [daily-dashboard](https://github.com/l4ur4oliveira/daily-dashboard) | - | Dashboard em Next.js e TypeScript integrando com Google APIs (OAuth, Gmail e Calendar). |
