@@ -1,6 +1,6 @@
 # 🚀 Projetos Concluídos - Vibecoding
 
-Uma coleção incrível de projetos construídos pelos alunos do curso [Vibecoding](https://gabisurita.github.io/gabisurita/courses/vibecoding/). 
+Uma coleção incrível de projetos construídos pelas pessoas que concluiram o [curso de Vibecoding](https://gabisurita.github.io/gabisurita/courses/vibecoding/) da Programaria Sprint.
 
 Adicione o seu projeto na tabela abaixo usando um Pull Request e compartilhe o que você construiu!
 
