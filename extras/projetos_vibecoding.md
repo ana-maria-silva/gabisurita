@@ -9,4 +9,4 @@ Adicione o seu projeto na tabela abaixo usando um Pull Request e compartilhe o q
 | Autor (@ do GitHub) | Repositório | Site Publicado | Comentários |
 | :--- | :--- | :--- | :--- |
 | [@Ana40](https://github.com/Ana40) | [meu-dashboard](https://github.com/Ana40/meu-dashboard) | [Link do Site](https://ana40.github.io/meu-dashboard/) | Dashboard pessoal com IA Gemini integrada. HTML, CSS e JS puro. |
-| [@seu-usuario](https://github.com/seu-usuario) | [Link do Repo](https://github.com/seu-usuario/nome-do-repo) | [Link do Site](https://seusite.com) | Breve descrição do projeto, tecnologias utilizadas ou aprendizados. |
+| [KarenGomes](https://github.com/KarenGomes) | [google-workspace-dashboard](https://github.com/KarenGomes/google-workspace-dashboard) | [Link do Site](https://karengomes.github.io/google-workspace-dashboard/) | Dashboard em React + Vite com integração Gmail API, Google Calendar API, autenticação Google e deploy no GitHub Pages.|
