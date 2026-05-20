@@ -45,10 +45,21 @@
       <div class="section-tag">Intro</div>
       <h2 class="tutorial-title">Why I'm writing this?</h2>
       <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
-        This is one of the systems I'm most proud of, and honestly one of the most elegant engineering solutions I've
-        wrote. It came from a real constraint, evolved through several failed attempts, and landed somewhere
-        genuinely clever. I've been using it as an interview question ever since, and I think it deserves to be written
-        down properly.
+        Every engineer has a few projects they love to talk about. This is one of my favorites. It’s the story of a
+        real-world performance bottleneck that nearly brought our services to a halt, the couple of attempts we made to
+        fix it, and the simple, elegant workaround we eventually found to keep our
+        servers alive. Over the years, this puzzle has become my go-to systems design question when interviewing other
+        engineers. After sketching it on whiteboards dozens of times and watching people wrestle with the exact same
+        constraints I faced, I realized I’d never actually written the whole thing down.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 1.5rem;">
+        While partial pieces of this puzzle are well-documented in database theory—such as using multi-dimensional
+        indexes like <a href="https://en.wikipedia.org/wiki/R-tree" target="_blank" rel="noopener noreferrer"
+          style="color: var(--accent); text-decoration: underline;">R-trees</a> or mapping coordinates to
+        one-dimensional keys via <a href="https://en.wikipedia.org/wiki/Space-filling_curve" target="_blank"
+          rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">space-filling
+          curves</a>—I've never actually seen this exact end-to-end problem statement, and real-world operational
+        trade-offs, outlined in a single place.
       </p>
       <p style="color: var(--text-secondary); line-height: 1.8; font-size: 1rem; margin-bottom: 2rem;">
         A small note before we dive in: the system described here is hypothetical. It's inspired by something I built
@@ -215,6 +226,33 @@
         second is a walk in the park for Redis. We could simply use <code>GEOADD</code> to update driver locations and
         use <code>GEORADIUS</code> to fetch nearby drivers for new orders.
       </p>
+
+      <div class="prompt-box" style="margin-bottom: 2rem;">
+        <div class="prompt-box-header">python</div>
+        <div class="prompt-box-body"
+          style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6;">
+          <span style="color: #c678dd;">import</span> redis<br><br>
+          r = redis.Redis(host=<span style="color: #98c379;">'localhost'</span>, port=<span
+            style="color: #d19a66;">6379</span>, db=<span style="color: #d19a66;">0</span>)<br><br>
+          <span style="color: #c678dd;">def</span> <span
+            style="color: #61afef;">update_driver_location</span>(driver_id, lat, lng):<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Add/update driver coordinates in
+            the spatial index</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;r.geoadd(<span style="color: #98c379;">"drivers:locations"</span>, (lng, lat,
+          driver_id))<br><br>
+          <span style="color: #c678dd;">def</span> <span style="color: #61afef;">find_nearby_drivers</span>(order_lat,
+          order_lng, radius_km=<span style="color: #d19a66;">2.0</span>):<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Query all members within a 2km
+            radius</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">return</span> r.georadius(<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #98c379;">"drivers:locations"</span>,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;order_lng,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;order_lat,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;radius_km,<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unit=<span style="color: #98c379;">"km"</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;)
+        </div>
+      </div>
 
       <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Why it didn't
         work</h3>
