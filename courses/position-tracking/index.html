@@ -231,17 +231,22 @@
         <div class="prompt-box-header">python</div>
         <div class="prompt-box-body"
           style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6;">
-          <span style="color: #c678dd;">import</span> redis<br><br>
+          <span style="color: #c678dd;">import</span> redis<br>
+          <span style="color: #c678dd;">from</span> typing <span style="color: #c678dd;">import</span> List<br><br>
           r = redis.Redis(host=<span style="color: #98c379;">'localhost'</span>, port=<span
             style="color: #d19a66;">6379</span>, db=<span style="color: #d19a66;">0</span>)<br><br>
           <span style="color: #c678dd;">def</span> <span
-            style="color: #61afef;">update_driver_location</span>(driver_id, lat, lng):<br>
+            style="color: #61afef;">update_driver_location</span>(driver_id: <span style="color: #56b6c2;">str</span>,
+          lat: <span style="color: #56b6c2;">float</span>, lng: <span style="color: #56b6c2;">float</span>) -&gt; <span
+            style="color: #d19a66;">None</span>:<br>
           &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Add/update driver coordinates in
             the spatial index</span><br>
           &nbsp;&nbsp;&nbsp;&nbsp;r.geoadd(<span style="color: #98c379;">"drivers:locations"</span>, (lng, lat,
           driver_id))<br><br>
-          <span style="color: #c678dd;">def</span> <span style="color: #61afef;">find_nearby_drivers</span>(order_lat,
-          order_lng, radius_km=<span style="color: #d19a66;">2.0</span>):<br>
+          <span style="color: #c678dd;">def</span> <span style="color: #61afef;">find_nearby_drivers</span>(order_lat:
+          <span style="color: #56b6c2;">float</span>,
+          order_lng: <span style="color: #56b6c2;">float</span>, radius_km: <span style="color: #56b6c2;">float</span> =
+          <span style="color: #d19a66;">2.0</span>) -&gt; List[<span style="color: #56b6c2;">str</span>]:<br>
           &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Query all members within a 2km
             radius</span><br>
           &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">return</span> r.georadius(<br>
@@ -326,7 +331,9 @@
           r = redis.Redis(host=<span style="color: #98c379;">'localhost'</span>, port=<span
             style="color: #d19a66;">6379</span>, db=<span style="color: #d19a66;">0</span>)<br><br>
           <span style="color: #c678dd;">def</span> <span
-            style="color: #61afef;">update_driver_location</span>(driver_id, lat, lng):<br>
+            style="color: #61afef;">update_driver_location</span>(driver_id: <span style="color: #56b6c2;">str</span>,
+          lat: <span style="color: #56b6c2;">float</span>, lng: <span style="color: #56b6c2;">float</span>) -&gt; <span
+            style="color: #d19a66;">None</span>:<br>
           &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># We update across 10 different
             resolutions (k ≈ 10)</span><br>
           &nbsp;&nbsp;&nbsp;&nbsp;resolutions = <span style="color: #56b6c2;">range</span>(<span
@@ -564,13 +571,16 @@
         <div class="prompt-box-body"
           style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6;">
           <span style="color: #c678dd;">import</span> time<br><br>
-          <span style="color: #c678dd;">def</span> <span style="color: #61afef;">get_time_bucket</span>():<br>
+          <span style="color: #c678dd;">def</span> <span style="color: #61afef;">get_time_bucket</span>() -&gt; <span
+            style="color: #56b6c2;">int</span>:<br>
           &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Bucket by the current
             minute</span><br>
           &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">return</span> <span
             style="color: #56b6c2;">int</span>(time.time() // <span style="color: #d19a66;">60</span>)<br><br>
           <span style="color: #c678dd;">def</span> <span
-            style="color: #61afef;">update_driver_location_with_expiry</span>(driver_id, lat, lng):<br>
+            style="color: #61afef;">update_driver_location_with_expiry</span>(driver_id: <span
+            style="color: #56b6c2;">str</span>, lat: <span style="color: #56b6c2;">float</span>, lng: <span
+            style="color: #56b6c2;">float</span>) -&gt; <span style="color: #d19a66;">None</span>:<br>
           &nbsp;&nbsp;&nbsp;&nbsp;bucket = get_time_bucket()<br>
           &nbsp;&nbsp;&nbsp;&nbsp;pipeline = r.pipeline()<br><br>
           &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c678dd;">for</span> res <span style="color: #c678dd;">in</span>
@@ -592,8 +602,10 @@
             style="color: #d19a66;">180</span>)<br><br>
           &nbsp;&nbsp;&nbsp;&nbsp;pipeline.execute()<br><br>
           <span style="color: #c678dd;">def</span> <span
-            style="color: #61afef;">find_recent_drivers_in_hex</span>(h3_index, res, num_buckets_to_check=<span
-            style="color: #d19a66;">2</span>):<br>
+            style="color: #61afef;">find_recent_drivers_in_hex</span>(h3_index: <span
+            style="color: #56b6c2;">str</span>, res: <span style="color: #56b6c2;">int</span>, num_buckets_to_check:
+          <span style="color: #56b6c2;">int</span> = <span style="color: #d19a66;">2</span>) -&gt; Set[<span
+            style="color: #56b6c2;">str</span>]:<br>
           &nbsp;&nbsp;&nbsp;&nbsp;current_bucket = get_time_bucket()<br>
           &nbsp;&nbsp;&nbsp;&nbsp;potential_drivers = <span style="color: #56b6c2;">set</span>()<br><br>
           &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #5c6370; font-style: italic;"># Query current minute and the
