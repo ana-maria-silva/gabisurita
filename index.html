@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-uk">
 
 <head>
   <meta charset="UTF-8" />
@@ -22,15 +22,22 @@
     <div class="nav-inner">
       <a href="/" class="nav-logo">gabi surita</a>
       <ul class="nav-links" id="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#courses">Courses & Tutorials</a></li>
-        <li><a href="#writings">Writings</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about"><span lang="en-uk">About</span><span lang="pt-br">Sobre</span></a></li>
+        <li><a href="#courses"><span lang="en-uk">Courses & Tutorials</span><span lang="pt-br">Cursos &
+              Tutoriais</span></a></li>
+        <li><a href="#writings"><span lang="en-uk">Writings</span><span lang="pt-br">Textos</span></a></li>
+        <li><a href="#contact"><span lang="en-uk">Contact</span><span lang="pt-br">Contato</span></a></li>
       </ul>
+      <div class="nav-actions">
+        <div class="lang-toggle-group" id="lang-toggle-group">
+          <button class="lang-btn active" data-lang="en-uk" aria-label="English version">EN</button>
+          <button class="lang-btn" data-lang="pt-br" aria-label="Versão em Português">PT</button>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Mudar para modo claro">☀️</button>
+      </div>
       <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Mudar para modo claro">☀️</button>
     </div>
   </nav>
 
@@ -38,17 +45,34 @@
   <section class="hero" id="hero">
     <div class="hero-bg"></div>
     <div class="hero-content">
-      <p class="hero-eyebrow">Building the AI Counterculture</p>
-      <h1 class="hero-title">Hi, I'm <span class="gradient-text">Gabi</span>.</h1>
-      <p class="hero-subtitle">AI researcher working on AI for code. I care about using AI to <em>empower</em>
-        programmers — not replace them.</p>
+      <p class="hero-eyebrow">
+        <span lang="en-uk">Building the AI Counterculture</span>
+        <span lang="pt-br">Construindo a Contracultura da IA</span>
+      </p>
+      <h1 class="hero-title">
+        <span lang="en-uk">Hi, I'm <span class="gradient-text">Gabi</span>.</span>
+        <span lang="pt-br">Olá, eu sou a <span class="gradient-text">Gabi</span>.</span>
+      </h1>
+      <p class="hero-subtitle">
+        <span lang="en-uk">AI researcher working on AI for code. I care about using AI to <em>empower</em> programmers —
+          not replace them.</span>
+        <span lang="pt-br">Pesquisadora de IA trabalhando com IA para código. Meu foco é usar IA para <em>empoderar</em>
+          quem programa — e não para substituir essas pessoas.</span>
+      </p>
       <div class="hero-cta">
-        <a href="#courses" class="btn btn-primary" id="hero-courses-btn">View Courses</a>
-        <a href="#about" class="btn btn-ghost" id="hero-about-btn">Learn More</a>
+        <a href="#courses" class="btn btn-primary" id="hero-courses-btn">
+          <span lang="en-uk">View Courses</span>
+          <span lang="pt-br">Ver Cursos</span>
+        </a>
+        <a href="#about" class="btn btn-ghost" id="hero-about-btn">
+          <span lang="en-uk">Learn More</span>
+          <span lang="pt-br">Saiba Mais</span>
+        </a>
       </div>
     </div>
     <div class="hero-scroll-hint">
-      <span>scroll</span>
+      <span lang="en-uk">scroll</span>
+      <span lang="pt-br">deslizar</span>
       <div class="scroll-line"></div>
     </div>
   </section>
@@ -56,30 +80,57 @@
   <!-- ABOUT -->
   <section class="section" id="about">
     <div class="container">
-      <span class="section-label">About</span>
-      <h2 class="section-title">Who I am</h2>
-      <p class="section-body" style="margin-bottom: 1rem;">
-        I'm a Senior Research Engineer at Google DeepMind, where I work on making AI agents better at writing code.
-        I care deeply about using AI to <em>empower</em> programmers — not replace them.
-      </p>
-      <p class="section-body" style="margin-bottom: 1rem;">
-        I graduated in Computer Engineering from Unicamp (University of Campinas) in 2018. Beyond code generation,
-        my research interests include reinforcement learning (RL), AI agents, and combinatorial optimization.
-        Outside of my core work at DeepMind, I enjoy teaching programming and AI.
-      </p>
-      <p class="section-body">
-        Outside of working hours, you can find me in nature or doing sports. I also enjoy critical theory, politics,
-        and philosophy. There's so much more to life than just computers.
-      </p>
+      <div lang="en-uk">
+        <span class="section-label">About</span>
+        <h2 class="section-title">Who I am</h2>
+        <p class="section-body" style="margin-bottom: 1rem;">
+          I'm a Senior Research Engineer at Google DeepMind, where I work on making AI agents better at writing code.
+          I care deeply about using AI to <em>empower</em> programmers — not replace them.
+        </p>
+        <p class="section-body" style="margin-bottom: 1rem;">
+          I graduated in Computer Engineering from Unicamp (University of Campinas) in 2018. Beyond code generation,
+          my research interests include reinforcement learning (RL), AI agents, and combinatorial optimization.
+          Outside of my core work at DeepMind, I enjoy teaching programming and AI.
+        </p>
+        <p class="section-body">
+          Outside of working hours, you can find me in nature or doing sports. I also enjoy critical theory, politics,
+          and philosophy. There's so much more to life than just computers.
+        </p>
+      </div>
+      <div lang="pt-br">
+        <span class="section-label">Sobre</span>
+        <h2 class="section-title">Quem sou eu</h2>
+        <p class="section-body" style="margin-bottom: 1rem;">
+          Sou Engenheira de Pesquisa Sênior no Google DeepMind, onde trabalho para tornar agentes de IA melhores em
+          escrever código.
+          Acredito profundamente no uso da IA para <em>empoderar</em> pessoas que programam — não para substituí-las.
+        </p>
+        <p class="section-body" style="margin-bottom: 1rem;">
+          Me formei em Engenharia de Computação pela Unicamp em 2018. Além de geração de código, meus interesses de
+          pesquisa incluem aprendizado por reforço (RL), agentes de IA e otimização combinatória. Fora do meu trabalho
+          principal no DeepMind, gosto de ensinar programação e IA.
+        </p>
+        <p class="section-body">
+          Fora do horário de trabalho, você pode me encontrar na natureza ou praticando esportes. Também me interesso
+          por teoria crítica, política e filosofia. Há muito mais na vida do que apenas computadores.
+        </p>
+      </div>
     </div>
   </section>
 
   <!-- COURSES -->
   <section class="section section-alt" id="courses">
     <div class="container">
-      <span class="section-label">Courses & Tutorials</span>
-      <h2 class="section-title">Learn with me</h2>
-      <p class="section-body">A collection of courses, step-by-step tutorials, and talks.</p>
+      <div lang="en-uk">
+        <span class="section-label">Courses & Tutorials</span>
+        <h2 class="section-title">Learn with me</h2>
+        <p class="section-body">A collection of courses, step-by-step tutorials, and talks.</p>
+      </div>
+      <div lang="pt-br">
+        <span class="section-label">Cursos & Tutoriais</span>
+        <h2 class="section-title">Aprenda comigo</h2>
+        <p class="section-body">Uma coleção de cursos, tutoriais passo a passo e palestras.</p>
+      </div>
 
       <div class="course-grid">
 
@@ -88,9 +139,16 @@
           <div class="course-card-tag">🇧🇷 PT-BR</div>
           <div class="course-card-icon">🌊</div>
           <h3 class="course-card-title">Vibecoding</h3>
-          <p class="course-card-desc">Learn to code with the flow — using AI as your co-pilot to go from idea to shipped
-            product, fast.</p>
-          <span class="course-card-cta">Explore course →</span>
+          <p class="course-card-desc">
+            <span lang="en-uk">Learn to code with the flow — using AI as your co-pilot to go from idea to shipped
+              product, fast.</span>
+            <span lang="pt-br">Aprenda a programar no fluxo — usando IA como co-piloto para ir da ideia ao produto final
+              de forma rápida.</span>
+          </p>
+          <span class="course-card-cta">
+            <span lang="en-uk">Explore course →</span>
+            <span lang="pt-br">Explorar curso →</span>
+          </span>
         </a>
 
         <!-- PrograMaria Sprint talk -->
@@ -99,9 +157,16 @@
           <div class="course-card-tag">🇧🇷 PT-BR</div>
           <div class="course-card-icon">🎤</div>
           <h3 class="course-card-title">Do bit ao GPT</h3>
-          <p class="course-card-desc">As tecnologias e a história por trás dos chatbots modernos — a PrograMaria Sprint
-            talk on YouTube.</p>
-          <span class="course-card-cta">Watch on YouTube →</span>
+          <p class="course-card-desc">
+            <span lang="en-uk">As tecnologias e a história por trás dos chatbots modernos — a PrograMaria Sprint talk on
+              YouTube.</span>
+            <span lang="pt-br">As tecnologias e a história por trás dos chatbots modernos — palestra PrograMaria Sprint
+              no YouTube.</span>
+          </p>
+          <span class="course-card-cta">
+            <span lang="en-uk">Watch on YouTube →</span>
+            <span lang="pt-br">Assistir no YouTube →</span>
+          </span>
         </a>
 
         <!-- FEEC/Unicamp seminar -->
@@ -110,26 +175,51 @@
           <div class="course-card-tag">🇬🇧 EN</div>
           <div class="course-card-icon">🧠</div>
           <h3 class="course-card-title">Talking to Machines</h3>
-          <p class="course-card-desc">A practical introduction to Generative AI — from history to prompting,
-            fine-tuning, and building agents. FEEC/Unicamp seminar.</p>
-          <span class="course-card-cta">View seminar →</span>
+          <p class="course-card-desc">
+            <span lang="en-uk">A practical introduction to Generative AI — from history to prompting, fine-tuning, and
+              building agents. FEEC/Unicamp seminar.</span>
+            <span lang="pt-br">Uma introdução prática à IA Generativa — da história a prompting, fine-tuning e criação
+              de agentes. Seminário FEEC/Unicamp.</span>
+          </p>
+          <span class="course-card-cta">
+            <span lang="en-uk">View seminar →</span>
+            <span lang="pt-br">Ver seminário →</span>
+          </span>
         </a>
 
         <!-- Position Tracking -->
         <a href="courses/position-tracking/" class="course-card" id="/position-tracking">
           <div class="course-card-tag">🇬🇧 EN</div>
           <div class="course-card-icon">📍</div>
-          <h3 class="course-card-title">How I once build a real-time location system</h3>
-          <p class="course-card-desc">and how I'd do it again</p>
-          <span class="course-card-cta">Read tutorial →</span>
+          <h3 class="course-card-title">
+            <span lang="en-uk">How I once build a real-time location system</span>
+            <span lang="pt-br">Como eu criei um sistema de localização em tempo real</span>
+          </h3>
+          <p class="course-card-desc">
+            <span lang="en-uk">and how I'd do it again</span>
+            <span lang="pt-br">e como eu faria isso de novo</span>
+          </p>
+          <span class="course-card-cta">
+            <span lang="en-uk">Read tutorial →</span>
+            <span lang="pt-br">Ler tutorial →</span>
+          </span>
         </a>
 
         <!-- Placeholder card -->
         <div class="course-card course-card-coming" id="course-coming-1">
-          <div class="course-card-tag course-card-tag-soon">Coming Soon</div>
+          <div class="course-card-tag course-card-tag-soon">
+            <span lang="en-uk">Coming Soon</span>
+            <span lang="pt-br">Em breve</span>
+          </div>
           <div class="course-card-icon">🤖</div>
-          <h3 class="course-card-title">More coming soon</h3>
-          <p class="course-card-desc">More courses are on the way. Stay tuned.</p>
+          <h3 class="course-card-title">
+            <span lang="en-uk">More coming soon</span>
+            <span lang="pt-br">Mais em breve</span>
+          </h3>
+          <p class="course-card-desc">
+            <span lang="en-uk">More courses are on the way. Stay tuned.</span>
+            <span lang="pt-br">Mais cursos estão a caminho. Fique de olho.</span>
+          </p>
         </div>
 
       </div>
@@ -139,9 +229,16 @@
   <!-- WRITINGS -->
   <section class="section" id="writings">
     <div class="container">
-      <span class="section-label">Writings</span>
-      <h2 class="section-title">My thoughts</h2>
-      <p class="section-body">Articles, essays, and notes on tech, engineering, politics and life.</p>
+      <div lang="en-uk">
+        <span class="section-label">Writings</span>
+        <h2 class="section-title">My thoughts</h2>
+        <p class="section-body">Articles, essays, and notes on tech, engineering, politics and life.</p>
+      </div>
+      <div lang="pt-br">
+        <span class="section-label">Textos</span>
+        <h2 class="section-title">Meus pensamentos</h2>
+        <p class="section-body">Artigos, ensaios e reflexões sobre tecnologia, engenharia, política e vida.</p>
+      </div>
 
       <div class="course-grid">
 
@@ -149,17 +246,33 @@
         <a href="writings/a-ia-nao-precisa-roubar-o-seu-emprego/" class="course-card" id="writing-ia-emprego">
           <div class="course-card-tag">🇧🇷 PT-BR</div>
           <h3 class="course-card-title">A IA Não Precisa Roubar o Seu Emprego</h3>
-          <p class="course-card-desc">Se o nosso descarte parece inevitável hoje, é porque terceirizamos a nossa
-            capacidade de imaginar.</p>
-          <span class="course-card-cta">Read essay →</span>
+          <p class="course-card-desc">
+            <span lang="en-uk">If our job loss seems inevitable today, it is because we outsourced our ability to
+              imagine the future.</span>
+            <span lang="pt-br">Se a perda de empregos parece inevitável hoje, é porque terceirizamos a nossa capacidade
+              de imaginar o futuro.</span>
+          </p>
+          <span class="course-card-cta">
+            <span lang="en-uk">Read essay →</span>
+            <span lang="pt-br">Ler ensaio →</span>
+          </span>
         </a>
 
         <!-- Placeholder card -->
         <div class="course-card course-card-coming" id="writing-coming-1">
-          <div class="course-card-tag course-card-tag-soon">Coming Soon</div>
+          <div class="course-card-tag course-card-tag-soon">
+            <span lang="en-uk">Coming Soon</span>
+            <span lang="pt-br">Em breve</span>
+          </div>
           <div class="course-card-icon">📝</div>
-          <h3 class="course-card-title">More coming soon</h3>
-          <p class="course-card-desc">I'm currently working on a few pieces. Stay tuned.</p>
+          <h3 class="course-card-title">
+            <span lang="en-uk">More coming soon</span>
+            <span lang="pt-br">Mais em breve</span>
+          </h3>
+          <p class="course-card-desc">
+            <span lang="en-uk">I'm currently working on a few pieces. Stay tuned.</span>
+            <span lang="pt-br">Estou trabalhando em alguns textos novos. Fique de olho.</span>
+          </p>
         </div>
 
       </div>
@@ -169,8 +282,14 @@
   <!-- CONTACT -->
   <section class="section section-alt" id="contact">
     <div class="container contact-inner">
-      <span class="section-label">Contact</span>
-      <h2 class="section-title">Let's connect</h2>
+      <div lang="en-uk">
+        <span class="section-label">Contact</span>
+        <h2 class="section-title">Let's connect</h2>
+      </div>
+      <div lang="pt-br">
+        <span class="section-label">Contato</span>
+        <h2 class="section-title">Vamos conversar</h2>
+      </div>
       <div class="contact-links">
         <a href="mailto:gabsurita@gmail.com" class="contact-link" id="contact-email">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -210,8 +329,10 @@
   <!-- FOOTER -->
   <footer class="footer">
     <p>© 2026 Gabriela Surita</p>
-    <p style="font-size: 0.75rem; opacity: 0.4; margin-top: 0.35rem;">all opinions are my own, and do not reflect those
-      of my employer.</p>
+    <p style="font-size: 0.75rem; opacity: 0.4; margin-top: 0.35rem;">
+      <span lang="en-uk">all opinions are my own, and do not reflect those of my employer.</span>
+      <span lang="pt-br">as opiniões aqui são estritamente pessoais e não refletem as da empresa onde trabalho.</span>
+    </p>
   </footer>
 
   <script src="assets/main.js"></script>

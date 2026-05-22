@@ -558,3 +558,61 @@ html[data-theme="light"] a.course-card:hover {
   color: var(--text-primary);
   border-color: rgba(124,109,245,0.35);
 }
+
+/* =============================================
+   LANGUAGE SWITCHER STYLES
+   ============================================= */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.lang-toggle-group {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 2px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  gap: 2px;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 0.3rem 0.6rem;
+  border-radius: 100px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.lang-btn:hover {
+  color: var(--text-primary);
+}
+
+.lang-btn.active {
+  background: var(--surface);
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+html[data-theme="light"] .lang-btn.active {
+  background: var(--surface);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* Language hiding rules */
+html[lang="pt-br"] [lang="en-uk"] {
+  display: none !important;
+}
+
+html[lang="en-uk"] [lang="pt-br"] {
+  display: none !important;
+}

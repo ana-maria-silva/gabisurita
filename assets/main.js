@@ -84,3 +84,74 @@ document.head.appendChild(style);
   });
 })();
 
+/* =============================================
+   LANGUAGE TOGGLE (en-uk ↔ pt-br)
+   ============================================= */
+(function () {
+  const html = document.documentElement;
+  const buttons = document.querySelectorAll('#lang-toggle-group .lang-btn');
+  const savedLang = localStorage.getItem('preferred-language');
+
+  const pageTitle = {
+    'en-uk': 'Gabi Surita — Building the AI Counterculture',
+    'pt-br': 'Gabi Surita — Construindo a Contracultura da IA'
+  };
+
+  const pageDesc = {
+    'en-uk': 'Gabriela Surita — AI researcher working on Gemini, code generation, and empowering developers through AI.',
+    'pt-br': 'Gabriela Surita — Pesquisadora de IA trabalhando no Gemini, geração de código e empoderamento de desenvolvedores por meio de IA.'
+  };
+
+  function setLanguage(lang) {
+    if (!buttons.length) return;
+    
+    // 1. Set lang attribute on <html>
+    html.setAttribute('lang', lang);
+    
+    // 2. Update active button class
+    buttons.forEach(btn => {
+      if (btn.getAttribute('data-lang') === lang) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    // 3. Update title and meta description dynamically
+    document.title = pageTitle[lang] || pageTitle['en-uk'];
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', pageDesc[lang] || pageDesc['en-uk']);
+    }
+
+    // 4. Save preference
+    localStorage.setItem('preferred-language', lang);
+  }
+
+  // Only run if the language toggle element exists on the page (i.e. on the home page)
+  if (buttons.length > 0) {
+    // Determine initial language
+    let initialLang = 'en-uk'; // default
+    if (savedLang === 'en-uk' || savedLang === 'pt-br') {
+      initialLang = savedLang;
+    } else {
+      // Auto-detect browser language
+      const browserLang = navigator.language || navigator.userLanguage;
+      if (browserLang && browserLang.toLowerCase().startsWith('pt')) {
+        initialLang = 'pt-br';
+      }
+    }
+
+    // Apply initial language
+    setLanguage(initialLang);
+
+    // Add click listeners
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selectedLang = btn.getAttribute('data-lang');
+        setLanguage(selectedLang);
+      });
+    });
+  }
+})();
+
