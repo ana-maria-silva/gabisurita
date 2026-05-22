@@ -560,7 +560,7 @@ html[data-theme="light"] a.course-card:hover {
 }
 
 /* =============================================
-   LANGUAGE SWITCHER STYLES
+   SHARED TOGGLE SWITCH STYLES
    ============================================= */
 .nav-actions {
   display: flex;
@@ -568,7 +568,7 @@ html[data-theme="light"] a.course-card:hover {
   gap: 0.75rem;
 }
 
-.lang-toggle-group {
+.toggle-group {
   display: inline-flex;
   align-items: center;
   background: var(--bg-alt);
@@ -581,7 +581,7 @@ html[data-theme="light"] a.course-card:hover {
   gap: 2px;
 }
 
-.lang-btn {
+.toggle-btn {
   background: transparent;
   border: none;
   color: var(--text-secondary);
@@ -591,19 +591,22 @@ html[data-theme="light"] a.course-card:hover {
   font-size: 0.75rem;
   font-weight: 600;
   transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.lang-btn:hover {
+.toggle-btn:hover {
   color: var(--text-primary);
 }
 
-.lang-btn.active {
+.toggle-btn.active {
   background: var(--surface);
   color: var(--text-primary);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-html[data-theme="light"] .lang-btn.active {
+html[data-theme="light"] .toggle-btn.active {
   background: var(--surface);
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }

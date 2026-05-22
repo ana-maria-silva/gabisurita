@@ -56,32 +56,67 @@ document.head.appendChild(style);
    THEME TOGGLE (dark ↔ light)
    ============================================= */
 (function () {
-  const html   = document.documentElement;
-  const btn    = document.getElementById('theme-toggle');
-  const saved  = localStorage.getItem('theme');
+  const html = document.documentElement;
+  const legacyBtn = document.getElementById('theme-toggle');
+  const themeGroup = document.getElementById('theme-toggle-group');
+  const groupBtns = themeGroup ? themeGroup.querySelectorAll('.toggle-btn') : [];
+  const saved = localStorage.getItem('theme');
 
   // Apply saved or default (dark)
-  if (saved === 'light') html.setAttribute('data-theme', 'light');
-
-  function updateIcon() {
-    if (!btn) return;
-    btn.textContent = html.getAttribute('data-theme') === 'light' ? '🌙' : '☀️';
-    btn.setAttribute('aria-label', html.getAttribute('data-theme') === 'light' ? 'Mudar para modo escuro' : 'Mudar para modo claro');
+  if (saved === 'light') {
+    html.setAttribute('data-theme', 'light');
+  } else {
+    html.removeAttribute('data-theme');
   }
 
-  updateIcon();
+  function updateThemeUI(theme) {
+    if (legacyBtn) {
+      legacyBtn.textContent = theme === 'light' ? '🌙' : '☀️';
+      legacyBtn.setAttribute('aria-label', theme === 'light' ? 'Mudar para modo escuro' : 'Mudar para modo claro');
+    }
 
-  btn?.addEventListener('click', () => {
+    if (groupBtns.length) {
+      groupBtns.forEach(btn => {
+        if (btn.getAttribute('data-theme-btn') === theme) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+  }
+
+  const currentTheme = html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  updateThemeUI(currentTheme);
+
+  legacyBtn?.addEventListener('click', () => {
     const isLight = html.getAttribute('data-theme') === 'light';
-    if (isLight) {
-      html.removeAttribute('data-theme');
-      localStorage.setItem('theme', 'dark');
-    } else {
+    const nextTheme = isLight ? 'dark' : 'light';
+    if (nextTheme === 'light') {
       html.setAttribute('data-theme', 'light');
       localStorage.setItem('theme', 'light');
+    } else {
+      html.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'dark');
     }
-    updateIcon();
+    updateThemeUI(nextTheme);
   });
+
+  if (groupBtns.length) {
+    groupBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const nextTheme = btn.getAttribute('data-theme-btn');
+        if (nextTheme === 'light') {
+          html.setAttribute('data-theme', 'light');
+          localStorage.setItem('theme', 'light');
+        } else {
+          html.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'dark');
+        }
+        updateThemeUI(nextTheme);
+      });
+    });
+  }
 })();
 
 /* =============================================
@@ -89,7 +124,7 @@ document.head.appendChild(style);
    ============================================= */
 (function () {
   const html = document.documentElement;
-  const buttons = document.querySelectorAll('#lang-toggle-group .lang-btn');
+  const buttons = document.querySelectorAll('#lang-toggle-group .toggle-btn');
   const savedLang = localStorage.getItem('preferred-language');
 
   const pageTitle = {

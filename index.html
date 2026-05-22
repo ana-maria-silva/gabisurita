@@ -29,11 +29,16 @@
         <li><a href="#contact"><span lang="en-uk">Contact</span><span lang="pt-br">Contato</span></a></li>
       </ul>
       <div class="nav-actions">
-        <div class="lang-toggle-group" id="lang-toggle-group">
-          <button class="lang-btn active" data-lang="en-uk" aria-label="English version">EN</button>
-          <button class="lang-btn" data-lang="pt-br" aria-label="Versão em Português">PT</button>
+        <div class="toggle-group" id="lang-toggle-group">
+          <button class="toggle-btn active" data-lang="en-uk" aria-label="English version">EN</button>
+          <button class="toggle-btn" data-lang="pt-br" aria-label="Versão em Português">PT</button>
         </div>
-        <button class="theme-toggle" id="theme-toggle" aria-label="Mudar para modo claro">☀️</button>
+        <div class="toggle-group" id="theme-toggle-group">
+          <button class="toggle-btn" data-theme-btn="dark"
+            aria-label="Mudar para modo escuro / Switch to dark mode">🌙</button>
+          <button class="toggle-btn" data-theme-btn="light"
+            aria-label="Mudar para modo claro / Switch to light mode">☀️</button>
+        </div>
       </div>
       <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
         <span></span><span></span><span></span>
@@ -236,8 +241,8 @@
       </div>
       <div lang="pt-br">
         <span class="section-label">Textos</span>
-        <h2 class="section-title">Meus pensamentos</h2>
-        <p class="section-body">Artigos, ensaios e reflexões sobre tecnologia, engenharia, política e vida.</p>
+        <h2 class="section-title">Minhas ideias</h2>
+        <p class="section-body">Artigos e reflexões sobre tecnologia, engenharia, política e vida.</p>
       </div>
 
       <div class="course-grid">
