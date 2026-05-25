@@ -918,3 +918,12 @@ html[data-theme="light"] .course-hero-title {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+html[data-theme="light"] .credentials-warning-header h4 {
+  color: #b91c1c;
+}
+html[data-theme="light"] .credentials-warning {
+  color: #7f1d1d;
+  background: rgba(239, 68, 68, 0.05);
+  border-color: rgba(239, 68, 68, 0.2);
+}

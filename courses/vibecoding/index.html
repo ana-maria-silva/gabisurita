@@ -1005,6 +1005,43 @@
           <p>A forma mais fácil de colocar seus arquivos no GitHub é usando o painel de <strong>Controle de
               Código-Fonte</strong> do próprio Antigravity:</p>
 
+          <div class="credentials-warning" style="margin: 0.5rem 0 1.5rem 0;">
+            <div class="credentials-warning-header">
+              <span>⚠️</span>
+              <h4>ATENÇÃO: MUITO CUIDADO COM CHAVES DE API!</h4>
+            </div>
+            <p>
+              Se você está criando um projeto autoral ou modificando o código para usar suas próprias credenciais (como
+              chaves da OpenAI, Google Cloud ou senhas de bancos de dados), <strong>confira com extrema atenção se
+                nenhuma API key está sendo exposta</strong>.
+            </p>
+            <p>
+              No nosso exemplo de Vibecoding, usamos apenas o <strong>Client ID</strong> do Google. Por design, o Client
+              ID é público e identificável, então não há problema de segurança em subi-lo para o GitHub. Porém, caso
+              você crie algo usando outras APIs que usem chaves secretas (como API Keys privadas ou Client Secrets),
+              fazer essa checagem é fundamental.
+            </p>
+            <p>
+              Subir chaves secretas para um repositório público (ou mesmo privado) no GitHub é um erro grave que pode
+              resultar no roubo de suas credenciais, uso indevido e prejuízos financeiros. <strong>Não faça "vibecoding"
+                no piloto automático nessa hora!</strong>
+            </p>
+            <div class="credentials-checklist">
+              <div class="cred-check-item">
+                <span class="cred-check-icon cred-bad">❌</span>
+                <div><strong>Errado:</strong> Escrever chaves secretas diretamente no código (ex:
+                  <code>const API_KEY = "sua_chave_secreta"</code>) e fazer o upload do arquivo para o GitHub.
+                </div>
+              </div>
+              <div class="cred-check-item">
+                <span class="cred-check-icon cred-good">✅</span>
+                <div><strong>Correto:</strong> Usar variáveis de ambiente (como arquivos <code>.env</code>) e garantir
+                  que o arquivo <code>.env</code> esteja listado no seu <code>.gitignore</code> para nunca ser enviado
+                  ao GitHub.</div>
+              </div>
+            </div>
+          </div>
+
           <div class="instruction-steps">
             <div class="instruction-step">
               <span class="instruction-num">1</span>
@@ -1049,14 +1086,16 @@
               1. Voltar neste mesmo painel de <strong>Controle de Código-Fonte</strong>.<br>
               2. Digitar uma mensagem curta resumindo o que mudou (ex: "primeira versao" ou "mudei a cor").<br>
               3. Clicar no botão azul <strong>Confirmação</strong> (isso é o <em>Commit</em>).<br>
-              4. Clicar no botão azul <strong>Sincronizar Alterações</strong> que vai aparecer no mesmo lugar (isso é o <em>Push</em>).
+              4. Clicar no botão azul <strong>Sincronizar Alterações</strong> que vai aparecer no mesmo lugar (isso é o
+              <em>Push</em>).
             </div>
           </div>
 
           <div class="screenshot-card" style="margin-top: 1rem;">
             <img src="../../assets/github_commit_push.png" alt="Tela de commit e push no Antigravity"
               class="screenshot-img" />
-            <p class="screenshot-caption">Digite a mensagem do que foi alterado e clique em Confirmação para salvar a versão.</p>
+            <p class="screenshot-caption">Digite a mensagem do que foi alterado e clique em Confirmação para salvar a
+              versão.</p>
           </div>
         </div>
       </div>
